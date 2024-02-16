@@ -128,4 +128,4 @@ function calculaMedia(list){
     
 }
 
-console.log(search(lista));
+console.log(calculaMedia(lista));
