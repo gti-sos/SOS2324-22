@@ -86,7 +86,7 @@ function calculaMedia(list){
 
     list.forEach(element => {
         const pais = element.country;
-        const edadBillones = element.net_worth;
+        const billones = element.net_worth;
         
 
         if (sumaPersonaPorPais[pais] == undefined) {
@@ -94,7 +94,7 @@ function calculaMedia(list){
           vecesPais[pais] = 0;
         }
 
-        sumaPersonaPorPais[pais] += net_worth;
+        sumaPersonaPorPais[pais] += billones;
         vecesPais[pais]++;     
     });
 
