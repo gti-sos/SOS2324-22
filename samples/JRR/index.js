@@ -1,4 +1,4 @@
-let lista = [
+let list = [
     { name: 'George Washington',
       short_description: '1st president of the United States (1732–1799)',
       gender: 'Male',
@@ -128,4 +128,10 @@ function calculaMedia(list){
     
 }
 
-let mensaje = "Las medias de edad de muerte por país son:" + calculaMedia(list)
+let element = document.createElement("h2");
+
+let mensaje = "Las medias de edad de muerte por país son:" + calculaMedia(list);
+
+element.innerHTML = mensaje;
+
+document.body.appendChild(element);
