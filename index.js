@@ -8,6 +8,7 @@ const PORT = (process.env.PORT || 10000);
 
 app.use("/",express.static("./public"));
 
+app.use("/samples/JRR", express.static("./samples/JRR"));
 
 app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1><body><html>`);

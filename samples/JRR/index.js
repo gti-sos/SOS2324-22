@@ -128,10 +128,20 @@ function calculaMedia(list){
     
 }
 
-let element = document.createElement("h2");
 
-let mensaje = "Las medias de edad de muerte por país son:" + calculaMedia(list);
+let contenedorResultados = document.createElement("div");
+contenedorResultados.className = "contenedor-de-resultados";
 
-element.innerHTML = mensaje;
 
-document.body.appendChild(element);
+const medias = calculaMedia(list);
+
+
+for (const pais in medias) {
+    const edadPromedio = medias[pais].toFixed(2); // Redondear a dos decimales
+    const parrafo = document.createElement("p");
+    parrafo.innerHTML = `Edad promedio de fallecimiento en ${pais}: ${edadPromedio} años`;
+    contenedorResultados.appendChild(parrafo);
+}
+
+
+document.body.appendChild(contenedorResultados);
