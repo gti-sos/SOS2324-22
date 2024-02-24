@@ -1,4 +1,5 @@
 let cool = require("cool-ascii-faces");
+const { application } = require("express");
 
 let express = require("express");
 
@@ -10,6 +11,8 @@ app.use("/",express.static("./public"));
 
 app.use("/samples/JRR", express.static("./samples/JRR"));
 
+app.use("/samples/DTN",express.static("./samples/DTN"));
+
 app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1><body><html>`);
 });
@@ -17,3 +20,5 @@ app.get("/cool", (req,res)=>{
 app.listen(PORT, ()=> {
     console.log(`server listening on ${PORT}` );
 });
+
+
