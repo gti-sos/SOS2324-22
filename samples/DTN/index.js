@@ -134,7 +134,7 @@ const medias = mediaBeneficio(lista);
 for (const pais in medias) {
     const beneficio = medias[pais]; 
     const parrafo = document.createElement("p");
-    parrafo.innerHTML = `Edad promedio de fallecimiento en ${pais}: ${beneficio} años`;
+    parrafo.innerHTML = `El beneficio medio de las mayores empresas en ${pais}: ${beneficio} dolares`;
     contenedorResultados.appendChild(parrafo);
 }
 
