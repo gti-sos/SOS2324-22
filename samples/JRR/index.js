@@ -137,7 +137,7 @@ const medias = calculaMedia(list);
 
 
 for (const pais in medias) {
-    const edadPromedio = medias[pais].toFixed(2); // Redondear a dos decimales
+    const edadPromedio = medias[pais]; 
     const parrafo = document.createElement("p");
     parrafo.innerHTML = `Edad promedio de fallecimiento en ${pais}: ${edadPromedio} años`;
     contenedorResultados.appendChild(parrafo);
