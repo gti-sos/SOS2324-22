@@ -128,7 +128,7 @@ let contenedorResultados = document.createElement("div");
 contenedorResultados.className = "contenedor-de-resultados";
 
 
-const medias = mediaBeneficio(list);
+const medias = mediaBeneficio(lista);
 
 
 for (const pais in medias) {
