@@ -12,39 +12,33 @@ let list = [
     { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'Mexico' }
 ];
 
-function calcularTotalNetWorthPorPais(lista) {
-    const totalNetWorthPorPais = {};
+    function calcularTotalNetWorthPorPais(lista) {
+        const totalNetWorthPorPais = {};
 
-    lista.forEach(individuo => {
-        const pais = individuo.nationality;
-        const netWorth = individuo.net_worth;
+        lista.forEach(individuo => {
+            const pais = individuo.nationality;
+            const netWorth = individuo.net_worth;
 
-        if (!totalNetWorthPorPais[pais]) {
-            totalNetWorthPorPais[pais] = 0;
-        }
+            if (!totalNetWorthPorPais[pais]) {
+                totalNetWorthPorPais[pais] = 0;
+            }
 
-        totalNetWorthPorPais[pais] += netWorth;
-    });
+            totalNetWorthPorPais[pais] += netWorth;
+        });
 
-    return totalNetWorthPorPais;
-}
+        return totalNetWorthPorPais;
+    }
 
-const resultado = calcularTotalNetWorthPorPais(list);
-console.log(resultado);
+    const medias = calcularTotalNetWorthPorPais(list);
 
-let contenedorResultados = document.createElement("div");
-contenedorResultados.className = "contenedor-de-resultados";
+    let contenedorResultados = document.createElement("div");
+    contenedorResultados.className = "contenedor-de-resultados";
 
+    for (const pais in medias) {
+        const totalNetWorth = medias[pais];
+        const parrafo = document.createElement("p");
+        parrafo.innerHTML = `En el país ${pais}: hay ${totalNetWorth} de net worth.`;
+        contenedorResultados.appendChild(parrafo);
+    }
 
-const medias = calcularTotalNetWorthPorPais(list);
-
-
-for (const pais in medias) {
-    const billones = medias[pais];
-    const parrafo = document.createElement("p");
-    parrafo.innerHTML = `En el pais  ${pais}: hay ${billones} billones `;
-    contenedorResultados.appendChild(parrafo);
-}
-
-
-document.body.appendChild(contenedorResultados);
+    document.body.appendChild(contenedorResultados);
