@@ -94,7 +94,7 @@ function mediaBillones(lista) {
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
-    list.forEach(element => {
+    lista.forEach(element => {
         const pais = element.country;
         const billones = element.net_worth;
 
