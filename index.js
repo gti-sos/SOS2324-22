@@ -15,6 +15,8 @@ app.use("/samples/DTN",express.static("./samples/DTN"));
 
 app.use("/samples/RGA",express.static("./samples/RGA"));
 
+app.use("/samples/BVB",express.static("./samples/BVB"));
+
 app.get("/cool", (req,res)=>{
     res.send(`<html><body><h1>${cool()}</h1><body><html>`);
 });
