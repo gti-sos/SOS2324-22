@@ -90,7 +90,7 @@ let lista = [
         industry: 'Technology',
     }];
 
-function mediaBillones(list) {
+function mediaBillones(lista) {
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
