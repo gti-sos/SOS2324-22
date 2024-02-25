@@ -90,7 +90,7 @@ let lista = [
         industry: 'Technology',
     }];
 
-function calculaMedia(list) {
+function mediaBillones(list) {
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
@@ -129,7 +129,7 @@ const medias = mediaBillones(list);
 for (const pais in medias) {
     const billones = medias[pais];
     const parrafo = document.createElement("p");
-    parrafo.innerHTML = `Media de billones de los billonarios en ${pais}: ${billones} años`;
+    parrafo.innerHTML = `Media de billones de los billonarios en ${pais}: ${billones} aÃ±os`;
     contenedorResultados.appendChild(parrafo);
 }
 
