@@ -49,6 +49,10 @@ app.get(API_BASE+"/famous-people", (req,res)=>{
     res.send(JSON.stringify(JRR.famous_people));
 })
 
+app.get(API_BASE+"/forbes-billonaires", (req,res)=>{
+  res.send(JSON.stringify(DTN.list));
+})
+
 app.listen(PORT, ()=> {
     console.log(`server listening on ${PORT}` );
 });
