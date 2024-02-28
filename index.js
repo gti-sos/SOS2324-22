@@ -21,7 +21,14 @@ app.get("/samples/DTN", (req,res) => {
 });
 
 app.get("/samples/JRR", (req,res) => {
-  res.send(`<html><body><h1>${JRR.calculaMedia(JRR.famous_people)}</h1><body><html>`)
+  const media = JRR.calculaMedia(JRR.famous_people);
+
+  // Convert the object to an HTML list
+  const listHTML = `<html><body><h1>Media de edad de muerte</h1><ul>
+    ${Object.entries(media).map(([country, value]) => `<li>${country}: ${value} years</li>`).join('')}
+    </ul></body></html>`;
+
+  res.send(listHTML);
 });
 
 app.use("/samples/RGA",express.static("./samples/RGA"));
