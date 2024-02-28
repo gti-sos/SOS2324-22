@@ -2,6 +2,7 @@ let cool = require("cool-ascii-faces");
 const { application } = require("express");
 let bodyParser = require("body-parser");
 let express = require("express");
+let api_famous_people= require("./api-famous-people")
 
 let app = express();
 
@@ -11,6 +12,8 @@ let JRR = require('./index-JRR');
 const PORT = (process.env.PORT || 10000);
 
 app.use(bodyParser.json());
+
+api_famous_people(app);
 
 app.use("/",express.static("./public"));
 
@@ -43,13 +46,6 @@ app.get("/cool", (req,res)=>{
 });
 
 
-
-
-
-
-app.get(API_BASE+"/forbes-billonaires", (req,res)=>{
-  res.send(JSON.stringify(DTN.list));
-})
 
 app.listen(PORT, ()=> {
     console.log(`server listening on ${PORT}`);

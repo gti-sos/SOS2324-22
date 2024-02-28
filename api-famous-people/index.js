@@ -117,9 +117,25 @@ let lista = [
     });
 */
 
-    app.get(API_BASE+"/famous-people", (req,res)=>{
-        if(lista.lenght == 0){
-            lista.push();
-        };
-        res.send(JSON.stringify(lista));
-    });
+    
+
+    module.exports = (app) => {
+        app.get(API_BASE+"/famous-people", (req,res)=>{
+            if(lista.lenght == 0){
+                lista.push();
+            };
+            res.send(JSON.stringify(lista));
+        });
+    
+        app.post(API_BASE+"/famous-people", (req,res)=>{
+            let person = req.body;
+            lista.push(person);
+            res.sendStatus(201,"Created");
+        });
+        /*
+        app.delete(API_BASE+"/famous-people", (req,res)=>{
+            let person = req.body;
+            lista.delete
+        });
+        */
+    }
