@@ -90,6 +90,8 @@ let lista = [
       year: 2017    
     }];
 
+module.exports.list = lista;
+
 module.exports.mediaBeneficio = function(list){
     let sumaBeneficioPais = {};
     let repeticion = {};
@@ -123,5 +125,5 @@ module.exports.mediaBeneficio = function(list){
     return medias;
 }
 
-console.log(mediaBeneficio(lista));
+
 
