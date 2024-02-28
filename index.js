@@ -43,14 +43,9 @@ app.get("/cool", (req,res)=>{
 });
 
 
-const API_BASE = "/api/v1";
 
-app.get(API_BASE+"/famous-people", (req,res)=>{
-    if(JRR.famous_people.lenght == 0){
-        JRR.famous_people.push();
-    };
-    res.send(JSON.stringify(JRR.famous_people));
-});
+
+
 
 app.get(API_BASE+"/forbes-billonaires", (req,res)=>{
   res.send(JSON.stringify(DTN.list));
