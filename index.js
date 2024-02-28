@@ -46,11 +46,14 @@ app.get("/cool", (req,res)=>{
 const API_BASE = "/api/v1";
 
 app.get(API_BASE+"/famous-people", (req,res)=>{
+    if(JRR.famous_people.lenght == 0){
+        JRR.famous_people.push();
+    };
     res.send(JSON.stringify(JRR.famous_people));
-})
+});
 
 app.listen(PORT, ()=> {
-    console.log(`server listening on ${PORT}` );
+    console.log(`server listening on ${PORT}`);
 });
 
 
