@@ -136,18 +136,30 @@ let lista = [
               res.sendStatus(201,"Created");
             }});
         
-            app.delete(API_BASE + "/famous-people", (req, res) => {
-              let personToDelete = req.body;
+        app.delete(API_BASE + "/famous-people", (req, res) => {
+            let personToDelete = req.body;
           
-              let indexToRemove = lista.findIndex(existingPerson => personToDelete.name === existingPerson.name );
+            let indexToRemove = lista.findIndex(existingPerson => personToDelete.name === existingPerson.name );
           
-              if (indexToRemove !== -1) {
-                  // Si se encuentra el objeto, lo eliminamos del array
-                  lista.splice(indexToRemove, 1);
-                  res.status(200).send("Person deleted successfully");
-              } else {
-                  res.status(404).send("Person not found");
-              }
-          });
+            if (indexToRemove !== -1) {
+              lista.splice(indexToRemove, 1);
+              res.status(200,"Person deleted successfully");
+            } else {
+                res.status(404,"Person not found");
+            }
+            });
+        
+        app.put(API_BASE+"/famous-people", (req,res) =>{
+          let updatedPerson = req.body;
+
+          let indexToUpdate = lista.findIndex(existingPerson => updatedPerson.name === existingPerson.name );
+
+          if(indexToUpdate !== -1){
+            lista[indexToUpdate] = updatedPerson;
+            res.sendStatus(200, "Person updated succesfully");
+          } else {
+            res.sendStatus(404, "Person not found");
+          }
+        });
         
     }
