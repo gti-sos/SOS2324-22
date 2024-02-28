@@ -123,5 +123,5 @@ module.exports.mediaBeneficio = function(list){
     return medias;
 }
 
-console.log(mediaBeneficio(lista));
+
 

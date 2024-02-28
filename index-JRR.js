@@ -99,13 +99,13 @@ let lista = [
       age_of_death: 51   
     }];
 
-    module.exports.lista = famous_people;
+    module.exports.famous_people = lista;
 
-module.exports.calculaMedia =function (list){
+module.exports.calculaMedia =function (lista){
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
-    list.forEach(element => {
+    lista.forEach(element => {
         const pais = element.country;
         const edadMuerte = element.age_of_death;
         
