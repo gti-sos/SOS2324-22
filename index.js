@@ -21,7 +21,7 @@ app.get("/samples/DTN", (req,res) => {
 });
 
 app.get("/samples/JRR", (req,res) => {
-  res.send(`<html><body><h1>${JRR.calculaMedia(JRR.list)}</h1><body><html>`)
+  res.send(`<html><body><h1>${JRR.calculaMedia(JRR.famous_people)}</h1><body><html>`)
 });
 
 app.use("/samples/RGA",express.static("./samples/RGA"));

@@ -99,7 +99,9 @@ let lista = [
       age_of_death: 51   
     }];
 
-function calculaMedia(list){
+    module.exports.lista = famous_people;
+
+module.exports.calculaMedia =function (list){
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
@@ -128,4 +130,3 @@ function calculaMedia(list){
     
 }
 
-console.log(calculaMedia(lista));
