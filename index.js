@@ -17,7 +17,7 @@ app.use("/",express.static("./public"));
 app.use("/samples/JRR", express.static("./samples/JRR"));
 
 app.get("/samples/DTN", (req,res) => {
-  res.send(`<html><body><h1>${DTN.mediaBeneficio(DTN.lista)}</h1><body><html>`)
+  res.send(`<html><body><h1>${DTN.mediaBeneficio(DTN.list)}</h1><body><html>`)
 });
 
 app.get("/samples/JRR", (req,res) => {
