@@ -90,7 +90,7 @@ let lista = [
       year: 2017    
     }];
 
-module.exports.list = lista;
+  module.exports.list = lista;
 
 module.exports.mediaBeneficio = function(list){
     let sumaBeneficioPais = {};

@@ -17,7 +17,11 @@ app.use("/",express.static("./public"));
 app.use("/samples/JRR", express.static("./samples/JRR"));
 
 app.get("/samples/DTN", (req,res) => {
-  res.send(`<html><body><h1>${DTN.mediaBeneficio(DTN.list)}</h1><body><html>`)
+  const media = DTN.mediaBeneficio(DTN.list);
+  const listHTML = `<html><body><h1>Media de beneficio por pais</h1><ul>
+  ${Object.entries(media).map(([country, value]) => `<li>${country}: ${value} Milion dollars</li>`).join('')}
+  </ul></body></html>`;
+  res.send(listHTML);
 });
 
 app.get("/samples/JRR", (req,res) => {
