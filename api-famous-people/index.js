@@ -129,13 +129,25 @@ let lista = [
     
         app.post(API_BASE+"/famous-people", (req,res)=>{
             let person = req.body;
-            lista.push(person);
-            res.sendStatus(201,"Created");
-        });
-        /*
-        app.delete(API_BASE+"/famous-people", (req,res)=>{
-            let person = req.body;
-            lista.delete
-        });
-        */
+            if(lista.some(p => person.name === p.name)){
+              res.sendStatus(409,"The person already exists")
+            } else{
+              lista.push(person);
+              res.sendStatus(201,"Created");
+            }});
+        
+            app.delete(API_BASE + "/famous-people", (req, res) => {
+              let personToDelete = req.body;
+          
+              let indexToRemove = lista.findIndex(existingPerson => personToDelete.name === existingPerson.name );
+          
+              if (indexToRemove !== -1) {
+                  // Si se encuentra el objeto, lo eliminamos del array
+                  lista.splice(indexToRemove, 1);
+                  res.status(200).send("Person deleted successfully");
+              } else {
+                  res.status(404).send("Person not found");
+              }
+          });
+        
     }
