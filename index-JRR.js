@@ -129,5 +129,3 @@ module.exports.calculaMedia =function (lista){
     return medias;
     
 }
-
-console.log(this.calculaMedia(lista))
