@@ -142,7 +142,7 @@ module.exports = (app) => {
   app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
     let company = req.body;
     if(lista.some(p => company.name === p.name)){
-      res.sendStatus(409,"The person already exists")
+      res.sendStatus(409,"The company already exists")
     } else{
       lista.push(company);
       res.sendStatus(201,"Created");
@@ -155,9 +155,9 @@ module.exports = (app) => {
     
       if (indexToRemove !== -1) {
         lista.splice(indexToRemove, 1);
-        res.status(200,"Person deleted successfully");
+        res.status(200,"Company deleted successfully");
       } else {
-          res.status(404,"Person not found");
+          res.status(404,"Company not found");
       }
       });
 
