@@ -1,3 +1,6 @@
+
+const API_BASE = "/api/v1";
+
 let lista = [
     { rank: 1,
       name: 'ICBC',
@@ -123,6 +126,41 @@ module.exports.mediaBeneficio = function(list){
     }, {});
 
     return medias;
+}
+
+module.exports = (app) => {
+
+  app.get(API_BASE+"/forbes-billonaires", (req,res) => {
+    if(lista.length == 0){
+        app.get(API_BASE+"/forbes-billonaires/loadInitialData", (req,res) => {
+
+        })
+    }
+    res.send(JSON.stringify(lista));
+  });
+
+  app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
+    let company = req.body;
+    if(lista.some(p => company.name === p.name)){
+      res.sendStatus(409,"The person already exists")
+    } else{
+      lista.push(company);
+      res.sendStatus(201,"Created");
+    }});
+
+    app.delete(API_BASE + "/forbes-billonaires", (req, res) => {
+      let companyToDelete = req.body;
+    
+      let indexToRemove = lista.findIndex(existingCompany => companyToDelete.name === existingCompany.name );
+    
+      if (indexToRemove !== -1) {
+        lista.splice(indexToRemove, 1);
+        res.status(200,"Person deleted successfully");
+      } else {
+          res.status(404,"Person not found");
+      }
+      });
+
 }
 
 
