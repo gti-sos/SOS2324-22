@@ -101,30 +101,18 @@ let lista = [
       age_of_death: 51   
     }];
 
-    /*
-    app.get(API_BASE+"/FFFFF/loadInitialData", (req, res) => {
-        if (JRR.famous_people.length === 0) {
-            // Crear 10 o más datos y agregarlos al array
-            for (let i = 0; i < 10; i++) {
-                JRR.famous_people.push({
-                    
-                });
-            }
-            res.send("Datos iniciales creados con éxito.");
-        } else {
-            res.send("El array ya contiene datos, no se realizaron cambios.");
-        }
-    });
-*/
-
     
-
+    
     module.exports = (app) => {
         app.get(API_BASE+"/famous-people", (req,res)=>{
             if(lista.lenght == 0){
                 lista.push();
             };
             res.send(JSON.stringify(lista));
+        });
+
+        app.get(API_BASE+"/famous-people", (req,res) => {
+          
         });
     
         app.post(API_BASE+"/famous-people", (req,res)=>{
@@ -161,5 +149,20 @@ let lista = [
             res.sendStatus(404, "Person not found");
           }
         });
+
+        /*
+        app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {
+          if (JRR.famous_people.length === 0) {
+              for (let i = 0; i < 10; i++) {
+                  JRR.famous_people.push({
+
+                  });
+              }
+              res.send("Datos iniciales creados con éxito.");
+          } else {
+              res.send("El array ya contiene datos, no se realizaron cambios.");
+          }
+      });
+      */
         
     }
