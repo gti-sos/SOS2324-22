@@ -150,12 +150,9 @@ module.exports = (app,db) => {
 
   app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
     let company = req.body;
-    if(lista.some(p => company.name === p.name)){
-      res.sendStatus(409,"The company already exists")
-    } else{
-      lista.push(company);
-      res.sendStatus(201,"Created");
-    }});
+    db.insert(company);
+    res.sendStatus(201,"Created");
+  });
 
     /*
     app.delete(API_BASE + "/forbes-billonaires", (req, res) => {

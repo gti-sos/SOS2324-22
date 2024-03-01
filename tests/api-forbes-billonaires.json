@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "abb82ca9-97e6-48ca-9e87-c05cc23fb859",
+		"name": "forbes-billonaires API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32927299",
+		"_collection_link": "https://bold-capsule-113501.postman.co/workspace/sos2324-22~280f2686-1856-4053-a6eb-1371784520ed/collection/32927299-abb82ca9-97e6-48ca-9e87-c05cc23fb859?action=share&source=collection_link&creator=32927299"
+	},
+	"item": [
+		{
+			"name": "GET v1/forbes-billonaires",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  Apple v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires/Apple",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires",
+						"Apple"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
