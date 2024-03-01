@@ -152,7 +152,7 @@ module.exports = (app,db) => {
         res.send(JSON.stringify(lista.map((c) => {
           delete c._id;
           return c;
-        })))
+        }))); 
       }
     })
   });
@@ -166,6 +166,7 @@ module.exports = (app,db) => {
       res.sendStatus(201,"Created");
     }});
 
+    /*
     app.delete(API_BASE + "/forbes-billonaires", (req, res) => {
       let companyToDelete = req.body;
     
@@ -178,6 +179,19 @@ module.exports = (app,db) => {
           res.status(404,"Company not found");
       }
       });
+      */
+
+    app.delete(API_BASE+"/forbes-billonaires/:name",(req,res) => {
+      let name = req.params.name;
+
+      db.remove({"name" : name}, {},(err, numRemoved) => {
+        if(err){
+          res.sendStatus(500,"Internal error");
+        }else{
+          res.send(JSON.stringify(lista));
+        }
+      });
+    });
 
 }
 

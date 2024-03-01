@@ -1,6 +1,6 @@
 const API_BASE = "/api/v1";
 
-let lista = [
+let initial_list = [
     { name: 'George Washington',
       short_description: '1st president of the United States (1732–1799)',
       gender: 'Male',
@@ -103,66 +103,58 @@ let lista = [
 
     
     
-    module.exports = (app) => {
-        app.get(API_BASE+"/famous-people", (req,res)=>{
-            if(lista.lenght == 0){
-                lista.push();
-            };
-            res.send(JSON.stringify(lista));
+    module.exports = (app,dbFamouPeople) => {
+      
+        app.get(API_BASE+"/loadInitialData", (req, res) => {
+          dbFamouPeople.insert(initial_list);
+          res.sendStatus(200,"Ok");
         });
 
-        app.get(API_BASE+"/famous-people", (req,res) => {
-          
+
+
+        app.get(API_BASE+"/famous-people", (req,res)=>{
+          dbFamouPeople.find({}, (err,list) => {
+              if(err){
+                res.sendStatus(500,"Internal Error");
+              }else{
+                res.send(JSON.stringify(list));
+              }
+            });
+            
         });
     
         app.post(API_BASE+"/famous-people", (req,res)=>{
             let person = req.body;
-            if(lista.some(p => person.name === p.name)){
+            if(list.some(p => person.name === p.name)){
               res.sendStatus(409,"The person already exists")
             } else{
               lista.push(person);
               res.sendStatus(201,"Created");
             }});
         
-        app.delete(API_BASE + "/famous-people", (req, res) => {
-            let personToDelete = req.body;
-          
-            let indexToRemove = lista.findIndex(existingPerson => personToDelete.name === existingPerson.name );
-          
-            if (indexToRemove !== -1) {
-              lista.splice(indexToRemove, 1);
-              res.status(200,"Person deleted successfully");
-            } else {
-                res.status(404,"Person not found");
-            }
+        app.delete(API_BASE + "/famous-people/:name", (req, res) => {
+            let personToDelete = req.params.name;
+            dbFamouPeople.remove({ "name": personToDelete }, {},(err,personToDelete) => {
+              if(err){
+                res.sendStatus(500,"Internal Error");
+              }else{
+                res.send(JSON.stringify(list));
+              }
             });
+          });
+          
         
         app.put(API_BASE+"/famous-people", (req,res) =>{
           let updatedPerson = req.body;
 
-          let indexToUpdate = lista.findIndex(existingPerson => updatedPerson.name === existingPerson.name );
+          let indexToUpdate = list.findIndex(existingPerson => updatedPerson.name === existingPerson.name );
 
           if(indexToUpdate !== -1){
-            lista[indexToUpdate] = updatedPerson;
+            list[indexToUpdate] = updatedPerson;
             res.sendStatus(200, "Person updated succesfully");
           } else {
             res.sendStatus(404, "Person not found");
           }
         });
-
-        /*
-        app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {
-          if (JRR.famous_people.length === 0) {
-              for (let i = 0; i < 10; i++) {
-                  JRR.famous_people.push({
-
-                  });
-              }
-              res.send("Datos iniciales creados con éxito.");
-          } else {
-              res.send("El array ya contiene datos, no se realizaron cambios.");
-          }
-      });
-      */
-        
+  
     }
