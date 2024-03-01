@@ -134,11 +134,16 @@ let initial_list = [
         
         app.delete(API_BASE + "/famous-people/:name", (req, res) => {
             let personToDelete = req.params.name;
-            dbFamouPeople.remove({ "name": personToDelete }, {},(err,personToDelete) => {
+            
+            dbFamouPeople.remove({ "name": personToDelete }, {},(err,numRemoved) => {
               if(err){
                 res.sendStatus(500,"Internal Error");
               }else{
-                res.send(JSON.stringify(list));
+                if (numRemoved >= 1){
+                    res.sendStatus(200,"Ok");
+                } else {
+                    res.sendStatus(404,"Not found");
+                }
               }
             });
           });
