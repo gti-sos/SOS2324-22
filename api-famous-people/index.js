@@ -103,39 +103,68 @@ let initial_list = [
 
     
     
-    module.exports = (app,dbFamouPeople) => {
+    module.exports = (app,dbFamousPeople) => {
       
         app.get(API_BASE+"/loadInitialData", (req, res) => {
-          dbFamouPeople.insert(initial_list);
+          dbFamousPeople.insert(initial_list);
           res.sendStatus(200,"Ok");
         });
 
 
 
         app.get(API_BASE+"/famous-people", (req,res)=>{
-          dbFamouPeople.find({}, (err,list) => {
+          dbFamousPeople.find({}, (err,list) => {
               if(err){
                 res.sendStatus(500,"Internal Error");
               }else{
-                res.send(JSON.stringify(list));
+                res.send(JSON.stringify(list.map((p) => {
+                  delete p._id;
+                  return p;
+                })));
               }
             });
-            
+        });
+
+
+        app.get(API_BASE+"/famous-people/:name", (req,res) => {
+          let personName = req.params.name;
+
+          dbFamousPeople.findOne( { name: personName }, (err,searchedPerson) => {
+            if(err){
+              res.sendStatus(500,"Internal Error");
+            } else{
+              res.send(JSON.stringify(searchedPerson));
+            }
+          })
         });
     
         app.post(API_BASE+"/famous-people", (req,res)=>{
             let person = req.body;
-            if(list.some(p => person.name === p.name)){
-              res.sendStatus(409,"The person already exists")
-            } else{
-              lista.push(person);
-              res.sendStatus(201,"Created");
-            }});
+
+            dbFamousPeople.findOne({ name: person.name}, (err,existingPerson) => {
+              if(err){
+                res.sendStatus(500,"Internal Error");
+              } else{
+                if (existingPerson) {
+                  res.sendStatus(409, "Person already exists");
+                } else{
+                  dbFamousPeople.insert(person, (err,newPerson) =>{
+                    if (err) {
+                      res.sendStatus(500,"Internal Error");
+                    } else {
+                      res.sendStatus(201,"Ok");
+                    }
+                  });
+                }
+              }                 
+            });
+          });
+     
         
         app.delete(API_BASE + "/famous-people/:name", (req, res) => {
             let personToDelete = req.params.name;
-            
-            dbFamouPeople.remove({ "name": personToDelete }, {},(err,numRemoved) => {
+
+            dbFamousPeople.remove({ "name": personToDelete }, {},(err,numRemoved) => {
               if(err){
                 res.sendStatus(500,"Internal Error");
               }else{
@@ -152,14 +181,6 @@ let initial_list = [
         app.put(API_BASE+"/famous-people", (req,res) =>{
           let updatedPerson = req.body;
 
-          let indexToUpdate = list.findIndex(existingPerson => updatedPerson.name === existingPerson.name );
-
-          if(indexToUpdate !== -1){
-            list[indexToUpdate] = updatedPerson;
-            res.sendStatus(200, "Person updated succesfully");
-          } else {
-            res.sendStatus(404, "Person not found");
-          }
         });
   
     }
