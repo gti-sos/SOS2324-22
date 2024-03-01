@@ -1,8 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+
 
 const API_BASE = '/api/v1';
-const PORT = 3000;
+
 
 // Lista de millonarios inicial
 let list = [
@@ -19,8 +18,7 @@ let list = [
     { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'México' }
 ];
 
-const app = express();
-app.use(bodyParser.json());
+
 
 // Ruta para cargar datos iniciales
 app.get(API_BASE + '/loadInitialData', (req, res) => {
@@ -93,6 +91,4 @@ app.all(API_BASE + '/top100-richest-people', (req, res) => {
     res.status(405).send('Método no permitido');
 });
 
-app.listen(PORT, () => {
-    console.log(`El servidor está ejecutándose en el puerto ${PORT}`);
-});
+
