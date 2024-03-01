@@ -128,7 +128,7 @@ module.exports.mediaBeneficio = function(list){
     return medias;
 }
 
-module.exports = (app) => {
+module.exports = (app,db) => {
 
   app.get(API_BASE+"/forbes-billonaires", (req,res) => {
     if(lista.length == 0){
@@ -137,6 +137,24 @@ module.exports = (app) => {
         })
     }
     res.send(JSON.stringify(lista));
+  });
+
+  app.get(API_BASE+'/loadInitialForbesBillonaires', (req,res) => {
+    db.insert(lista);
+    res.sendStatus(200,"Ok");
+  });
+
+  app.get(API_BASE+"/forbes-billonaires",(req,res) => {
+    db.find({}, (err,lista) => {
+      if(err){
+        res.sendStatus(500, "Internal error");
+      }else{
+        res.send(JSON.stringify(lista.map((c) => {
+          delete c._id;
+          return c;
+        })))
+      }
+    })
   });
 
   app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
