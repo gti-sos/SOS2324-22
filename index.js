@@ -3,6 +3,9 @@ const { application } = require("express");
 let bodyParser = require("body-parser");
 let express = require("express");
 let api_famous_people= require("./api-famous-people")
+let dataStore = require("nedb");
+
+let dbFamouPeople = new dataStore();
 
 let app = express();
 
@@ -13,7 +16,7 @@ const PORT = (process.env.PORT || 10000);
 
 app.use(bodyParser.json());
 
-api_famous_people(app);
+api_famous_people(app,dbFamouPeople);
 
 app.use("/",express.static("./public"));
 
