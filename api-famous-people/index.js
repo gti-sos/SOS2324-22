@@ -196,6 +196,8 @@
               res.sendStatus(404,"Person not found");
             } else{
               res.send(JSON.stringify(searchedPerson));
+              delete p._id;
+              return p;
             }
           })
         });
