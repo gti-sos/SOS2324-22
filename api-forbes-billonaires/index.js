@@ -130,9 +130,19 @@ module.exports.mediaBeneficio = function(list){
 
 module.exports = (app,db) => {
 
-  app.get(API_BASE+'/loadInitialForbesBillonaires', (req,res) => {
-    db.insert(lista);
-    res.sendStatus(200,"Ok");
+  app.get(API_BASE+"/loadInitialForbesBillonaires", (req, res) => {
+    db.find({}, (err, docs) => {
+      if(err){
+          res.sendStatus(500, "Internal Error");
+      }else {
+          if (docs.length === 0) {
+              db.insert(lista);
+              res.sendStatus(201, "Created");
+          } else{
+              res.sendStatus(409, "Conflict");
+          }
+        }
+      });
   });
 
   app.get(API_BASE+"/forbes-billonaires",(req,res) => {
@@ -144,6 +154,18 @@ module.exports = (app,db) => {
           delete c._id;
           return c;
         }))); 
+      }
+    })
+  });
+
+  app.get(API_BASE+"/famous-people/:name", (req,res) => {
+    let companyName = req.params.name;
+
+    db.findOne( { name: companyName }, (err,searchedCompany) => {
+      if(err){
+        res.sendStatus(404,"Person not found");
+      } else{
+        res.send(JSON.stringify(searchedCompany));
       }
     })
   });
