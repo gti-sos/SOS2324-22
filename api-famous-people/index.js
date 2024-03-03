@@ -195,7 +195,7 @@
             if(err){
               res.sendStatus(404,"Person not found");
             } else{
-              delete searchedPerson._id;
+              //delete searchedPerson._id;
               res.send(JSON.stringify(searchedPerson));
               
             }
@@ -267,11 +267,11 @@
 
 
 
-        app.put(API_BASE+"/famous-people/:name", (req,res) => {
-          let personToUpdate = req.params.name;
+        app.put(API_BASE+"/famous-people/:id", (req,res) => {
+          let idToUpdate = req.params.id;
           let newData = req.body;
 
-          dbFamousPeople.update({ "name": personToUpdate }, { $set : newData}, (err,numUpdated) => {
+          dbFamousPeople.update({ _id: idToUpdate }, { $set : newData}, (err,numUpdated) => {
             if (err) {
               res.sendStatus(400, "Bad request");
           } else {
