@@ -158,7 +158,7 @@ module.exports = (app,db) => {
     })
   });
 
-  app.get(API_BASE+"/famous-people/:name", (req,res) => {
+  app.get(API_BASE+"/forbes-billonaires/:name", (req,res) => {
     let companyName = req.params.name;
 
     db.findOne( { name: companyName }, (err,searchedCompany) => {
@@ -170,13 +170,13 @@ module.exports = (app,db) => {
     })
   });
 
-  app.post(API_BASE+"/api-forbes-billonaires/:name", (req,res) => {
+  app.post(API_BASE+"/forbes-billonaires/:name", (req,res) => {
     res.sendStatus(405, "Method not allowed");
   });
 
   app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
     let company = req.body;
-    db.findOne({"name" : company}, (err, alreadyCompany) => {
+    db.findOne({"name" : company.name}, (err, alreadyCompany) => {
       if(err){
         res.sendStatus(500,"Internal Error");
       }else{
@@ -211,6 +211,20 @@ module.exports = (app,db) => {
     });
   });
 
+  app.delete(API_BASE+"/forbes-billonaires", (req,res) => {
+    db.remove({},{multi:true},(err, numRemoved)=>{
+      if(err){
+        res.sendStatus(500,"Internal Error");
+      }else{
+        if(numRemoved>=1){
+          res.sendStatus(200,"All removed");
+        }else{
+          res.sendStatus(404, "Person not found");
+        }
+      }
+    });
+  });
+
   app.put(API_BASE+"/forbes-billonaires", (req,res) =>{
     res.sendStatus(405,"Method not allowed");
   });
@@ -221,6 +235,7 @@ module.exports = (app,db) => {
 
     db.update({"name": name}, {$set: newData}, (err,numUpdated) => {
       if(err){
+        console.log(err);
         res.sendStatus(400, "Bad request");
       }else{
         if(numUpdated===0){
