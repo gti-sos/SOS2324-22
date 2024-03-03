@@ -163,8 +163,9 @@ module.exports = (app,db) => {
 
     db.findOne( { name: companyName }, (err,searchedCompany) => {
       if(err){
-        res.sendStatus(404,"Person not found");
+        res.sendStatus(404,"Company not found");
       } else{
+        delete searchedCompany._id;
         res.send(JSON.stringify(searchedCompany));
       }
     })
