@@ -195,7 +195,9 @@
             if(err){
               res.sendStatus(404,"Person not found");
             } else{
+              delete searchedPerson._id;
               res.send(JSON.stringify(searchedPerson));
+              
             }
           })
         });
