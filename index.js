@@ -10,12 +10,14 @@ let dataStore = require("nedb");
 let dbFamouPeople = new dataStore();
 let db = new dataStore();
 let dbForBillionaires = new dataStore();
+let dbtop100richest = new dataStore();
 
 let app = express();
 
 let DTN = require('./index-DTN');
 let JRR = require('./index-JRR');
 let RGA = require('./index-RGA');
+let BVB = require('./index-BVB');
 
 const PORT = (process.env.PORT || 10000);
 
@@ -24,6 +26,7 @@ app.use(bodyParser.json());
 api_famous_people(app,dbFamouPeople);
 api_forbes_billonaires(app,db); 
 api_forbes_billionaires-list(app, dbForBillionaires);
+api_richest_people-list(app, dbtop100richest);
 
 app.use("/",express.static("./public"));
 
