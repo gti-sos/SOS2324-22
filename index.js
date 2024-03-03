@@ -4,15 +4,18 @@ let bodyParser = require("body-parser");
 let express = require("express");
 let api_famous_people= require("./api-famous-people");
 let api_forbes_billonaires = require("./api-forbes-billonaires");
+let api_top_richest = require("./api-top-richest");
 let dataStore = require("nedb");
 
 let dbFamouPeople = new dataStore();
 let db = new dataStore();
+let dbtop100richest = new dataStore();
 
 let app = express();
 
 let DTN = require('./index-DTN');
 let JRR = require('./index-JRR');
+let BVB = require('./index-BVB');
 
 const PORT = (process.env.PORT || 10000);
 
@@ -20,6 +23,7 @@ app.use(bodyParser.json());
 
 api_famous_people(app,dbFamouPeople);
 api_forbes_billonaires(app,db); 
+api_top_richest(app, dbtop100richest);
 
 app.use("/",express.static("./public"));
 
@@ -42,6 +46,8 @@ app.get("/samples/JRR", (req,res) => {
 
   res.send(listHTML);
 });
+
+
 
 app.use("/samples/RGA",express.static("./samples/RGA"));
 
