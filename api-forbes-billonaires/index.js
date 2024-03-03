@@ -165,7 +165,7 @@ module.exports = (app,db) => {
       if(err){
         res.sendStatus(404,"Company not found");
       } else{
-        delete searchedCompany._id;
+        //delete searchedCompany._id;    por si queremos borrar el id
         res.send(JSON.stringify(searchedCompany));
       }
     })
@@ -230,11 +230,11 @@ module.exports = (app,db) => {
     res.sendStatus(405,"Method not allowed");
   });
 
-  app.put(API_BASE+"/forbes-billonaires/:name", (req,res) => {
-    let name = req.params.name;
+  app.put(API_BASE+"/forbes-billonaires/:id", (req,res) => {
+    let name = req.params.id;
     let newData = req.body;
 
-    db.update({"name": name}, {$set: newData}, (err,numUpdated) => {
+    db.update({"_id": name}, {$set: newData}, (err,numUpdated) => {
       if(err){
         console.log(err);
         res.sendStatus(400, "Bad request");
