@@ -108,9 +108,9 @@
         const esquema = {
             'name': 'string', 
             'short_description': 'string', 
-            'gender': 'number', 
+            'gender': 'string', 
             'country': 'string', 
-            'occupation': 'number', 
+            'occupation': 'string', 
             'birth_year': 'number', 
             'death_year': 'number', 
             'age_of_death': 'number'
