@@ -283,14 +283,5 @@
             }
           });
         });
-        /*{       
-    "name": "Alberto",
-        "short_description": "1st president of the United States (1732–1799)",
-        "gender": "Male",
-        "country": "United States of America",
-        "occupation": "Politician",
-        "birth_year": 1732,
-        "death_year": 1799,
-        "age_of_death": 40  
-}*/ 
+        
     }
