@@ -148,42 +148,67 @@ module.exports = (app,db) => {
     })
   });
 
-  app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
-    let company = req.body;
-    db.insert(company);
-    res.sendStatus(201,"Created");
+  app.post(API_BASE+"/api-forbes-billonaires/:name", (req,res) => {
+    res.sendStatus(405, "Method not allowed");
   });
 
-    /*
-    app.delete(API_BASE + "/forbes-billonaires", (req, res) => {
-      let companyToDelete = req.body;
-    
-      let indexToRemove = lista.findIndex(existingCompany => companyToDelete.name === existingCompany.name );
-    
-      if (indexToRemove !== -1) {
-        lista.splice(indexToRemove, 1);
-        res.status(200,"Company deleted successfully");
-      } else {
-          res.status(404,"Company not found");
-      }
-      });
-      */
-
-    app.delete(API_BASE+"/forbes-billonaires/:name",(req,res) => {
-      let name = req.params.name;
-
-      db.remove({"name" : name}, {},(err, numRemoved) => {
-        if(err){
-          res.sendStatus(500,"Internal error");
+  app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
+    let company = req.body;
+    db.findOne({"name" : company}, (err, alreadyCompany) => {
+      if(err){
+        res.sendStatus(500,"Internal Error");
+      }else{
+        if(alreadyCompany){
+          res.sendStatus(409, "Person already exists");
         }else{
-          if(numRemoved>=1){
-            res.sendStatus(200,"Ok");
-          }else{
-            res.sendStatus(404,"Not found");
-          }
+          db.insert(company, (err, newCompany) => {
+            if(err){
+              res.sendStatus(500,"Internal Error");
+            }else {
+              res.sendStatus(201,"Ok");
+            }
+          });
         }
-      });
+      }
     });
+  });
+
+  app.delete(API_BASE+"/forbes-billonaires/:name",(req,res) => {
+    let name = req.params.name;
+
+    db.remove({"name" : name}, {},(err, numRemoved) => {
+      if(err){
+        res.sendStatus(500,"Internal error");
+      }else{
+        if(numRemoved>=1){
+          res.sendStatus(200,"Ok");
+        }else{
+          res.sendStatus(404,"Not found");
+        }
+      }
+    });
+  });
+
+  app.put(API_BASE+"/forbes-billonaires", (req,res) =>{
+    res.sendStatus(405,"Method not allowed");
+  });
+
+  app.put(API_BASE+"/forbes-billonaires/:name", (req,res) => {
+    let name = req.params.name;
+    let newData = req.body;
+
+    db.update({"name": name}, {$set: newData}, (err,numUpdated) => {
+      if(err){
+        res.sendStatus(400, "Bad request");
+      }else{
+        if(numUpdated===0){
+          res.sendStatus(404, "Not found");
+        }else{
+          res.sendStatus(200, "Ok");
+        }
+      }
+    });
+  });
 
 }
 
