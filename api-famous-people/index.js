@@ -242,6 +242,21 @@
               }
             });
           });
+
+        app.delete(API_BASE + "/famous-people", (req,res)=> {
+
+          dbFamousPeople.remove({}, {multi : true }, (err,numRemoved) => {
+            if(err){
+              res.sendStatus(500,"Internal Error");
+            } else{
+              if(numRemoved>=1){
+                res.sendStatus(200,"All removed");
+              } else{
+                res.sendStatus(404,"Person not found");
+              }
+            }
+          });
+        });
           
         
         app.put(API_BASE+"/famous-people", (req,res) =>{
