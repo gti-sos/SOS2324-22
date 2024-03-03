@@ -130,6 +130,8 @@ module.exports.mediaBeneficio = function(list){
 
 module.exports = (app,db) => {
 
+  //API
+
   app.get(API_BASE+"/loadInitialForbesBillonaires", (req, res) => {
     db.find({}, (err, docs) => {
       if(err){
