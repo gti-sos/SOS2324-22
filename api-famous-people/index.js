@@ -157,7 +157,7 @@
     
     module.exports = (app,dbFamousPeople) => {
       
-        app.get(API_BASE+"/loadInitialData", (req, res) => {
+        app.get(API_BASE+"/loadInitialFamousPeople", (req, res) => {
           dbFamousPeople.find({}, (err, docs) => {
             if(err){
                 res.sendStatus(500, "Internal Error");

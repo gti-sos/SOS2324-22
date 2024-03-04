@@ -2,9 +2,11 @@ let cool = require("cool-ascii-faces");
 const { application } = require("express");
 let bodyParser = require("body-parser");
 let express = require("express");
+let app = express();
 let api_famous_people= require("./api-famous-people");
 let api_forbes_billonaires = require("./api-forbes-billonaires");
 let api_forbes_billionaires_list = require("./api-forbes-billionaires-list");
+let api_richest_people_list = require("./api-top-richest");
 let dataStore = require("nedb");
 
 let dbFamouPeople = new dataStore();
@@ -12,7 +14,7 @@ let db = new dataStore();
 let dbForBillionaires = new dataStore();
 let dbtop100richest = new dataStore();
 
-let app = express();
+
 
 let DTN = require('./index-DTN');
 let JRR = require('./index-JRR');
@@ -26,7 +28,7 @@ app.use(bodyParser.json());
 api_famous_people(app,dbFamouPeople);
 api_forbes_billonaires(app,db); 
 api_forbes_billionaires_list(app,dbForBillionaires);
-//api_richest_people-list(app, dbtop100richest);
+api_richest_people_list(app, dbtop100richest);
 
 app.use("/",express.static("./public"));
 

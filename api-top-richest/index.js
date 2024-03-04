@@ -19,74 +19,78 @@ let list = [
 ];
 
 
+module.exports = (app, dbtop100richest) => {
 
-// Ruta para cargar datos iniciales
-app.get(API_BASE + '/loadInitialData', (req, res) => {
-    // Insertar la lista inicial en la base de datos dbtop100richest
-    dbtop100richest.insert(list);
-    res.sendStatus(200, 'Ok');
-});
 
-// Ruta para obtener a todos los famosos
-app.get(API_BASE + '/top100-richest-people', (req, res) => {
-    // Obtener la lista de famosos desde la base de datos dbFamouPeople
-     dbtop100richest.find({}, (err, list) => {
-        if (err) {
-            res.sendStatus(500, 'Error interno');
+    // Ruta para cargar datos iniciales
+    app.get(API_BASE + '/loadInitialData', (req, res) => {
+        // Insertar la lista inicial en la base de datos dbtop100richest
+        dbtop100richest.insert(list);
+        res.sendStatus(200, 'Ok');
+    });
+
+    // Ruta para obtener a todos los famosos
+    app.get(API_BASE + '/top100-richest-people', (req, res) => {
+        // Obtener la lista de famosos desde la base de datos dbFamouPeople
+        dbtop100richest.find({}, (err, list) => {
+            if (err) {
+                res.sendStatus(500, 'Error interno');
+            } else {
+                res.send(JSON.stringify(list));
+            }
+        });
+    });
+
+    // Ruta para agregar un nuevo millonario
+    app.post(API_BASE + '/top100-richest-people', (req, res) => {
+        const nuevoMillonario = req.body;
+
+        // Verificar si el millonario ya existe en la lista
+        if (list.some(m => m.name === nuevoMillonario.name)) {
+            res.status(409).send('El millonario ya existe');
         } else {
-            res.send(JSON.stringify(list));
+            list.push(nuevoMillonario);
+            res.status(201).send('Millonario creado');
         }
     });
-});
 
-// Ruta para agregar un nuevo millonario
-app.post(API_BASE + '/top100-richest-people', (req, res) => {
-    const nuevoMillonario = req.body;
+    // Ruta para actualizar un millonario por ID
+    app.put(API_BASE + '/top100-richest-people/:id', (req, res) => {
+        const millonarioActualizado = req.body;
+        const idParam = parseInt(req.params.id);
 
-    // Verificar si el millonario ya existe en la lista
-    if (list.some(m => m.name === nuevoMillonario.name)) {
-        res.status(409).send('El millonario ya existe');
-    } else {
-        list.push(nuevoMillonario);
-        res.status(201).send('Millonario creado');
-    }
-});
+        // Encontrar el índice del millonario con el ID especificado
+        const indiceActualizar = list.findIndex(m => m.id === idParam);
 
-// Ruta para actualizar un millonario por ID
-app.put(API_BASE + '/top100-richest-people/:id', (req, res) => {
-    const millonarioActualizado = req.body;
-    const idParam = parseInt(req.params.id);
+        // Verificar si el ID en la URL coincide con el ID en los datos
+        if (idParam !== millonarioActualizado.id) {
+            res.status(400).send('El ID en la URL no coincide con el ID en los datos');
+        } else if (indiceActualizar !== -1) {
+            // Actualizar el millonario
+            list[indiceActualizar] = millonarioActualizado;
+            res.status(200).send('Millonario actualizado exitosamente');
+        } else {
+            // Millonario no encontrado
+            res.status(404).send('Millonario no encontrado');
+        }
+    });
 
-    // Encontrar el índice del millonario con el ID especificado
-    const indiceActualizar = list.findIndex(m => m.id === idParam);
+    // Ruta para eliminar un millonario por ID
+    app.delete(API_BASE + '/top100-richest-people/:id', (req, res) => {
+        const idParam = parseInt(req.params.id);
+        const indiceEliminar = list.findIndex(m => m.id === idParam);
 
-    // Verificar si el ID en la URL coincide con el ID en los datos
-    if (idParam !== millonarioActualizado.id) {
-        res.status(400).send('El ID en la URL no coincide con el ID en los datos');
-    } else if (indiceActualizar !== -1) {
-        // Actualizar el millonario
-        list[indiceActualizar] = millonarioActualizado;
-        res.status(200).send('Millonario actualizado exitosamente');
-    } else {
-        // Millonario no encontrado
-        res.status(404).send('Millonario no encontrado');
-    }
-});
+        if (indiceEliminar !== -1) {
+            list.splice(indiceEliminar, 1);
+            res.status(200).send('Millonario eliminado exitosamente');
+        } else {
+            res.status(404).send('Millonario no encontrado');
+        }
+    });
 
-// Ruta para eliminar un millonario por ID
-app.delete(API_BASE + '/top100-richest-people/:id', (req, res) => {
-    const idParam = parseInt(req.params.id);
-    const indiceEliminar = list.findIndex(m => m.id === idParam);
+    // Ruta para manejar métodos no permitidos
+    app.all(API_BASE + '/top100-richest-people', (req, res) => {
+        res.status(405).send('Método no permitido');
+    });
 
-    if (indiceEliminar !== -1) {
-        list.splice(indiceEliminar, 1);
-        res.status(200).send('Millonario eliminado exitosamente');
-    } else {
-        res.status(404).send('Millonario no encontrado');
-    }
-});
-
-// Ruta para manejar métodos no permitidos
-app.all(API_BASE + '/top100-richest-people', (req, res) => {
-    res.status(405).send('Método no permitido');
-});
+}
