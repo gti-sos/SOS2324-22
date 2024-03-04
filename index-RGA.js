@@ -90,7 +90,10 @@ let lista = [
         industry: 'Technology',
     }];
 
-function mediaBillones(lista) {
+    module.exports.lista = lista;
+
+
+module.exports.mediaBillones= function (lista) {
     let sumaPersonaPorPais = {};
     let vecesPais = {};
 
@@ -118,5 +121,3 @@ function mediaBillones(lista) {
     return medias;
 
 }
-
-console.log(mediaBillones(lista));

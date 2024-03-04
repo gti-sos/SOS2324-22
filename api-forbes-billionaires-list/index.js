@@ -97,8 +97,18 @@ let lista = [
 module.exports = (app, dbForBillionaires) => {
 
     app.get(API_BASE + '/loadInitialDataForbesList', (req, res) => {
-        dbForBillionaires.insert(lista);
-        res.sendStatus(200, 'Ok');
+        dbForBillionaires.find({}, (err, docs) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (docs.length === 0) {
+                    dbForBillionaires.insert(lista);
+                    res.sendStatus(201, "Created");
+                } else {
+                    res.sendStatus(409, "Conflict");
+                }
+            }
+        });
     });
 
     app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
@@ -106,7 +116,10 @@ module.exports = (app, dbForBillionaires) => {
             if (err) {
              res.sendStatus(500, 'Internal Error');
             } else {
-                res.send(JSON.stringify(list));
+                res.send(JSON.stringify(list.map((w) => {
+                    delete w._id;
+                    return w;
+                }))); 
             }
         });
     });
@@ -116,14 +129,14 @@ module.exports = (app, dbForBillionaires) => {
 
         dbForBillionaires.findOne({ name: personName }, (err, searchedPerson) => {
             if (err) {
-                res.sendStatus(500, "Internal Error");
+                res.sendStatus(404, "Person not found");
             } else {
                 res.send(JSON.stringify(searchedPerson));
             }
         })
     });
 
-    app.post(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+    app.post(API_BASE + "/forbes-billionaires-list/", (req, res) => {
         let person = req.body;
 
         dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
@@ -133,7 +146,7 @@ module.exports = (app, dbForBillionaires) => {
                 if (existingPerson) {
                     res.sendStatus(409, "Person already exists");
                 } else {
-                    dbFamousPeople.insert(person, (err, newPerson) => {
+                    dbForBillionaires.insert(person, (err, newPerson) => {
                         if (err) {
                             res.sendStatus(500, "Internal Error");
                         } else {
@@ -144,6 +157,10 @@ module.exports = (app, dbForBillionaires) => {
             }
         });
     });
+
+    app.post(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+        res.sendStatus(405, "Method not allowed");
+    })
 
     app.delete(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
         let billionaireDeleted = req.params.name;
@@ -161,8 +178,38 @@ module.exports = (app, dbForBillionaires) => {
         });
     });
 
-    app.put(API_BASE + "/forbes-billionaires-list", (req, res) => {
-        let updatedPerson = req.body;
+    app.delete(API_BASE + "/forbes-billionaires-list", (req, res) => {
+        dbForBillionaires.remove({}, { multi: true }, (err, numRemoved) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (numRemoved >= 1) {
+                    res.sendStatus(200, "All removed");
+                } else {
+                    res.sendStatus(404, "Person not found");
+                }
+            }
+        });
+    });
 
+    app.put(API_BASE + "/forbes-billionaires-list", (req, res) => {
+        res.sendStatus(405, "Method not allowed");
+    });
+
+    app.put(API_BASE + "/forbes-billionaires-list/:id", (req, res) => {
+        let idToUpdate = req.params.id;
+        let newData = req.body;
+
+        dbForBillionaires.update({ _id: idToUpdate }, { $set: newData }, (err, numUpdated) => {
+            if (err) {
+                res.sendStatus(400, "Bad request");
+            } else {
+                if (numUpdated === 0) {
+                    res.sendStatus(404, "Not found");
+                } else {
+                    res.sendStatus(200, "Ok");
+                }
+            }
+        });
     });
 }

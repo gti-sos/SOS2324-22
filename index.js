@@ -51,7 +51,7 @@ app.get("/samples/JRR", (req,res) => {
 });
 
 app.get("/samples/RGA", (req,res) => {
-  const media = RGA.mediaBillones(RGA.list);
+  const media = RGA.mediaBillones(RGA.lista);
   const listHTML = `<html><body><h1>Media de billones por pais</h1><ul>
   ${Object.entries(media).map(([country, value]) => `<li>${country}: ${value} Billones</li>`).join('')}
   </ul></body></html>`;
