@@ -128,6 +128,55 @@ module.exports.mediaBeneficio = function(list){
     return medias;
 }
 
+function validarDatos(req, res, next) {
+  const json = req.body;
+
+  const esquema = {
+      'rank': 'number', 
+      'name': 'string', 
+      'country': 'string', 
+      'sale': 'number', 
+      'profit': 'number', 
+      'asset': 'number', 
+      'market_value': 'number', 
+      'year': 'number'
+  };
+
+  const receivedKeys = Object.keys(json);
+  const expectedKeys = Object.keys(esquema);
+  const missingKeys = expectedKeys.filter(key => !receivedKeys.includes(key));
+  
+  
+  const extraKeys = receivedKeys.filter(key => !expectedKeys.includes(key));
+  if (extraKeys.length > 0) {
+      console.error(`There are more keys than expected: ${extraKeys.join(', ')}`);
+      return res.sendStatus(400, "Bad request");
+  }
+
+  
+  if (missingKeys.length > 0) {
+      console.error(`There are missing keys: ${missingKeys.join(', ')}` );
+      return res.sendStatus(400, "Bad request");
+  }
+
+  
+  const erroresTipo = [];
+
+  expectedKeys.forEach(key => {
+      const tipoEsperado = esquema[key];
+      const valor = json[key];
+      if (typeof valor !== tipoEsperado) {
+          erroresTipo.push(`El valor de '${key}' debe ser de tipo '${tipoEsperado}'`);
+      }
+  });
+
+  if (erroresTipo.length > 0) {
+      console.error(`Errores de tipo: ${erroresTipo.join(', ')}`);
+      return res.sendStatus(400, "Bad request");
+  }
+  next();
+}
+
 module.exports = (app,db) => {
 
   //API
@@ -177,7 +226,7 @@ module.exports = (app,db) => {
     res.sendStatus(405, "Method not allowed");
   });
 
-  app.post(API_BASE+"/forbes-billonaires", (req,res)=>{
+  app.post(API_BASE+"/forbes-billonaires",validarDatos, (req,res)=>{
     let company = req.body;
     db.findOne({"name" : company.name}, (err, alreadyCompany) => {
       if(err){
