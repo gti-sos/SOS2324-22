@@ -1,4 +1,5 @@
-// JavaScript source code
+const API_BASE = '/api/v1';
+
 let lista = [
     {
         rank: 1,
@@ -91,73 +92,77 @@ let lista = [
         industry: 'Technology',
     }];
 
-app.get(API_BASE + 'forbes-billionaire-list/loadInitialData', (req, res) => {
-    dbForBillionaires.insert(lista);
-    res.sendStatus(200, 'Ok');
-});
+    module.exports.list = lista;
 
-app.get(API_BASE + '/forbes-billionaire-list', (req, res) => {
-    // Obtener la lista de famosos desde la base de datos dbFamouPeople
-    dbForBillionaires.find({}, (err, list) => {
-        if (err) {
-            res.sendStatus(500, 'Internal Error');
-        } else {
-            res.send(JSON.stringify(list));
-        }
+module.exports = (app, dbForBillionaires) => {
+
+    app.get(API_BASE + '/loadInitialDataForbesList', (req, res) => {
+        dbForBillionaires.insert(lista);
+        res.sendStatus(200, 'Ok');
     });
-});
 
-app.get(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
-    let personName = req.params.name;
-
-    dbForBillionaires.findOne({ name: personName }, (err, searchedPerson) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            res.send(JSON.stringify(searchedPerson));
-        }
-    })
-});
-
-app.post(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
-    let person = req.body;
-
-    dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (existingPerson) {
-                res.sendStatus(409, "Person already exists");
+    app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
+        dbForBillionaires.find({}, (err, list) => {
+            if (err) {
+             res.sendStatus(500, 'Internal Error');
             } else {
-                dbFamousPeople.insert(person, (err, newPerson) => {
-                    if (err) {
-                        res.sendStatus(500, "Internal Error");
-                    } else {
-                        res.sendStatus(201, "Ok");
-                    }
-                });
+                res.send(JSON.stringify(list));
             }
-        }
+        });
     });
-});
 
-app.delete(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
-    let billionaireDeleted = req.params.name;
+    app.get(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+        let personName = req.params.name;
 
-    dbForBillionaires.remove({ "name": billionaireDeleted }, {}, (err, numRemoved) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (numRemoved >= 1) {
-                res.sendStatus(200, "Ok");
+        dbForBillionaires.findOne({ name: personName }, (err, searchedPerson) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
             } else {
-                res.sendStatus(404, "Not found");
+                res.send(JSON.stringify(searchedPerson));
             }
-        }
+        })
     });
-});
 
-app.put(API_BASE + "/forbes-billionaire-list", (req, res) => {
-    let updatedPerson = req.body;
+    app.post(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+        let person = req.body;
 
-});
+        dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (existingPerson) {
+                    res.sendStatus(409, "Person already exists");
+                } else {
+                    dbFamousPeople.insert(person, (err, newPerson) => {
+                        if (err) {
+                            res.sendStatus(500, "Internal Error");
+                        } else {
+                            res.sendStatus(201, "Ok");
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    app.delete(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+        let billionaireDeleted = req.params.name;
+
+        dbForBillionaires.remove({ "name": billionaireDeleted }, {}, (err, numRemoved) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (numRemoved >= 1) {
+                    res.sendStatus(200, "Ok");
+                } else {
+                    res.sendStatus(404, "Not found");
+                }
+            }
+        });
+    });
+
+    app.put(API_BASE + "/forbes-billionaires-list", (req, res) => {
+        let updatedPerson = req.body;
+
+    });
+}
