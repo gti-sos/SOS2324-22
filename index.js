@@ -50,7 +50,14 @@ app.get("/samples/JRR", (req,res) => {
   res.send(listHTML);
 });
 
-app.use("/samples/RGA",express.static("./samples/RGA"));
+app.get("/samples/RGA", (req,res) => {
+  const media = RGA.mediaBillones(RGA.list);
+  const listHTML = `<html><body><h1>Media de billones por pais</h1><ul>
+  ${Object.entries(media).map(([country, value]) => `<li>${country}: ${value} Billones</li>`).join('')}
+  </ul></body></html>`;
+  res.send(listHTML);
+});
+
 
 app.use("/samples/BVB", express.static("./samples/BVB"));
 
