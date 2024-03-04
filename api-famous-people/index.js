@@ -157,7 +157,7 @@
     
     module.exports = (app,dbFamousPeople) => {
       
-        app.get(API_BASE+"/loadInitialFamousPeople", (req, res) => {
+        app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {
           dbFamousPeople.find({}, (err, docs) => {
             if(err){
                 res.sendStatus(500, "Internal Error");
@@ -192,12 +192,11 @@
           let personName = req.params.name;
 
           dbFamousPeople.findOne( { name: personName }, (err,searchedPerson) => {
-            if(err){
-              res.sendStatus(404,"Person not found");
-            } else{
-              //delete searchedPerson._id;
+            if(searchedPerson){
               res.send(JSON.stringify(searchedPerson));
               
+            } else{
+              res.sendStatus(404,"Person not found");
             }
           })
         });
