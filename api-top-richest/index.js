@@ -30,7 +30,7 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para obtener a todos los famosos
-    app.get(API_BASE + '/top100-richest-people', (req, res) => {
+    app.get(API_BASE + '/top-richest', (req, res) => {
         // Obtener la lista de famosos desde la base de datos dbFamouPeople
         dbtop100richest.find({}, (err, list) => {
             if (err) {
@@ -42,7 +42,7 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para agregar un nuevo millonario
-    app.post(API_BASE + '/top100-richest-people', (req, res) => {
+    app.post(API_BASE + '/top-richest', (req, res) => {
         const nuevoMillonario = req.body;
 
         // Verificar si el millonario ya existe en la lista
@@ -55,7 +55,7 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para actualizar un millonario por ID
-    app.put(API_BASE + '/top100-richest-people/:id', (req, res) => {
+    app.put(API_BASE + '/top-richest/:id', (req, res) => {
         const millonarioActualizado = req.body;
         const idParam = parseInt(req.params.id);
 
@@ -76,7 +76,7 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para eliminar un millonario por ID
-    app.delete(API_BASE + '/top100-richest-people/:id', (req, res) => {
+    app.delete(API_BASE + '/top-richest/:id', (req, res) => {
         const idParam = parseInt(req.params.id);
         const indiceEliminar = list.findIndex(m => m.id === idParam);
 
@@ -89,7 +89,7 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para manejar métodos no permitidos
-    app.all(API_BASE + '/top100-richest-people', (req, res) => {
+    app.all(API_BASE + '/top-richest', (req, res) => {
         res.status(405).send('Método no permitido');
     });
 
