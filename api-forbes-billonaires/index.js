@@ -132,7 +132,7 @@ module.exports = (app,db) => {
 
   //API
 
-  app.get(API_BASE+"/loadInitialForbesBillonaires", (req, res) => {
+  app.get(API_BASE+"/forbes-billonaires/loadInitialData", (req, res) => {
     db.find({}, (err, docs) => {
       if(err){
           res.sendStatus(500, "Internal Error");
