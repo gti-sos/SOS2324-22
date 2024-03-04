@@ -119,7 +119,7 @@ app.get(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
     })
 });
 
-app.post(API_BASE + "/forbes-billionaire-list/a/:name", (req, res) => {
+app.post(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
     let person = req.body;
 
     dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
@@ -141,7 +141,7 @@ app.post(API_BASE + "/forbes-billionaire-list/a/:name", (req, res) => {
     });
 });
 
-app.delete(API_BASE + "/forbes-billionaire-list/d/:name", (req, res) => {
+app.delete(API_BASE + "/forbes-billionaire-list/:name", (req, res) => {
     let billionaireDeleted = req.params.name;
 
     dbForBillionaires.remove({ "name": billionaireDeleted }, {}, (err, numRemoved) => {
