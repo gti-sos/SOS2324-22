@@ -303,7 +303,7 @@
           })
         });
 
-        app.get(API_BASE+ "/famous-people")
+        
 
 
         app.post(API_BASE+"/famous-people", validarDatos, (req,res)=>{
