@@ -187,7 +187,7 @@
             });
         });
 
-
+        //search by name
         app.get(API_BASE+"/famous-people/:name", (req,res) => {
           let personName = req.params.name;
 
@@ -200,7 +200,106 @@
             }
           })
         });
-    
+
+        //search by short_description
+        app.get(API_BASE+"/famous-people/:short_description", (req,res) => {
+          let description = req.params.short_description;
+
+          dbFamousPeople.findOne( { short_description: description }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+        
+        //search by gender
+        app.get(API_BASE+"/famous-people/:gender", (req,res) => {
+          let gen = req.params.gender;
+
+          dbFamousPeople.findOne( { gender: gen }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+        //search by country
+        app.get(API_BASE+"/famous-people/:country", (req,res) => {
+          let coun = req.params.country;
+
+          dbFamousPeople.findOne( { country: coun }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+        //search by occupation
+        app.get(API_BASE+"/famous-people/:occupation", (req,res) => {
+          let occ = req.params.country;
+
+          dbFamousPeople.findOne( { occupation : occ }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+        //search by birth_year
+        app.get(API_BASE+"/famous-people/:birth_year", (req,res) => {
+          let birth = req.params.birth_year;
+
+          dbFamousPeople.findOne( { birth_year : birth }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+        //search by death_year
+        app.get(API_BASE+"/famous-people/:death_year", (req,res) => {
+          let death = req.params.death_year;
+
+          dbFamousPeople.findOne( { death_year : death }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+        //search by age_of_death
+        app.get(API_BASE+"/famous-people/:age_of_death", (req,res) => {
+          let age = req.params.age_of_death;
+
+          dbFamousPeople.findOne( { age_of_death : age }, (err,searchedPerson) => {
+            if(searchedPerson){
+              res.send(JSON.stringify(searchedPerson));
+              
+            } else{
+              res.sendStatus(404,"Person not found");
+            }
+          })
+        });
+
+
         app.post(API_BASE+"/famous-people", validarDatos, (req,res)=>{
             let person = req.body;
 
