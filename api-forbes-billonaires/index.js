@@ -179,6 +179,10 @@ function validarDatos(req, res, next) {
 
 module.exports = (app,db) => {
 
+  app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
+    res.redirect("https://documenter.getpostman.com/view/32927299/2sA2xe6FJo");
+  });
+
   //API
 
   app.get(API_BASE+"/forbes-billonaires/loadInitialData", (req, res) => {
@@ -298,6 +302,7 @@ module.exports = (app,db) => {
       }
     });
   });
+
 
 }
 
