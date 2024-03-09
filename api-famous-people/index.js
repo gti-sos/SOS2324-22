@@ -178,18 +178,26 @@
 
 
 
-        app.get(API_BASE+"/famous-people", (req,res)=>{
-          dbFamousPeople.find({}, (err,list) => {
-              if(err){
-                res.sendStatus(500,"Internal Error");
-              }else{
-                res.send(JSON.stringify(list.map((p) => {
-                  delete p._id;
-                  return p;
-                })));
+    app.get(API_BASE + "/famous-people", (req, res) => {
+      const limit = req.query.limit || 10; // Número predeterminado de elementos por página
+      const offset = req.query.offset || 0;
+  
+      dbFamousPeople.find({})
+          .skip(parseInt(offset))
+          .limit(parseInt(limit))
+          .exec((err, list) => {
+              if (err) {
+                  res.sendStatus(500, "Internal Error");
+              } else {
+                  res.send(JSON.stringify(list.map((p) => {
+                      delete p._id;
+                      return p;
+                  })));
               }
-            });
-        });
+          });
+  });
+  
+  
 
         //search by name
         app.get(API_BASE+"/famous-people/:name", (req,res) => {
