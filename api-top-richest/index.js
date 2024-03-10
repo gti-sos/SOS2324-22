@@ -27,6 +27,24 @@ module.exports = (app, dbtop100richest) => {
             }
         });
     });
+    app.get(API_BASE +'/top-richest', (req, res) => {
+        const limit = req.query.limit || 10; // Número predeterminado de elementos por página
+        const offset = req.query.offset || 0;
+
+        dbtop100richest.find({})
+            .skip(parseInt(offset))
+            .limit(parseInt(limit))
+            .exec((err, list) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Error");
+                } else {
+                    res.send(JSON.stringify(list.map((p) => {
+                        delete p._id;
+                        return p;
+                    })));
+                }
+            });
+    });
 
     // Ruta para agregar un nuevo millonario
     app.post(API_BASE + '/top-richest', (req, res) => {
