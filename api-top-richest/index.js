@@ -1,7 +1,4 @@
-
-
 const API_BASE = '/api/v1';
-
 
 // Lista de millonarios inicial
 let list = [
@@ -18,9 +15,7 @@ let list = [
     { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'México' }
 ];
 
-
 module.exports = (app, dbtop100richest) => {
-
 
     // Ruta para cargar datos iniciales
     app.get(API_BASE + '/loadInitialData', (req, res) => {
@@ -29,14 +24,14 @@ module.exports = (app, dbtop100richest) => {
         res.sendStatus(200, 'Ok');
     });
 
-    // Ruta para obtener a todos los famosos
+    // Ruta para obtener a todos los millonarios
     app.get(API_BASE + '/top-richest', (req, res) => {
-        // Obtener la lista de famosos desde la base de datos dbFamouPeople
-        dbtop100richest.find({}, (err, list) => {
+        // Obtener la lista de millonarios desde la base de datos dbFamouPeople
+        dbtop100richest.find({}, (err, listaMillonarios) => {
             if (err) {
-                res.sendStatus(500, 'Error interno');
+                res.sendStatus(500).send('Error interno');
             } else {
-                res.send(JSON.stringify(list));
+                res.json(listaMillonarios);
             }
         });
     });
@@ -54,17 +49,17 @@ module.exports = (app, dbtop100richest) => {
         }
     });
 
-    // Ruta para actualizar un millonario por ID
-    app.put(API_BASE + '/top-richest/:id', (req, res) => {
+    // Ruta para actualizar un millonario por nombre
+    app.put(API_BASE + '/top-richest/:nombre', (req, res) => {
         const millonarioActualizado = req.body;
-        const idParam = parseInt(req.params.id);
+        const nombreMillonario = req.params.nombre;
 
-        // Encontrar el índice del millonario con el ID especificado
-        const indiceActualizar = list.findIndex(m => m.id === idParam);
+        // Encontrar el índice del millonario con el nombre especificado
+        const indiceActualizar = list.findIndex(m => m.name === nombreMillonario);
 
-        // Verificar si el ID en la URL coincide con el ID en los datos
-        if (idParam !== millonarioActualizado.id) {
-            res.status(400).send('El ID en la URL no coincide con el ID en los datos');
+        // Verificar si el nombre en la URL coincide con el nombre en los datos
+        if (nombreMillonario !== millonarioActualizado.name) {
+            res.status(400).send('El nombre en la URL no coincide con el nombre en los datos');
         } else if (indiceActualizar !== -1) {
             // Actualizar el millonario
             list[indiceActualizar] = millonarioActualizado;
@@ -75,15 +70,19 @@ module.exports = (app, dbtop100richest) => {
         }
     });
 
-    // Ruta para eliminar un millonario por ID
-    app.delete(API_BASE + '/top-richest/:id', (req, res) => {
-        const idParam = parseInt(req.params.id);
-        const indiceEliminar = list.findIndex(m => m.id === idParam);
+    // Ruta para eliminar un millonario por nombre
+    app.delete(API_BASE + '/top-richest/:nombre', (req, res) => {
+        const nombreMillonario = req.params.nombre;
+
+        // Buscar el índice del millonario por su nombre
+        const indiceEliminar = list.findIndex(m => m.name === nombreMillonario);
 
         if (indiceEliminar !== -1) {
+            // Si se encuentra el millonario, eliminarlo de la lista
             list.splice(indiceEliminar, 1);
             res.status(200).send('Millonario eliminado exitosamente');
         } else {
+            // Si no se encuentra el millonario, devolver un error 404
             res.status(404).send('Millonario no encontrado');
         }
     });
@@ -92,5 +91,4 @@ module.exports = (app, dbtop100richest) => {
     app.all(API_BASE + '/top-richest', (req, res) => {
         res.status(405).send('Método no permitido');
     });
-
 }
