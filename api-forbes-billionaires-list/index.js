@@ -96,7 +96,7 @@ let lista = [
 
 module.exports = (app, dbForBillionaires) => {
 
-    app.get(API_BASE + '/loadInitialDataForbesList', (req, res) => {
+    app.get(API_BASE + '/forbes-billionaires-list/loadInitialData', (req, res) => {
         dbForBillionaires.find({}, (err, docs) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
@@ -129,7 +129,7 @@ module.exports = (app, dbForBillionaires) => {
 
         dbForBillionaires.findOne({ name: personName }, (err, searchedPerson) => {
             if (err) {
-                res.sendStatus(404, "Person not found");
+                res.sendStatus(404,"Person not found");
             } else {
                 res.send(JSON.stringify(searchedPerson));
             }
@@ -194,6 +194,23 @@ module.exports = (app, dbForBillionaires) => {
 
     app.put(API_BASE + "/forbes-billionaires-list", (req, res) => {
         res.sendStatus(405, "Method not allowed");
+    });
+
+    app.put(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
+        let nameToUpdate = req.params.name;
+        let newData = req.body;
+
+        dbForBillionaires.update({ name: nameToUpdate }, { $set: newData }, (err, numUpdated) => {
+            if (err) {
+                res.sendStatus(400, "Bad request");
+            } else {
+                if (numUpdated === 0) {
+                    res.sendStatus(404, "Not found");
+                } else {
+                    res.sendStatus(200, "Ok");
+                }
+            }
+        });
     });
 
     app.put(API_BASE + "/forbes-billionaires-list/:id", (req, res) => {
