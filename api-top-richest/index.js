@@ -9,8 +9,11 @@ module.exports = (app, dbtop100richest) => {
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
-        dbtop100richest.insert(list);
-        res.sendStatus(200, 'Ok');
+          if (docs.length === 0) {
+              db.insert(lista);
+              res.sendStatus(201, "Created");
+          } else{
+              res.sendStatus(409, "Conflict");
     });
 
     // Ruta para obtener a todos los millonarios
