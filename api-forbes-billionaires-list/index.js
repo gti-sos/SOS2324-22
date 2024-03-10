@@ -94,6 +94,54 @@ let lista = [
 
     module.exports.list = lista;
 
+function validarDatos(req, res, next) {
+    const json = req.body;
+
+    const esquema = {
+        'rank': 'number',
+        'name': 'string',
+        'net_worth': 'number',
+        'age': 'number',
+        'country': 'string',
+        'source': 'string',
+        'industry': 'string',
+    };
+
+    const receivedKeys = Object.keys(json);
+    const expectedKeys = Object.keys(esquema);
+    const missingKeys = expectedKeys.filter(key => !receivedKeys.includes(key));
+
+
+    const extraKeys = receivedKeys.filter(key => !expectedKeys.includes(key));
+    if (extraKeys.length > 0) {
+        console.error(`There are more keys than expected: ${extraKeys.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+
+
+    if (missingKeys.length > 0) {
+        console.error(`There are missing keys: ${missingKeys.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+
+
+    const erroresTipo = [];
+
+    expectedKeys.forEach(key => {
+        const tipoEsperado = esquema[key];
+        const valor = json[key];
+        if (typeof valor !== tipoEsperado) {
+            erroresTipo.push(`El valor de '${key}' debe ser de tipo '${tipoEsperado}'`);
+        }
+    });
+
+    if (erroresTipo.length > 0) {
+        console.error(`Errores de tipo: ${erroresTipo.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+    next();
+}
+
 module.exports = (app, dbForBillionaires) => {
 
     app.get(API_BASE + '/forbes-billionaires-list/loadInitialData', (req, res) => {
@@ -111,7 +159,7 @@ module.exports = (app, dbForBillionaires) => {
         });
     });
 
-    app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
+    /*app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
         dbForBillionaires.find({}, (err, list) => {
             if (err) {
              res.sendStatus(500, 'Internal Error');
@@ -122,6 +170,45 @@ module.exports = (app, dbForBillionaires) => {
                 }))); 
             }
         });
+    });*/
+
+    app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
+        const queryParams = req.query;
+
+        if (Object.keys(queryParams).length === 0) {
+            dbForBillionaires.find({}, (err, list) => {
+                if (err) {
+                    res.sendStatus(500, 'Internal Error');
+                } else {
+                    res.send(JSON.stringify(list.map((w) => {
+                        delete w._id;
+                        return w;
+                    })));
+                }
+            });
+        }
+        else {
+            const filter = {};
+            for (const key in queryParams) {
+                if (queryParams.hasOwnProperty(key)) {
+                    const value = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
+                    filter[key] = value;
+                }
+            }
+
+            dbForBillionaires.find(filter, (err, list) => {
+                if (err) {
+                    res.status(500).json({ error: 'Internal Error' });
+                } else {
+                    res.json(list.map(({ rank, ...rest }) => rest));
+                }
+            });
+        }
+        
+    });
+
+    app.get(API_BASE + "/forbes-billionaires-list/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/26204506/2sA2xh3t1V");
     });
 
     app.get(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
@@ -136,7 +223,7 @@ module.exports = (app, dbForBillionaires) => {
         })
     });
 
-    app.post(API_BASE + "/forbes-billionaires-list/", (req, res) => {
+    app.post(API_BASE + "/forbes-billionaires-list/",validarDatos, (req, res) => {
         let person = req.body;
 
         dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
@@ -196,23 +283,6 @@ module.exports = (app, dbForBillionaires) => {
         res.sendStatus(405, "Method not allowed");
     });
 
-    app.put(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
-        let nameToUpdate = req.params.name;
-        let newData = req.body;
-
-        dbForBillionaires.update({ name: nameToUpdate }, { $set: newData }, (err, numUpdated) => {
-            if (err) {
-                res.sendStatus(400, "Bad request");
-            } else {
-                if (numUpdated === 0) {
-                    res.sendStatus(404, "Not found");
-                } else {
-                    res.sendStatus(200, "Ok");
-                }
-            }
-        });
-    });
-
     app.put(API_BASE + "/forbes-billionaires-list/:id", (req, res) => {
         let idToUpdate = req.params.id;
         let newData = req.body;
@@ -229,4 +299,6 @@ module.exports = (app, dbForBillionaires) => {
             }
         });
     });
+
+    
 }
