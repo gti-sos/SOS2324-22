@@ -17,6 +17,9 @@ let list = [
 
 module.exports = (app, dbtop100richest) => {
 
+    app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
+    res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
+  });
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
