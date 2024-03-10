@@ -14,6 +14,7 @@ module.exports = (app, dbtop100richest) => {
               res.sendStatus(201, "Created");
           } else{
               res.sendStatus(409, "Conflict");
+	}
     });
 
     // Ruta para obtener a todos los millonarios
