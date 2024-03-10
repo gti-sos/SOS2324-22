@@ -159,53 +159,31 @@ module.exports = (app, dbForBillionaires) => {
         });
     });
 
-    /*app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
-        dbForBillionaires.find({}, (err, list) => {
-            if (err) {
-             res.sendStatus(500, 'Internal Error');
-            } else {
-                res.send(JSON.stringify(list.map((w) => {
-                    delete w._id;
-                    return w;
-                }))); 
-            }
-        });
-    });*/
-
     app.get(API_BASE + '/forbes-billionaires-list', (req, res) => {
         const queryParams = req.query;
+        const limit = parseInt(queryParams.limit) || 10;
+        const offset = parseInt(queryParams.offset) || 0;
 
-        if (Object.keys(queryParams).length === 0) {
-            dbForBillionaires.find({}, (err, list) => {
-                if (err) {
-                    res.sendStatus(500, 'Internal Error');
-                } else {
-                    res.send(JSON.stringify(list.map((w) => {
-                        delete w._id;
-                        return w;
-                    })));
-                }
-            });
-        }
-        else {
-            const filter = {};
-            for (const key in queryParams) {
-                if (queryParams.hasOwnProperty(key)) {
-                    const value = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
-                    filter[key] = value;
-                }
+        const filter = {};
+        for (const key in queryParams) {
+            if (key !== 'limit' && key !== 'offset' && queryParams.hasOwnProperty(key)) {
+                const value = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
+                filter[key] = value;
             }
+        }
 
-            dbForBillionaires.find(filter, (err, list) => {
+        dbForBillionaires.find(filter)
+            .skip(offset)
+            .limit(limit)
+            .exec((err, list) => {
                 if (err) {
                     res.status(500).json({ error: 'Internal Error' });
                 } else {
-                    res.json(list.map(({ rank, ...rest }) => rest));
+                    res.json(list.map(({ _id, ...rest }) => rest));
                 }
             });
-        }
-        
     });
+
 
     app.get(API_BASE + "/forbes-billionaires-list/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/26204506/2sA2xh3t1V");
