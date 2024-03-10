@@ -1,25 +1,11 @@
 const API_BASE = '/api/v1';
 
-// Lista de millonarios inicial
-let list = [
-    { name: 'Elon Musk', net_worth: 240, bday_year: 1971, age: 51, nationality: 'Sudáfrica' },
-    { name: 'Jeff Bezos', net_worth: 150, bday_year: 1964, age: 58, nationality: 'Estados Unidos de América' },
-    { name: 'Gautam Adani', net_worth: 138, bday_year: 1962, age: 60, nationality: 'India' },
-    { name: 'Bernard Arnault', net_worth: 135, bday_year: 1949, age: 73, nationality: 'Francia' },
-    { name: 'Bill Gates', net_worth: 118, bday_year: 1966, age: 66, nationality: 'Sudáfrica' },
-    { name: 'Larry Page', net_worth: 100, bday_year: 1973, age: 49, nationality: 'Estados Unidos de América' },
-    { name: 'Sergey Brin', net_worth: 96, bday_year: 1973, age: 48, nationality: 'Sudáfrica' },
-    { name: 'Steve Ballmer', net_worth: 94, bday_year: 1956, age: 66, nationality: 'Estados Unidos de América' },
-    { name: 'Larry Ellison', net_worth: 93, bday_year: 1944, age: 78, nationality: 'Estados Unidos de América' },
-    { name: 'Mukesh Ambani', net_worth: 89, bday_year: 1957, age: 65, nationality: 'India' },
-    { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'México' }
-];
-
 module.exports = (app, dbtop100richest) => {
 
-    app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
-    res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
-  });
+    app.get(API_BASE + "/forbes-billionaires/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
+    });
+
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
@@ -93,5 +79,70 @@ module.exports = (app, dbtop100richest) => {
     // Ruta para manejar métodos no permitidos
     app.all(API_BASE + '/top-richest', (req, res) => {
         res.status(405).send('Método no permitido');
+    });
+
+    //search by name
+    app.get(API_BASE + "/top-richest/name/:name", (req, res) => {
+        let personName = req.params.name;
+
+        dbtop100richest.findOne({ name: personName }, (err, searchedPerson) => {
+            if (searchedPerson) {
+                res.send(JSON.stringify(searchedPerson));
+            } else {
+                res.sendStatus(404).send("Person not found");
+            }
+        });
+    });
+
+    //search by net worth
+    app.get(API_BASE + "/top-richest/net_worth/:net_worth", (req, res) => {
+        let netWorth = req.params.net_worth;
+
+        dbtop100richest.findOne({ net_worth: parseInt(netWorth) }, (err, searchedPerson) => {
+            if (searchedPerson) {
+                res.send(JSON.stringify(searchedPerson));
+            } else {
+                res.sendStatus(404).send("Person not found");
+            }
+        });
+    });
+
+    //search by birth year
+    app.get(API_BASE + "/top-richest/birth_year/:birth_year", (req, res) => {
+        let birthYear = req.params.birth_year;
+
+        dbtop100richest.findOne({ bday_year: parseInt(birthYear) }, (err, searchedPerson) => {
+            if (searchedPerson) {
+                res.send(JSON.stringify(searchedPerson));
+            } else {
+                res.sendStatus(404).send("Person not found");
+            }
+        });
+    });
+
+    //search by age
+    app.get(API_BASE + "/top-richest/age/:age", (req, res) => {
+        let age = req.params.age;
+
+        dbtop100richest.findOne({ age: parseInt(age) }, (err, searchedPerson) => {
+            if (searchedPerson) {
+                res.send(JSON.stringify(searchedPerson));
+            } else {
+                res.sendStatus(404).send("Person not found");
+            }
+        });
+    });
+
+    //search by nationality
+    app.get(API_BASE + "/top-richest/nationality/:nationality", (req, res) => {
+        let nationality = req.params.nationality;
+
+        dbtop100richest.findOne({ nationality: nationality }, (err, searchedPerson) => {
+            if (searchedPerson) {
+                res.send(JSON.stringify(searchedPerson));
+            } else {
+                res.sendStatus(404).send("Person not found");
+            }
+        });
     });
 }
