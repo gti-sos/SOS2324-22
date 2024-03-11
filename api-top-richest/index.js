@@ -10,7 +10,7 @@ module.exports = (app, dbtop100richest) => {
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
           if (docs.length === 0) {
-              db.insert(lista);
+              dbtop100richest.insert(lista);
               res.sendStatus(201, "Created");
           } else{
               res.sendStatus(409, "Conflict");
