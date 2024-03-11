@@ -12,25 +12,25 @@ let list = [
     { name: 'Mukesh Ambani', net_worth: 89, bday_year: 1957, age: 65, nationality: 'India' },
     { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'Mexico' }
 ];
+
 module.exports = (app, dbtop100richest) => {
 
     app.get(API_BASE + "/top-richest/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
     });
-};
 
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
         dbtop100richest.find({}, (err, docs) => {
             if (err) {
-                res.sendStatus(500, "Internal Error");
+                res.sendStatus(500).send("Internal Error");
             } else {
                 if (docs.length === 0) {
                     dbtop100richest.insert(list);
-                    res.sendStatus(201, "Created");
+                    res.sendStatus(201).send("Created");
                 } else {
-                    res.sendStatus(409, "Conflict");
+                    res.sendStatus(409).send("Conflict");
                 }
             }
         });
@@ -57,7 +57,7 @@ module.exports = (app, dbtop100richest) => {
             .limit(parseInt(limit))
             .exec((err, list) => {
                 if (err) {
-                    res.sendStatus(500, "Internal Error");
+                    res.sendStatus(500).send("Internal Error");
                 } else {
                     res.send(JSON.stringify(list.map((p) => {
                         delete p._id;
@@ -121,12 +121,12 @@ module.exports = (app, dbtop100richest) => {
     app.delete(API_BASE + "/famous-people", (req, res) => {
         dbFamousPeople.remove({}, { multi: true }, (err, numRemoved) => {
             if (err) {
-                res.sendStatus(500, "Internal Error");
+                res.sendStatus(500).send("Internal Error");
             } else {
                 if (numRemoved >= 1) {
-                    res.sendStatus(200, "All removed");
+                    res.sendStatus(200).send("All removed");
                 } else {
-                    res.sendStatus(404, "Person not found");
+                    res.sendStatus(404).send("Person not found");
                 }
             }
         });
@@ -134,5 +134,6 @@ module.exports = (app, dbtop100richest) => {
 
     // Ruta para manejar métodos no permitidos
     app.all(API_BASE + '/top-richest', (req, res) => {
-        res.status(405
-
+        res.status(405).send('Método no permitido');
+    });
+};
