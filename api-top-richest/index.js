@@ -25,7 +25,7 @@ module.exports = (app, dbtop100richest) => {
                 res.sendStatus(500, "Internal Error");
             } else {
                 if (docs.length === 0) {
-                   dbtop100richest.insert(lists);
+                   dbtop100richest.insert(list);
                     res.sendStatus(201, "Created");
                 } else {
                     res.sendStatus(409, "Conflict");
