@@ -21,13 +21,19 @@ module.exports = (app, dbtop100richest) => {
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
-          if (docs.length === 0) {
-              dbtop100richest.insert(list);
-              res.sendStatus(201, "Created");
-          } else{
-              res.sendStatus(409, "Conflict");
-	}
+             if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (docs.length === 0) {
+                   dbtop100richest.insert(lists);
+                    res.sendStatus(201, "Created");
+                } else {
+                    res.sendStatus(409, "Conflict");
+                }
+            }
+        });
     });
+
 
     // Ruta para obtener a todos los millonarios
     app.get(API_BASE + '/top-richest', (req, res) => {
