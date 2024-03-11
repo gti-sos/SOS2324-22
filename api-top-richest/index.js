@@ -32,7 +32,7 @@ module.exports = (app, dbtop100richest) => {
                 }
             }
         });
-    });
+    };
 
 
     // Ruta para obtener a todos los millonarios
