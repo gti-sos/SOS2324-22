@@ -21,19 +21,19 @@ module.exports = (app, dbtop100richest) => {
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
         // Insertar la lista inicial en la base de datos dbtop100richest
-             if (err) {
+        dbtop100richest.find({}, (err, docs) => {
+            if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
                 if (docs.length === 0) {
-                   dbtop100richest.insert(list);
+                    dbtop100richest.insert(list);
                     res.sendStatus(201, "Created");
                 } else {
                     res.sendStatus(409, "Conflict");
                 }
             }
         });
- 
-
+    });
 
     // Ruta para obtener a todos los millonarios
     app.get(API_BASE + '/top-richest', (req, res) => {
@@ -46,7 +46,8 @@ module.exports = (app, dbtop100richest) => {
             }
         });
     });
-    app.get(API_BASE +'/top-richest', (req, res) => {
+
+    app.get(API_BASE + '/top-richest', (req, res) => {
         const limit = req.query.limit || 10; // Número predeterminado de elementos por página
         const offset = req.query.offset || 0;
 
@@ -116,87 +117,21 @@ module.exports = (app, dbtop100richest) => {
         }
     });
 
-       app.delete(API_BASE + "/famous-people", (req,res)=> {
-
-          dbFamousPeople.remove({}, {multi : true }, (err,numRemoved) => {
-            if(err){
-              res.sendStatus(500,"Internal Error");
-            } else{
-              if(numRemoved>=1){
-                res.sendStatus(200,"All removed");
-              } else{
-                res.sendStatus(404,"Person not found");
-              }
+    app.delete(API_BASE + "/famous-people", (req, res) => {
+        dbFamousPeople.remove({}, { multi: true }, (err, numRemoved) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (numRemoved >= 1) {
+                    res.sendStatus(200, "All removed");
+                } else {
+                    res.sendStatus(404, "Person not found");
+                }
             }
-          });
         });
+    });
+
     // Ruta para manejar métodos no permitidos
     app.all(API_BASE + '/top-richest', (req, res) => {
-        res.status(405).send('Método no permitido');
-    });
+        res.status(405
 
-    //search by name
-    app.get(API_BASE + "/top-richest/name/:name", (req, res) => {
-        let personName = req.params.name;
-
-        dbtop100richest.findOne({ name: personName }, (err, searchedPerson) => {
-            if (searchedPerson) {
-                res.send(JSON.stringify(searchedPerson));
-            } else {
-                res.sendStatus(404).send("Person not found");
-            }
-        });
-    });
-
-    //search by net worth
-    app.get(API_BASE + "/top-richest/net_worth/:net_worth", (req, res) => {
-        let netWorth = req.params.net_worth;
-
-        dbtop100richest.findOne({ net_worth: parseInt(netWorth) }, (err, searchedPerson) => {
-            if (searchedPerson) {
-                res.send(JSON.stringify(searchedPerson));
-            } else {
-                res.sendStatus(404).send("Person not found");
-            }
-        });
-    });
-
-    //search by birth year
-    app.get(API_BASE + "/top-richest/birth_year/:birth_year", (req, res) => {
-        let birthYear = req.params.birth_year;
-
-        dbtop100richest.findOne({ bday_year: parseInt(birthYear) }, (err, searchedPerson) => {
-            if (searchedPerson) {
-                res.send(JSON.stringify(searchedPerson));
-            } else {
-                res.sendStatus(404).send("Person not found");
-            }
-        });
-    });
-
-    //search by age
-    app.get(API_BASE + "/top-richest/age/:age", (req, res) => {
-        let age = req.params.age;
-
-        dbtop100richest.findOne({ age: parseInt(age) }, (err, searchedPerson) => {
-            if (searchedPerson) {
-                res.send(JSON.stringify(searchedPerson));
-            } else {
-                res.sendStatus(404).send("Person not found");
-            }
-        });
-    });
-
-    //search by nationality
-    app.get(API_BASE + "/top-richest/nationality/:nationality", (req, res) => {
-        let nationality = req.params.nationality;
-
-        dbtop100richest.findOne({ nationality: nationality }, (err, searchedPerson) => {
-            if (searchedPerson) {
-                res.send(JSON.stringify(searchedPerson));
-            } else {
-                res.sendStatus(404).send("Person not found");
-            }
-        });
-    });
-}
