@@ -200,6 +200,31 @@ module.exports = (app,db) => {
       });
   });
 
+  app.get(API_BASE + '/forbes-billonaires', (req, res) => {
+    const queryParams = req.query;
+    const limit = parseInt(queryParams.limit) || 10;
+    const offset = parseInt(queryParams.offset) || 0;
+
+    const filter = {};
+    for (const key in queryParams) {
+        if (key !== 'limit' && key !== 'offset' && queryParams.hasOwnProperty(key)) {
+            const value = isNaN(queryParams[key]) ? queryParams[key] : parseFloat(queryParams[key]);
+            filter[key] = value;
+        }
+    }
+
+    db.find(filter)
+        .skip(offset)
+        .limit(limit)
+        .exec((err, list) => {
+            if (err) {
+                res.status(500).json({ error: 'Internal Error' });
+            } else {
+                res.json(list.map(({ _id, ...rest }) => rest));
+            }
+        });
+});
+
   app.get(API_BASE+"/forbes-billonaires",(req,res) => {
     db.find({}, (err,lista) => {
       if(err){

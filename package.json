@@ -7,6 +7,6 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/Local.json"
+    "test": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/GCloud.json"
   }
 }

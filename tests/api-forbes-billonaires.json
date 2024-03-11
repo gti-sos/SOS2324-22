@@ -8,6 +8,26 @@
 	},
 	"item": [
 		{
+			"name": "Load Initial Forbes Billonaires",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET v1/forbes-billonaires",
 			"request": {
 				"method": "GET",
