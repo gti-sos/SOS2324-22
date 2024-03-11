@@ -116,6 +116,20 @@ module.exports = (app, dbtop100richest) => {
         }
     });
 
+       app.delete(API_BASE + "/famous-people", (req,res)=> {
+
+          dbFamousPeople.remove({}, {multi : true }, (err,numRemoved) => {
+            if(err){
+              res.sendStatus(500,"Internal Error");
+            } else{
+              if(numRemoved>=1){
+                res.sendStatus(200,"All removed");
+              } else{
+                res.sendStatus(404,"Person not found");
+              }
+            }
+          });
+        });
     // Ruta para manejar métodos no permitidos
     app.all(API_BASE + '/top-richest', (req, res) => {
         res.status(405).send('Método no permitido');
