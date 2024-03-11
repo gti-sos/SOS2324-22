@@ -17,6 +17,7 @@ module.exports = (app, dbtop100richest) => {
     app.get(API_BASE + "/top-richest/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
     });
+};
 
     // Ruta para cargar datos iniciales
     app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
