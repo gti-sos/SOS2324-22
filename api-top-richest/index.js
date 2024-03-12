@@ -201,7 +201,9 @@ app.delete(API_BASE + '/top-richest/:name', (req, res) => {
     });
 });
 
-
+app.all(API_BASE+"/top-richest", (req,res) =>{
+    res.sendStatus(405,"Method not allowed");
+  });
 
 };
 
