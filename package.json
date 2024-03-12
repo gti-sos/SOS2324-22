@@ -8,6 +8,5 @@
   "scripts": {
     "start": "node index.js",
     "test": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/GCloud.json"
-    "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json"
   }
 }
