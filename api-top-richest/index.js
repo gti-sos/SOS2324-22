@@ -1,4 +1,5 @@
 const API_BASE = '/api/v1';
+
 let list = [
     { name: 'Elon Musk', net_worth: 240, bday_year: 1971, age: 51, nationality: 'South Africa' },
     { name: 'Jeff Bezos', net_worth: 150, bday_year: 1964, age: 58, nationality: 'United States of America' },
@@ -20,120 +21,187 @@ module.exports = (app, dbtop100richest) => {
     });
 
     // Ruta para cargar datos iniciales
-    app.get(API_BASE + "/top-richest/loadInitialData", (req, res) => {
-        // Insertar la lista inicial en la base de datos dbtop100richest
+    app.get(API_BASE + '/top-richest/loadInitialData', (req, res) => {
         dbtop100richest.find({}, (err, docs) => {
             if (err) {
-                res.sendStatus(500).send("Internal Error");
-            } else {
-                if (docs.length === 0) {
-                    dbtop100richest.insert(list);
-                    res.sendStatus(201).send("Created");
-                } else {
-                    res.sendStatus(409).send("Conflict");
-                }
+                return res.status(500).send("Internal Error");
             }
+            if (docs.length === 0) {
+                dbtop100richest.insert(list);
+                return res.status(201).send("Created");
+            }
+            return res.status(409).send("Conflict");
         });
     });
 
-    // Ruta para obtener a todos los millonarios
-    app.get(API_BASE + '/top-richest', (req, res) => {
-        // Obtener la lista de millonarios desde la base de datos dbFamouPeople
-        dbtop100richest.find({}, (err, listaMillonarios) => {
+    // Método DELETE para eliminar todos los millonarios
+    app.delete(API_BASE + '/top-richest', (req, res) => {
+        dbtop100richest.remove({}, { multi: true }, (err, numRemoved) => {
             if (err) {
-                res.sendStatus(500).send('Error interno');
-            } else {
-                res.json(listaMillonarios);
+                return res.status(500).send("Internal Error");
             }
+            if (numRemoved > 0) {
+                return res.status(200).send("All millonarios deleted successfully");
+            }
+            return res.status(404).send("No millonarios found to delete");
         });
     });
 
+    // Ruta para obtener a todos los millonarios o filtrar por diferentes campos
     app.get(API_BASE + '/top-richest', (req, res) => {
-        const limit = req.query.limit || 10; // Número predeterminado de elementos por página
+        const limit = req.query.limit || 10;
         const offset = req.query.offset || 0;
 
-        dbtop100richest.find({})
+        // Crear un objeto de consulta con los parámetros de búsqueda disponibles
+        const query = {};
+        if (req.query.name) query.name = req.query.name;
+        if (req.query.net_worth) query.net_worth = parseInt(req.query.net_worth);
+        if (req.query.bday_year) query.bday_year = parseInt(req.query.bday_year);
+        if (req.query.age) query.age = parseInt(req.query.age);
+        if (req.query.nationality) query.nationality = req.query.nationality;
+
+        dbtop100richest.find(query)
             .skip(parseInt(offset))
             .limit(parseInt(limit))
-            .exec((err, list) => {
+            .exec((err, resultList) => {
                 if (err) {
-                    res.sendStatus(500).send("Internal Error");
-                } else {
-                    res.send(JSON.stringify(list.map((p) => {
-                        delete p._id;
-                        return p;
-                    })));
+                    return res.status(500).send('Internal Error');
                 }
+                res.send(JSON.stringify(resultList.map((p) => {
+                    delete p._id;
+                    return p;
+                })));
             });
     });
 
-    // Ruta para agregar un nuevo millonario
-    app.post(API_BASE + '/top-richest', (req, res) => {
-        const nuevoMillonario = req.body;
+// Método POST para agregar un nuevo millonario
+app.post(API_BASE + '/top-richest', (req, res) => {
+    const nuevoMillonario = req.body;
 
-        // Verificar si el millonario ya existe en la lista
-        if (list.some(m => m.name === nuevoMillonario.name)) {
-            res.status(409).send('El millonario ya existe');
-        } else {
-            list.push(nuevoMillonario);
-            res.status(201).send('Millonario creado');
+    // Verificar si el millonario ya existe en la base de datos
+    dbtop100richest.findOne(nuevoMillonario, (err, millonarioExistente) => {
+        if (err) {
+            return res.status(500).send("Internal Error");
         }
-    });
 
-    // Ruta para actualizar un millonario por nombre
-    app.put(API_BASE + '/top-richest/:nombre', (req, res) => {
-        const millonarioActualizado = req.body;
-        const nombreMillonario = req.params.nombre;
-
-        // Encontrar el índice del millonario con el nombre especificado
-        const indiceActualizar = list.findIndex(m => m.name === nombreMillonario);
-
-        // Verificar si el nombre en la URL coincide con el nombre en los datos
-        if (nombreMillonario !== millonarioActualizado.name) {
-            res.status(400).send('El nombre en la URL no coincide con el nombre en los datos');
-        } else if (indiceActualizar !== -1) {
-            // Actualizar el millonario
-            list[indiceActualizar] = millonarioActualizado;
-            res.status(200).send('Millonario actualizado exitosamente');
-        } else {
-            // Millonario no encontrado
-            res.status(404).send('Millonario no encontrado');
+        // Si el millonario existe en la base de datos, devolver un error 409 (Conflict)
+        if (millonarioExistente) {
+            return res.status(409).send("Millonario already exists");
         }
-    });
 
-    // Ruta para eliminar un millonario por nombre
-    app.delete(API_BASE + '/top-richest/:nombre', (req, res) => {
-        const nombreMillonario = req.params.nombre;
-
-        // Buscar el índice del millonario por su nombre
-        const indiceEliminar = list.findIndex(m => m.name === nombreMillonario);
-
-        if (indiceEliminar !== -1) {
-            // Si se encuentra el millonario, eliminarlo de la lista
-            list.splice(indiceEliminar, 1);
-            res.status(200).send('Millonario eliminado exitosamente');
-        } else {
-            // Si no se encuentra el millonario, devolver un error 404
-            res.status(404).send('Millonario no encontrado');
-        }
-    });
-
-    app.delete(API_BASE + "/famous-people", (req, res) => {
-        dbFamousPeople.remove({}, { multi: true }, (err, numRemoved) => {
+        // Si no existe, agregar el nuevo millonario a la base de datos
+        dbtop100richest.insert(nuevoMillonario, (err, nuevoMillonarioInsertado) => {
             if (err) {
-                res.sendStatus(500).send("Internal Error");
-            } else {
-                if (numRemoved >= 1) {
-                    res.sendStatus(200).send("All removed");
-                } else {
-                    res.sendStatus(404).send("Person not found");
-                }
+                return res.status(500).send("Internal Error");
             }
+            res.status(201).send("Millonario added successfully");
         });
     });
+});
 
-    // Ruta para manejar métodos no permitidos
-    app.all(API_BASE + '/top-richest', (req, res) => {
-        res.status(405).send('Método no permitido');
+
+// Método GET para obtener un millonario por su nombre
+app.get(API_BASE + '/top-richest/:name', (req, res) => {
+    const nombreMillonario = req.params.name;
+
+    // Buscar el millonario por su nombre en la base de datos
+    dbtop100richest.findOne({ name: nombreMillonario }, (err, millonario) => {
+        if (err) {
+            return res.status(500).send("Internal Error");
+        }
+
+        // Si el millonario no se encuentra, devolver un error 404 (Not Found)
+        if (!millonario) {
+            return res.status(404).send("Millonario not found");
+        }
+
+        // Si se encuentra, devolver el millonario
+        res.json(millonario);
     });
+});
+
+// Método GET para obtener millonarios por país
+app.get(API_BASE + '/top-richest/pais/:nationality', (req, res) => {
+    const nationality = req.params.nationality;
+
+    // Buscar millonarios por país en la base de datos
+    dbtop100richest.find({ nationality }, (err, millonarios) => {
+        if (err) {
+            return res.status(500).send("Internal Error");
+        }
+
+        // Si no se encuentran millonarios para el país especificado, devolver un error 404 (Not Found)
+        if (millonarios.length === 0) {
+            return res.status(404).send("No millonarios found for the specified nationality");
+        }
+
+        // Devolver el conteo de millonarios y un mensaje con el conteo
+        const count = millonarios.length;
+        res.json({ message: `Se encontraron ${count} millonarios de ${nationality}`, millonarios });
+    });
+});
+
+
+// Método PUT para actualizar un millonario por su nombre
+app.put(API_BASE + '/top-richest/:name', (req, res) => {
+    const nombreMillonario = req.params.name;
+    const newData = req.body;
+
+    // Validar que todos los campos requeridos estén presentes y bien escritos
+    const camposRequeridos = ['name', 'net_worth', 'bday_year', 'age', 'nationality'];
+    const camposIncorrectos = camposRequeridos.filter(campo => {
+        if (!newData.hasOwnProperty(campo)) return true;
+        if (campo === 'age' || campo === 'net_worth' || campo === 'bday_year') {
+            return isNaN(newData[campo]);
+        }
+        return typeof newData[campo] !== 'string' || newData[campo].trim() === '';
+    });
+
+    // Si hay campos incorrectos, devolver un error 400 (Bad Request) indicando qué campos están incorrectos
+    if (camposIncorrectos.length > 0) {
+        return res.status(400).json({ error: `Los siguientes campos están incorrectos o faltan: ${camposIncorrectos.join(', ')}` });
+    }
+
+    // Convertir los campos numéricos de string a número
+    newData.age = parseInt(newData.age);
+    newData.net_worth = parseFloat(newData.net_worth);
+    newData.bday_year = parseInt(newData.bday_year);
+
+    // Actualizar el millonario en la base de datos
+    dbtop100richest.update({ name: nombreMillonario }, { $set: newData }, {}, (err, numUpdated) => {
+        if (err) {
+            return res.status(500).send("Internal Error");
+        }
+
+        // Si no se encuentra el millonario, devolver un error 404 (Not Found)
+        if (numUpdated === 0) {
+            return res.status(404).send("Millonario not found");
+        }
+
+        res.status(200).send("Millonario updated successfully");
+    });
+});
+
+// Método DELETE para eliminar un millonario por su nombre
+app.delete(API_BASE + '/top-richest/:name', (req, res) => {
+    const nombreMillonario = req.params.name;
+
+    // Eliminar el millonario de la base de datos
+    dbtop100richest.remove({ name: nombreMillonario }, {}, (err, numRemoved) => {
+        if (err) {
+            return res.status(500).send("Internal Error");
+        }
+
+        // Si no se encuentra el millonario, devolver un error 404 (Not Found)
+        if (numRemoved === 0) {
+            return res.status(404).send("Millonario not found");
+        }
+
+        res.status(200).send("Millonario deleted successfully");
+    });
+});
+
+
+
 };
+
