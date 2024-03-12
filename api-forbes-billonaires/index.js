@@ -246,10 +246,17 @@ module.exports = (app,db) => {
         res.sendStatus(404,"Company not found");
       } else{
         //delete searchedCompany._id;    por si queremos borrar el id
-        res.send(JSON.stringify(searchedCompany));
+        if(searchedCompany){
+          res.send(searchedCompany);
+        }else{
+          res.sendStatus(404,"Company not found");
+        }
+        
       }
     })
   });
+
+
 
   app.post(API_BASE+"/forbes-billonaires/:name", (req,res) => {
     res.sendStatus(405, "Method not allowed");
