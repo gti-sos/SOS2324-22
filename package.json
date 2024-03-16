@@ -7,8 +7,9 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/GCloud.json",
-    "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json"
+    "test-api-forbes-billonaires": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/Local.json",
+    "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json",
+    "test-famous-people": "npx newman run ./tests/api-forbes-billonaires.json -e ./tests/enviroments/Local.json"
 
   }
 }

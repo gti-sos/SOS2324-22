@@ -48,9 +48,21 @@
 		},
 		{
 			"name": "GET Apple v1/forbes-billonaires",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/forbes-billonaires/:name",
 					"host": [
@@ -105,32 +117,6 @@
 			"response": []
 		},
 		{
-			"name": "POST Apple Fail v1/forbes-billonaires",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{SERVER}}/api/v1/forbes-billonaires/:name",
-					"host": [
-						"{{SERVER}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"forbes-billonaires",
-						":name"
-					],
-					"variable": [
-						{
-							"key": "name",
-							"value": "Apple"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "PUT Apple v1/forbes-billonaires",
 			"request": {
 				"method": "PUT",
@@ -160,25 +146,6 @@
 							"key": "_id",
 							"value": ""
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT Fail v1/forbes-billonaires",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "{{SERVER}}/api/v1/forbes-billonaires",
-					"host": [
-						"{{SERVER}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"forbes-billonaires"
 					]
 				}
 			},
