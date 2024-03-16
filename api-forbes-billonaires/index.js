@@ -256,6 +256,27 @@ module.exports = (app,db) => {
     })
   });
 
+  app.get(API_BASE+"/forbes-billonaires/:name/:country", (req,res) => {
+    let name=req.params.name;
+    let country=req.params.country;
+    db.find({"name": name, "country":country}, (err,search) => {
+        if(err){
+            res.sendStatus(404,"Not Found");
+        }else if(search.length===0){
+            res.sendStatus(404,"Not found");
+        }else if(search.length===1){
+            let elem=search[0];
+            delete elem._id;
+            res.send(elem);
+        }else{
+            res.send(search.map((c)=> {
+                delete c._id;
+                return c;
+            }));
+        }
+    });
+  });
+
 
 
   app.post(API_BASE+"/forbes-billonaires/:name", (req,res) => {
@@ -282,7 +303,7 @@ module.exports = (app,db) => {
       }
     });
   });
-
+  
   app.delete(API_BASE+"/forbes-billonaires/:name",(req,res) => {
     let name = req.params.name;
 
@@ -313,6 +334,58 @@ module.exports = (app,db) => {
     });
   });
 
+  app.delete(API_BASE+"/forbes-billonaires/:name/:country", (req,res) => {
+    let name=req.params.name;
+    let country=req.params.country;
+
+    db.remove( {"name":name, "country":country},{ multi: true },(err,numRemoved)=>{
+    if(err){
+        res.sendStatus(500,"Internal Error");
+    }else{
+        if(numRemoved>=1){
+            res.sendStatus(200,"Removed");
+        }else{
+            res.sendStatus(404,"Not found");
+        }
+    }
+    });
+});
+
+
+  app.put(API_BASE+"/forbes-billonaires/:id/:country", (req,res) => {
+    let id  = req.params.id;
+    let country  = req.params.country;
+    const nuevo = req.body;
+
+    let v_n;
+
+    db.find({"id":id,"country":country},(err,search)=>{
+        if (err) {
+            res.sendStatus(500, "Internal Error");
+        } else if(search.length===0){
+            res.sendStatus(404, "Not Found");
+        }else {
+            v_n=search[0].short_name;
+            if(!(nuevo.short_name) || nuevo.short_name!==v_n){
+                res.sendStatus(400,"Bad Request");
+            }else{
+                db.update({"id":id,"country":country},{$set: nuevo},(err,numUpdated)=>{
+                if (err) {
+                    res.sendStatus(500, "Internal Error");
+                }else {
+                    if (numUpdated === 0) {
+                        res.sendStatus(404, "Not found");
+                    } else {
+                        res.sendStatus(200, "Ok");
+                    }
+                }
+            });
+            }
+        }
+    });
+  });
+
+
   app.put(API_BASE+"/forbes-billonaires", (req,res) =>{
     res.sendStatus(405,"Method not allowed");
   });
@@ -335,8 +408,4 @@ module.exports = (app,db) => {
     });
   });
 
-
 }
-
-
-
