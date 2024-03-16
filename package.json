@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test" : "npm run test-forbes-billonaires && npm run test2 && npm run test-famous-people",
+    "test" : "npm run test-forbes-billonaires && npm run test2 && npm run test-famous-people && npm run test-forbes-billionaires-list",
     "test-forbes-billonaires": "npx newman run ./tests/forbes-billonaires.json -e ./tests/enviroments/Local.json",
     "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json",
     "test-famous-people": "npx newman run ./tests/famous-people.json -e ./tests/enviroments/Local.json",
