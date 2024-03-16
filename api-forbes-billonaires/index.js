@@ -262,7 +262,7 @@ module.exports = (app,db) => {
     res.sendStatus(405, "Method not allowed");
   });
 
-  app.post(API_BASE+"/forbes-billonaires",validarDatos, (req,res)=>{
+  app.post(API_BASE+"/forbes-billonaires/",validarDatos, (req,res)=>{
     let company = req.body;
     db.findOne({"name" : company.name}, (err, alreadyCompany) => {
       if(err){

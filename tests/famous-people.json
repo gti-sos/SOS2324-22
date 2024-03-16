@@ -75,6 +75,32 @@
 			"response": []
 		},
 		{
+			"name": "GET Wolfgang",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Wolfgang Amadeus Mozart"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT ",
 			"request": {
 				"method": "PUT",
@@ -110,14 +136,33 @@
 			"response": []
 		},
 		{
+			"name": "PUT fail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/famous-people",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"famous-people"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST conflict",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -130,7 +175,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"name\": \"George Washington\",\r\n        \"short_description\": \"1st president of the United States (1732–1799)\",\r\n        \"gender\": \"Male\",\r\n        \"country\": \"United States of America\",\r\n        \"occupation\": \"Politician\",\r\n        \"birth_year\": 1732,\r\n        \"death_year\": 1799,\r\n        \"age_of_death\": 67 \r\n}",
+					"raw": "{\r\n        \"name\": \"Antonio Banderas\",\r\n        \"short_description\": \"Actor from Spain\",\r\n        \"gender\": \"Male\",\r\n        \"country\": \"Spain\",\r\n        \"occupation\": \"Actor\",\r\n        \"birth_year\": 1732,\r\n        \"death_year\": 1799,\r\n        \"age_of_death\": 67 \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,6 +191,32 @@
 						"api",
 						"v1",
 						"famous-people"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST  bad request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Wolfgang Amadeus Mozart"
+						}
 					]
 				}
 			},

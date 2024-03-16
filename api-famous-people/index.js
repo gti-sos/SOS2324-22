@@ -203,6 +203,24 @@
           });
   }); 
 
+  app.get(API_BASE+"/famous-people/:name", (req,res) => {
+    let companyName = req.params.name;
+
+    dbFamousPeople.findOne( { name: companyName }, (err,searchedCompany) => {
+      if(err){
+        res.sendStatus(404,"Company not found");
+      } else{
+        //delete searchedCompany._id;    por si queremos borrar el id
+        if(searchedCompany){
+          res.send(searchedCompany);
+        }else{
+          res.sendStatus(404,"Company not found");
+        }
+        
+      }
+    })
+  });
+
         app.post(API_BASE+"/famous-people", validarDatos, (req,res)=>{
             let person = req.body;
 

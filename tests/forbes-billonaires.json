@@ -95,13 +95,23 @@
 							"    pm.response.to.have.status(201);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rank\": 12,\n    \"name\": \"Microsoft\",\n    \"country\": \"United State\",\n    \"sale\": 200.481,\n    \"profit\": 49.217,\n    \"asset\": 300.141,\n    \"market_value\": 321.039,\n    \"year\": 2017\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/forbes-billonaires",
 					"host": [
@@ -111,6 +121,32 @@
 						"api",
 						"v1",
 						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Apple Fail v1/forbes-billonaires",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						}
 					]
 				}
 			},
@@ -146,6 +182,25 @@
 							"key": "_id",
 							"value": ""
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Fail v1/forbes-billonaires",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"forbes-billonaires"
 					]
 				}
 			},
