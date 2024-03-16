@@ -192,11 +192,11 @@ module.exports = (app, dbForBillionaires) => {
     app.get(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
         let personName = req.params.name;
 
-        dbForBillionaires.findOne({ name: personName }, (err, searchedPerson) => {
+        dbForBillionaires.findOne({ name: personName }, { _id: 0 }, (err, searchedPerson) => {
             if (err) {
                 res.sendStatus(404,"Person not found");
             } else {
-                res.send(JSON.stringify(searchedPerson));
+                res.send(searchedPerson);
             }
         })
     });
@@ -261,22 +261,40 @@ module.exports = (app, dbForBillionaires) => {
         res.sendStatus(405, "Method not allowed");
     });
 
-    app.put(API_BASE + "/forbes-billionaires-list/:id", (req, res) => {
-        let idToUpdate = req.params.id;
+    app.put(API_BASE + "/forbes-billionaires-list/:rank", validarDatos, (req, res) => {
+        let rank = parseInt(req.params.rank);
         let newData = req.body;
 
-        dbForBillionaires.update({ _id: idToUpdate }, { $set: newData }, (err, numUpdated) => {
+        dbForBillionaires.findOne({ rank: rank }, (err, billionaire) => {
             if (err) {
-                res.sendStatus(400, "Bad request");
-            } else {
-                if (numUpdated === 0) {
-                    res.sendStatus(404, "Not found");
-                } else {
-                    res.sendStatus(200, "Ok");
-                }
+                return res.sendStatus(500);
             }
+
+            if (!billionaire) {
+                return res.sendStatus(404);
+            }
+
+            if (newData.rank && newData.rank !== rank) {
+                return res.sendStatus(400);
+            }
+
+            dbForBillionaires.update({ rank: rank }, { $set: newData }, {}, (err, numUpdated) => {
+                if (err) {
+                    return res.sendStatus(500);
+                }
+
+                if (numUpdated === 0) {
+                    return res.sendStatus(404);
+                }
+
+                dbForBillionaires.findOne({ rank: rank }, { _id: 0 }, (err, updatedBillionaire) => {
+                    if (err) {
+                        return res.sendStatus(500);
+                    }
+                    res.status(200).json(updatedBillionaire);
+                });
+            });
         });
     });
-
     
 }
