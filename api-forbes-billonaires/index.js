@@ -245,7 +245,7 @@ module.exports = (app,db) => {
       if(err){
         res.sendStatus(404,"Company not found");
       } else{
-        //delete searchedCompany._id;    por si queremos borrar el id
+        delete searchedCompany._id;    
         if(searchedCompany){
           res.send(searchedCompany);
         }else{
