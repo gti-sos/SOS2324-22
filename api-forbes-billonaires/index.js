@@ -352,36 +352,28 @@ module.exports = (app,db) => {
 });
 
 
-  app.put(API_BASE+"/forbes-billonaires/:id/:country", (req,res) => {
-    let id  = req.params.id;
-    let country  = req.params.country;
+  app.put(API_BASE+"/forbes-billonaires/:name/:country", (req,res) => {
+    const { name, country } = req.params;
     const nuevo = req.body;
 
-    let v_n;
-
-    db.find({"id":id,"country":country},(err,search)=>{
-        if (err) {
+    db.find({ name, country }, (err, info) => {
+      if (err) {
+        res.sendStatus(500, "Internal Error");
+      } else if (info.length === 0) {
+        res.sendStatus(404, "Not Found");
+      } else {
+        db.update({ name, country }, {$set: nuevo}, (err, numUpdated) => {
+          if (err) {
             res.sendStatus(500, "Internal Error");
-        } else if(search.length===0){
-            res.sendStatus(404, "Not Found");
-        }else {
-            v_n=search[0].short_name;
-            if(!(nuevo.short_name) || nuevo.short_name!==v_n){
-                res.sendStatus(400,"Bad Request");
-            }else{
-                db.update({"id":id,"country":country},{$set: nuevo},(err,numUpdated)=>{
-                if (err) {
-                    res.sendStatus(500, "Internal Error");
-                }else {
-                    if (numUpdated === 0) {
-                        res.sendStatus(404, "Not found");
-                    } else {
-                        res.sendStatus(200, "Ok");
-                    }
-                }
-            });
+          } else {
+            if (numUpdated === 0) {
+              res.sendStatus(404, "Not Found");
+            } else {
+              res.sendStatus(200, "Ok");
             }
-        }
+          }
+        });
+      }
     });
   });
 
@@ -390,11 +382,11 @@ module.exports = (app,db) => {
     res.sendStatus(405,"Method not allowed");
   });
 
-  app.put(API_BASE+"/forbes-billonaires/:id", (req,res) => {
-    let name = req.params.id;
+  app.put(API_BASE+"/forbes-billonaires/:name", (req,res) => {
+    let name = req.params.name;
     let newData = req.body;
 
-    db.update({"_id": name}, {$set: newData}, (err,numUpdated) => {
+    db.update({"name": name}, {$set: newData}, (err,numUpdated) => {
       if(err){
         console.log(err);
         res.sendStatus(400, "Bad request");
