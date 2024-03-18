@@ -245,15 +245,21 @@ module.exports = (app,db) => {
       if(err){
         res.sendStatus(404,"Company not found");
       } else{
-        delete searchedCompany._id;    
-        if(searchedCompany){
-          res.send(searchedCompany);
-        }else{
-          res.sendStatus(404,"Company not found");
-        }
+          mapeo  = lista.map((c) => {
+            delete c._id;
+            return c; 
+
+          });
+          const searchedCompany = mapeo.filter(r => r.name === companyName);
+          if(searchedCompany){
+              res.send(searchedCompany);
+          }else{
+              res.sendStatus(404,"Company not found");
+          }
         
       }
-    })
+
+    });
   });
 
   app.get(API_BASE+"/forbes-billonaires/:name/:country", (req,res) => {
