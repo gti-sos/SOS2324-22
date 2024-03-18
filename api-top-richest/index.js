@@ -115,10 +115,14 @@ app.get(API_BASE + '/top-richest/:name', (req, res) => {
             return res.status(404).send("Millonario not found");
         }
 
-        // Si se encuentra, devolver el millonario
+        // Eliminar el campo _id del millonario antes de enviar la respuesta
+        delete millonario._id;
+
+        // Si se encuentra, devolver el millonario sin el campo _id
         res.json(millonario);
     });
 });
+
 
 // Método GET para obtener millonarios por país
 app.get(API_BASE + '/top-richest/pais/:nationality', (req, res) => {
@@ -205,5 +209,28 @@ app.all(API_BASE+"/top-richest", (req,res) =>{
     res.sendStatus(405,"Method not allowed");
   });
 
+
+  // Método GET para obtener el net worth de un millonario por nombre y nacionalidad
+app.get(API_BASE + '/top-richest/:name/:nationality', (req, res) => {
+    const nombre = req.params.name;
+    const nacionalidad = req.params.nationality;
+
+    dbtop100richest.findOne({ name: nombre, nationality: nacionalidad }, (err, millonario) => {
+        if (err) {
+            return res.sendStatus(500);
+        }
+        if (!millonario) {
+            return res.sendStatus(404);
+        }
+        res.json({ net_worth: millonario.net_worth });
+    });
+});
+
+
+
+
+
+
 };
+
 
