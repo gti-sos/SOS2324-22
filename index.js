@@ -26,9 +26,7 @@ LoadBackendTR(app, dbtop100richest);
 
 app.use(handler);
 
-
-
-app.use("/",express.static("./public"));
+//app.use("/",express.static("./public"));
 
 
 app.listen(PORT, ()=> {
