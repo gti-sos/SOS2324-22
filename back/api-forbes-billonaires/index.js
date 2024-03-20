@@ -238,27 +238,17 @@ function LoadBackendFB(app,db) {
     })
   });
 
-  app.get(API_BASE+"/forbes-billonaires/:name", (req,res) => {
+  app.get(API_BASE + "/forbes-billonaires/:name", (req, res) => {
     let companyName = req.params.name;
-
-    db.findOne( { name: companyName }, (err,searchedCompany) => {
-      if(err){
-        res.sendStatus(404,"Company not found");
-      } else{
-          mapeo  = lista.map((c) => {
-            delete c._id;
-            return c; 
-
-          });
-          const searchedCompany = mapeo.filter(r => r.name === companyName);
-          if(searchedCompany){
-              res.send(searchedCompany);
-          }else{
-              res.sendStatus(404,"Company not found");
-          }
-        
+  
+    db.findOne({ name: companyName }, (err, searchedCompany) => {
+      if (err) {
+        return res.sendStatus(404, "Company not found");
       }
-
+      if (searchedCompany) {
+        return res.send(searchedCompany);
+      }
+      res.sendStatus(404, "Company not found");
     });
   });
 
