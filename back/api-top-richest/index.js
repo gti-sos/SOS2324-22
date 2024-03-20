@@ -14,7 +14,7 @@ let list = [
     { name: 'Carlos Slim Helu', net_worth: 72, bday_year: 1940, age: 82, nationality: 'Mexico' }
 ];
 
-module.exports = (app, dbtop100richest) => {
+function LoadBackendTR(app, dbtop100richest) {
 
     app.get(API_BASE + "/top-richest/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
@@ -241,5 +241,5 @@ app.get(API_BASE + '/top-richest/:name/:nationality', (req, res) => {
 
 
 };
-
+export {LoadBackendTR};
 

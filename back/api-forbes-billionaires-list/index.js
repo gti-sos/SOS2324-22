@@ -92,7 +92,7 @@ let lista = [
         industry: 'Technology',
     }];
 
-    module.exports.list = lista;
+    
 
 function validarDatos(req, res, next) {
     const json = req.body;
@@ -142,7 +142,7 @@ function validarDatos(req, res, next) {
     next();
 }
 
-module.exports = (app, dbForBillionaires) => {
+function LoadBackendFBL(app, dbForBillionaires) {
 
     app.get(API_BASE + '/forbes-billionaires-list/loadInitialData', (req, res) => {
         dbForBillionaires.find({}, (err, docs) => {
@@ -298,3 +298,4 @@ module.exports = (app, dbForBillionaires) => {
     });
     
 }
+export {LoadBackendFBL,lista};

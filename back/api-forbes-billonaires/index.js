@@ -93,9 +93,9 @@ let lista = [
       year: 2017    
     }];
 
-  module.exports.list = lista;
+  
 
-module.exports.mediaBeneficio = function(list){
+ function mediaBeneficio(list){
     let sumaBeneficioPais = {};
     let repeticion = {};
 
@@ -177,7 +177,7 @@ function validarDatos(req, res, next) {
   next();
 }
 
-module.exports = (app,db) => {
+function LoadBackendFB(app,db) {
 
   app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
     res.redirect("https://documenter.getpostman.com/view/32927299/2sA2xe6FJo");
@@ -407,3 +407,5 @@ module.exports = (app,db) => {
   });
 
 }
+
+export {LoadBackendFB,lista};

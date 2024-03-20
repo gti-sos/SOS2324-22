@@ -12,5 +12,6 @@
     "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json",
     "test-famous-people": "npx newman run ./tests/famous-people.json -e ./tests/enviroments/Local.json",
     "test-forbes-billionaires-list": "npx newman run ./tests/forbes-billionaires-list.json -e ./tests/enviroments/Local.json"
-  }
+  },
+  "type": "module"
 }

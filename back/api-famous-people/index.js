@@ -155,7 +155,7 @@
 
     
     
-    module.exports = (app,dbFamousPeople) => {
+    function LoadBackendFP(app,dbFamousPeople)  {
 
         app.get(API_BASE+"/famous-people/docs",(req,res)=> {
           res.redirect("https://documenter.getpostman.com/view/32927496/2sA2xe4E37");
@@ -353,4 +353,5 @@
 
         
         
-}
+};
+export { LoadBackendFP };
