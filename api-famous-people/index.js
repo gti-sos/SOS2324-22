@@ -173,8 +173,8 @@
                     res.sendStatus(409, "Conflict");
                 }
             }
+          });
         });
-    });
 
 
 
@@ -307,7 +307,7 @@
                   }));
               }
           });
-      });
+        });
 
       app.put(API_BASE+"/famous-people/:name/:country", (req,res) => {
         const { name, country } = req.params;
