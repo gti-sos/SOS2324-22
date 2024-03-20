@@ -210,7 +210,7 @@
       if(err){
         res.sendStatus(404,"Company not found");
       } else{
-        //delete searchedCompany._id;    por si queremos borrar el id
+        
         if(searchedCompany){
           res.send(searchedCompany);
         }else{
