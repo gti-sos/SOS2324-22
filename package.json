@@ -4,7 +4,8 @@
     "cool-ascii-faces": "^1.3.4",
     "cors": "^2.8.5",
     "express": "^4.18.3",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "svelte": "^4.2.12"
   },
   "scripts": {
     "start": "node index.js",
@@ -14,5 +15,8 @@
     "test-famous-people": "npx newman run ./tests/famous-people.json -e ./tests/enviroments/Local.json",
     "test-forbes-billionaires-list": "npx newman run ./tests/forbes-billionaires-list.json -e ./tests/enviroments/Local.json"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.0.1"
+  }
 }
