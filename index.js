@@ -6,6 +6,7 @@ import {LoadBackendFB} from "./back/api-forbes-billonaires/index.js";
 import {LoadBackendFBL} from "./back/api-forbes-billionaires-list/index.js";
 import {LoadBackendTR} from "./back/api-top-richest/index.js";
 import {handler} from "./front/build/handler.js"
+import cors from "cors";
 
 let app = express();
 
@@ -17,6 +18,8 @@ let dbtop100richest = new dataStore();
 
 
 const PORT = (process.env.PORT || 10000);
+
+app.use(cors());
 
 app.use(bodyParser.json());
 LoadBackendFP(app,dbFamouPeople);
