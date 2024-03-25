@@ -6,6 +6,8 @@
     let API = "http://localhost:10000/api/v1/famous-people"
     let people = []
     let errorMsg = "";
+    let Msg = ""; 
+
     const newPerson = { 
         name: 'Mariano Rajoy',
         short_description: ' president of Spain',
@@ -43,14 +45,33 @@
             console.log(`Deleting person with name ${n}`);
         
         if (response.status == 200){
+            Msg = "Persona borrada con éxito"
             getPeople();
         } else {
             errorMsg = "code:"+ response.status;
         }
-    } catch(e) {
-        errorMsg = e;
+        } catch(e) {
+            errorMsg = e;
+        }
     }
-}
+
+    async function DeleteAllPeople() {
+        try {
+            let response = await fetch(API,{
+                method: "DELETE",
+            });
+            
+        
+        if (response.status == 200){
+            Msg = "Personas borrada con éxito"
+            getPeople();
+        } else {
+            errorMsg = "code:"+ response.status;
+        }
+        } catch(e) {
+            errorMsg = e;
+        }
+    }
             
     async function CreatePeople() {
         try {
@@ -65,14 +86,15 @@
             console.log(`Creation response status ${status}`)
 
             if (status == 201) {
+                Msg = "Persona creada con éxito"
                 getPeople();
             } else {
                 errorMsg = "code "+status;
             }
 
-    } catch(e) {
-        errorMsg = e;
-    }
+        } catch(e) {
+            errorMsg = e;
+        }
 }
         
 </script>
@@ -96,16 +118,25 @@
             <td>
                 <input bind:value={newPerson.gender}>
             </td>
+            <td>
+                <Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
+            </td>
         </tr>            
     </tbody>
 </table>
 
 <ul>
     {#each people as person}
-        <li><a href="/famous-people/{person.name}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Delete</Button>
+        <li><a href="/famous-people/{person.name}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Borrar</Button>
     {/each}
 </ul>
-<Button color="primary" on:click="{CreatePeople}">Create</Button>
+<Button color="primary" on:click="{CreatePeople}">Crear</Button>
+
+{#if Msg != ""}
+<hr>
+{Msg}
+{/if}
+
 
 {#if errorMsg != ""}
 <hr>
