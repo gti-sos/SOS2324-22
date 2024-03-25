@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import { dev } from "$app/environment";
-
+    import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 
     let API = "http://localhost:10000/api/v1/famous-people"
     let people = []
@@ -102,10 +102,10 @@
 
 <ul>
     {#each people as person}
-        <li>{person.name} - {person.gender}</li> <button on:click="{DeletePeople(person.name)}">Delete</button>
+        <li><a href="/famous-people/{person.name}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Delete</Button>
     {/each}
 </ul>
-<button on:click="{CreatePeople}">Create</button>
+<Button color="primary" on:click="{CreatePeople}">Create</Button>
 
 {#if errorMsg != ""}
 <hr>
