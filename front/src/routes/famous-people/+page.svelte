@@ -1,5 +1,8 @@
 <script>
     import {onMount} from "svelte";
+    import { dev } from "$app/environment";
+
+
     let API = "http://localhost:10000/api/v1/famous-people"
     let people = []
     let errorMsg = "";
