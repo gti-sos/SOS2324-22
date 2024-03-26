@@ -23,7 +23,7 @@
         getPeople();
     })
 
-    async function getPeople() {
+    export async function getPeople() {
         try {
             let response = await fetch(API,{
                 method: "GET"
@@ -47,8 +47,14 @@
         if (response.status == 200){
             Msg = "Persona borrada con éxito"
             getPeople();
+            setTimeout(() => {
+                    Msg= "";
+                }, 3000);
         } else {
-            errorMsg = "code:"+ response.status;
+            errorMsg = "Esa persona no existe";
+            setTimeout(() => {
+                errorMsg= "";
+                }, 3000);
         }
         } catch(e) {
             errorMsg = e;
@@ -65,13 +71,21 @@
         if (response.status == 200){
             Msg = "Personas borrada con éxito"
             getPeople();
+            setTimeout(() => {
+                    Msg= "";
+                }, 3000);
         } else {
-            errorMsg = "code:"+ response.status;
+            errorMsg = "Ya están todas las personas borradas";
+            setTimeout(() => {
+                errorMsg= "";
+                }, 3000);
         }
         } catch(e) {
             errorMsg = e;
+            
         }
-    }
+        }
+    
             
     async function CreatePeople() {
         try {
@@ -88,14 +102,21 @@
             if (status == 201) {
                 Msg = "Persona creada con éxito"
                 getPeople();
+                setTimeout(() => {
+                    Msg= "";
+                }, 3000);
             } else {
-                errorMsg = "code "+status;
+                errorMsg = "La persona ya existe";
+                setTimeout(() => {
+                errorMsg= "";
+                }, 3000);
             }
 
         } catch(e) {
             errorMsg = e;
         }
-}
+    }
+
         
 </script>
 
@@ -103,10 +124,28 @@
     <thead>
         <tr>
             <th>
-                Name
+                Nombre
             </th>
             <th>
-                Gender
+                Breve descripción
+            </th>
+            <th>
+                Género
+            </th>
+            <th>
+                País
+            </th>
+            <th>
+                Profesión
+            </th>
+            <th>
+                Año de nacimiento
+            </th>
+            <th>
+                Año de fallecimiento
+            </th>
+            <th>
+                Edad de muerte
             </th>
         </tr>
     </thead>
@@ -116,10 +155,28 @@
                 <input bind:value={newPerson.name}>
             </td>
             <td>
+                <input bind:value={newPerson.short_description}>
+            </td>
+            <td>
                 <input bind:value={newPerson.gender}>
             </td>
             <td>
-                <Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
+                <input bind:value={newPerson.country}>
+            </td>
+            <td>
+                <input bind:value={newPerson.occupation}>
+            </td>
+            <td>
+                <input bind:value={newPerson.birth_year}>
+            </td>
+            <td>
+                <input bind:value={newPerson.death_year}>
+            </td>
+            <td>
+                <input bind:value={newPerson.age_of_death}>
+            </td>
+            <td>
+                <Button color="primary" on:click="{CreatePeople}">Crear</Button>
             </td>
         </tr>            
     </tbody>
@@ -127,10 +184,11 @@
 
 <ul>
     {#each people as person}
-        <li><a href="/famous-people/{person.name}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Borrar</Button>
+        <li><a href="/famous-people/{person.name}/{person.country}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Borrar</Button>
     {/each}
 </ul>
-<Button color="primary" on:click="{CreatePeople}">Crear</Button>
+
+<Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
 
 {#if Msg != ""}
 <hr>
