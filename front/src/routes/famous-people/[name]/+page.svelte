@@ -2,9 +2,16 @@
     import {page} from '$app/stores';
 
     let person = $page.params
-    console.log(person);
 
     let name = $page.params.name;
+
+    async function updatePerson(){
+        try{
+            
+        } catch() {
+
+        }
+    }
 
 </script>
 Details of {name}
@@ -30,7 +37,9 @@ Details of {name}
             <td>
                 <input bind:value={person.gender}>
             </td>
+            <td>
+                <Button color="primary" on:click="{updatePerson}">Actualizar</Button>
+            </td>
         </tr>            
     </tbody>
 </table>
-
