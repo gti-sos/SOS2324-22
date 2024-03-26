@@ -40,7 +40,7 @@
     async function DeletePeople(n) {
         try {
             let response = await fetch(API+"/"+n,{
-                method: "DELETE",
+                method: "DELETE"
             });
             console.log(`Deleting person with name ${n}`);
         
@@ -58,7 +58,7 @@
     async function DeleteAllPeople() {
         try {
             let response = await fetch(API,{
-                method: "DELETE",
+                method: "DELETE"
             });
             
         
