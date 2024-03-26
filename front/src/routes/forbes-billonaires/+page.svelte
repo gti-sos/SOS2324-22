@@ -94,7 +94,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(newPerson)
+                    body: JSON.stringify(newCompany)
                 });
                 let status = await response.status;
                 console.log(`Creation response status ${status}`)
