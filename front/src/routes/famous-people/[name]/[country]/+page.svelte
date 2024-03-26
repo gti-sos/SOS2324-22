@@ -19,9 +19,17 @@
         });
         try {
             const data = await res.json();
+            console.log(data)
             result = JSON.stringify(data, null, 2);
             updated_name = data.name;
+            updated_short_description = data.short_description;
+            updated_gender = data.gender;
             updated_country = data.country;
+            updated_occupation = data.occupation;
+            updated_birth_year = data.birth_year;
+            updated_death_year = data.death_year;
+            updated_age_of_death = data.age_of_death
+
         } catch (e) {
             console.log(`Error parsing result`);
         }
