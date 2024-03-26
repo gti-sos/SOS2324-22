@@ -6,7 +6,7 @@
 </script>
 
 <Header/>
-<h1>People manager</h1>
+<h1>Es com F*ck</h1>
 <hr>
 <slot></slot>
 <hr>
