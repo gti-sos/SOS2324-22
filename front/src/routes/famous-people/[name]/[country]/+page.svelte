@@ -14,42 +14,49 @@
             method: "GET"
         })
         const data = await response.json();
-            console.log(data);
+        
         try {
             
             name = data.name;
-            short_description = data.short_description;
-            gender = data.gender;
-            country = data.country;
-            occupation = data.occupation;
-            birth_year = data.birth_year;
-            death_year = data.death_year;
-            age_of_death = data.age_of_death
+            let short_description = data.short_description;
+            let gender = data.gender;
+            let country = data.country;
+            let occupation = data.occupation;
+            let birth_year = data.birth_year;
+            let death_year = data.death_year;
+            let age_of_death = data.age_of_death
 
             if(response.status == 404){
             errorMsg = `No existe la persona`;
             setTimeout(() => {
                 Msg = "";
             }, 3000);
-            }else{
-                errorMsg = "Ha habido un error en la petición";
-                setTimeout(() => {
-                    Msg = "";
-                }, 3000);
-            }
-        } catch(e) {
-            errorMsg = e;
         }
-        return data;
+     } catch(e) {
+            errorMsg = e;
     }
+        
+    return data;
+    
+}
 
     onMount(async () => {
         personData = await getPerson();
-        console.log(personData)
+        console.log(personData.short_description)
     })
     
     async function updatePerson(){
-        
+        const updatedPerson = {
+                name: personData?.name,
+                short_description: personData?.short_description,
+                gender: personData?.gender,
+                country: personData?.country,
+                occupation: personData?.occupation,
+                birth_year: personData?.birth_year,
+                death_year: personData?.death_year,
+                age_of_death: personData?.age_of_death,
+        };
+
         try{
             let response = await fetch(API,{
                 method: "PUT",
@@ -60,7 +67,7 @@
             });
         if (response.status == 200){
             Msg = "Persona actualizada con éxito"
-            getPeople();
+            getPerson();
             setTimeout(() => {
                     Msg= "";
                 }, 3000);
@@ -80,7 +87,7 @@
 Details of {person.name}
 
 
-
+{#if personData}
 <table>
     <thead>
         <tr>
@@ -113,28 +120,28 @@ Details of {person.name}
     <tbody>
         <tr>
             <td>
-                <input bind:value={person.name}>
+                <input bind:value={personData.name}>
             </td>
             <td>
-                <input bind:value={person.short_description}>
+                <input bind:value={personData.short_description}>
             </td>
             <td>
-                <input bind:value={person.gender}>
+                <input bind:value={personData.gender}>
             </td>
             <td>
-                <input bind:value={person.country}>
+                <input bind:value={personData.country}>
             </td>
             <td>
-                <input bind:value={person.occupation}>
+                <input bind:value={personData.occupation}>
             </td>
             <td>
-                <input bind:value={person.birth_year}>
+                <input bind:value={personData.birth_year}>
             </td>
             <td>
-                <input bind:value={person.death_year}>
+                <input bind:value={personData.death_year}>
             </td>
             <td>
-                <input bind:value={person.age_of_death}>
+                <input bind:value={personData.age_of_death}>
             </td>
             <td>
                 <Button color="primary" on:click="{updatePerson}">Actualizar</Button>
@@ -142,6 +149,9 @@ Details of {person.name}
         </tr>            
     </tbody>
 </table>
+{:else}
+<p>Loading data...</p>
+{/if}
 
 {#if Msg != ""}
 <hr>
