@@ -4,54 +4,52 @@
     import { onMount } from 'svelte';
 
     let person = $page.params;
-    const API = `http://localhost:10000/famous-people/${person.name}/${person.country}`;
+    const API = `http://localhost:10000/api/v1/famous-people/${person.name}/${person.country}`;
     let errorMsg = "";
     let Msg = "";
+    let personData;
 
-    onMount(() => {
-        getPeople();
-    })
-
-    async function getPeople() {
-
-        const response = await fetch(API, {
-            method: "GET",
-        });
+    async function getPerson() {
+        const response = await fetch(API,{
+            method: "GET"
+        })
+        const data = await response.json();
+            console.log(data);
         try {
-            const data = await res.json();
-            console.log(data)
-            result = JSON.stringify(data, null, 2);
-            updated_name = data.name;
-            updated_short_description = data.short_description;
-            updated_gender = data.gender;
-            updated_country = data.country;
-            updated_occupation = data.occupation;
-            updated_birth_year = data.birth_year;
-            updated_death_year = data.death_year;
-            updated_age_of_death = data.age_of_death
+            
+            name = data.name;
+            short_description = data.short_description;
+            gender = data.gender;
+            country = data.country;
+            occupation = data.occupation;
+            birth_year = data.birth_year;
+            death_year = data.death_year;
+            age_of_death = data.age_of_death
 
-        } catch (e) {
-            console.log(`Error parsing result`);
-        }
-        
-        if(response.status == 404){
-            Msg = `No existe la persona`;
+            if(response.status == 404){
+            errorMsg = `No existe la persona`;
             setTimeout(() => {
                 Msg = "";
             }, 3000);
-        }else{
-            if(response.status == 400){
-                Msg = "Ha habido un error en la petición";
+            }else{
+                errorMsg = "Ha habido un error en la petición";
                 setTimeout(() => {
                     Msg = "";
                 }, 3000);
             }
+        } catch(e) {
+            errorMsg = e;
         }
+        return data;
     }
+
+    onMount(async () => {
+        personData = await getPerson();
+        console.log(personData)
+    })
     
     async function updatePerson(){
-        const personDetails = await fetch(`http://localhost:10000/famous-people/${person.name}`);
-        const updatedPerson = await personDetails.json(); 
+        
         try{
             let response = await fetch(API,{
                 method: "PUT",
@@ -77,7 +75,6 @@
         }
     }
     
-    
 
 </script>
 Details of {person.name}
@@ -91,7 +88,25 @@ Details of {person.name}
                 Nombre
             </th>
             <th>
+                Breve descripción
+            </th>
+            <th>
+                Género
+            </th>
+            <th>
                 País
+            </th>
+            <th>
+                Profesión
+            </th>
+            <th>
+                Año de nacimiento
+            </th>
+            <th>
+                Año de fallecimiento
+            </th>
+            <th>
+                Edad de muerte
             </th>
         </tr>
     </thead>
@@ -101,7 +116,25 @@ Details of {person.name}
                 <input bind:value={person.name}>
             </td>
             <td>
+                <input bind:value={person.short_description}>
+            </td>
+            <td>
+                <input bind:value={person.gender}>
+            </td>
+            <td>
                 <input bind:value={person.country}>
+            </td>
+            <td>
+                <input bind:value={person.occupation}>
+            </td>
+            <td>
+                <input bind:value={person.birth_year}>
+            </td>
+            <td>
+                <input bind:value={person.death_year}>
+            </td>
+            <td>
+                <input bind:value={person.age_of_death}>
             </td>
             <td>
                 <Button color="primary" on:click="{updatePerson}">Actualizar</Button>
