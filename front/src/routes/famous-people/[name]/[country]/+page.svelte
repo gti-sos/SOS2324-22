@@ -149,9 +149,7 @@ Details of {person.name}
         </tr>            
     </tbody>
 </table>
-{:else}
-<p>Loading data...</p>
-{/if}
+
 
 {#if Msg != ""}
 <hr>

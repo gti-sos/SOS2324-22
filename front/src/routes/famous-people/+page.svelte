@@ -25,12 +25,23 @@
 
     export async function getPeople() {
         try {
-            let response = await fetch(API,{
+            let response = await fetch(API+"/loadInitialData",{
                 method: "GET"
             });
             let data = await response.json();
             people = data;
-            console.log(data);
+            
+            if (response.status == 201) {
+                Msg = "Personas creadas con éxito";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            } else {
+                errorMsg = "Error cargando personas";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
+            }
         } catch(e) {
             errorMsg = e;
         }
