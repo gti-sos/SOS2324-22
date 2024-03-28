@@ -25,7 +25,7 @@
 
     export async function getPeople() {
         try {
-            let response = await fetch(API+"/loadInitialData",{
+            let response = await fetch(API,{
                 method: "GET"
             });
             let data = await response.json();

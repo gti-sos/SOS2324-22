@@ -155,7 +155,7 @@
 
     
     
-    function LoadBackendFP(app,dbFamousPeople)  {
+    function LoadBackendFP1(app,dbFamousPeople)  {
 
         app.get(API_BASE+"/famous-people/docs",(req,res)=> {
           res.redirect("https://documenter.getpostman.com/view/32927496/2sA2xe4E37");
@@ -180,7 +180,7 @@
 
     app.get(API_BASE + '/famous-people', (req, res) => {
       const queryParams = req.query;
-      const limit = parseInt(queryParams.limit) || 10;
+      const limit = parseInt(queryParams.limit) || 20;
       const offset = parseInt(queryParams.offset) || 0;
 
       const filter = {};
@@ -357,4 +357,4 @@
         
         
 };
-export { LoadBackendFP };
+export { LoadBackendFP1 };

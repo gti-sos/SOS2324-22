@@ -1,4 +1,4 @@
-/*const API_BASE = "/api/v2";
+const API_BASE = "/api/v2";
 
 let initial_list = [
   { name: 'George Washington',
@@ -155,7 +155,7 @@ let initial_list = [
 
 
 
-function LoadBackendFP(app,dbFamousPeople)  {
+function LoadBackendFP2(app,dbFamousPeople)  {
 
     app.get(API_BASE+"/famous-people/docs",(req,res)=> {
       res.redirect("https://documenter.getpostman.com/view/32927496/2sA2xe4E37");
@@ -180,7 +180,7 @@ function LoadBackendFP(app,dbFamousPeople)  {
 
 app.get(API_BASE + '/famous-people', (req, res) => {
   const queryParams = req.query;
-  const limit = parseInt(queryParams.limit) || 10;
+  const limit = parseInt(queryParams.limit) || 20;
   const offset = parseInt(queryParams.offset) || 0;
 
   const filter = {};
@@ -204,22 +204,25 @@ app.get(API_BASE + '/famous-people', (req, res) => {
 }); 
 
 app.get(API_BASE+"/famous-people/:name", (req,res) => {
-let companyName = req.params.name;
+let personName = req.params.name;
 
-dbFamousPeople.findOne( { name: companyName }, (err,searchedCompany) => {
-  if(err){
-    res.sendStatus(404,"Company not found");
-  } else{
-    
-    if(searchedCompany){
-      res.send(searchedCompany);
-    }else{
-      res.sendStatus(404,"Company not found");
+dbFamousPeople.find( { name: personName }, (err,searchedPerson) => {
+    if(err){
+        res.sendStatus(404,"Company not found");
+    } else {
+        if(searchedPerson.length === 0){
+            res.sendStatus(404,"Company not found");
+        } else {
+            const filteredResult = searchedPerson.map(person => {
+                const { _id, ...rest } = person; // Remove _id field
+                return rest; // Return object without _id field
+            });
+            res.send(filteredResult);
+        }
     }
-    
-  }
-})
 });
+});
+
 
     app.post(API_BASE+"/famous-people", validarDatos, (req,res)=>{
         let person = req.body;
@@ -354,4 +357,4 @@ dbFamousPeople.findOne( { name: companyName }, (err,searchedCompany) => {
     
     
 };
-export { LoadBackendFP }; */
+export { LoadBackendFP2 };

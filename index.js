@@ -1,7 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
 import dataStore  from "nedb";
-import {LoadBackendFP} from "./back/api-famous-people/v1/index.js";
+import {LoadBackendFP1} from "./back/api-famous-people/v1/index.js";
+import {LoadBackendFP2} from "./back/api-famous-people/v2/index.js";
 import {LoadBackendFB} from "./back/api-forbes-billonaires/index.js";
 import {LoadBackendFBL} from "./back/api-forbes-billionaires-list/index.js";
 import {LoadBackendTR} from "./back/api-top-richest/index.js";
@@ -22,7 +23,8 @@ const PORT = (process.env.PORT || 10000);
 app.use(cors());
 
 app.use(bodyParser.json());
-LoadBackendFP(app,dbFamouPeople);
+LoadBackendFP1(app,dbFamouPeople);
+//LoadBackendFP2(app,dbFamouPeople);
 LoadBackendFB(app,db); 
 LoadBackendFBL(app,dbForBillionaires);
 LoadBackendTR(app, dbtop100richest);
@@ -35,7 +37,3 @@ app.use(handler);
 app.listen(PORT, ()=> {
     console.log(`server listening on ${PORT}`);
 });
-
-
-
-
