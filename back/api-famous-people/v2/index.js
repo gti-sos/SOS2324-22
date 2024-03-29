@@ -157,10 +157,12 @@ let initial_list = [
 
 function LoadBackendFP2(app,dbFamousPeople)  {
 
-    app.get(API_BASE+"/famous-people/docs",(req,res)=> {
+  dbFamousPeople.insert(initial_list);
+
+    /*app.get(API_BASE+"/famous-people/docs",(req,res)=> {
       res.redirect("https://documenter.getpostman.com/view/32927496/2sA2xe4E37");
     });
-
+*/
     app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {
       dbFamousPeople.find({}, (err, docs) => {
         if(err){

@@ -1,10 +1,10 @@
 <script>
     import {page} from '$app/stores';
-    import { Button, Col, Row } from '@sveltestrap/sveltestrap';
+    import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
 
     let person = $page.params;
-    const API = `http://localhost:10000/api/v1/famous-people/${person.name}/${person.country}`;
+    const API = `http://localhost:10000/api/v2/famous-people/${person.name}/${person.country}`;
     let errorMsg = "";
     let Msg = "";
     let personData;
@@ -84,6 +84,18 @@
     
 
 </script>
+
+<style>
+    input {
+        width: 200px; /* Ancho inicial predeterminado */
+        border: 1px solid #ccc; /* Añade un borde para claridad */
+        padding: 5px; /* Añade algo de espacio interno */
+        font-size: 16px; /* Define el tamaño de la fuente */
+    }
+</style>
+
+
+
 Details of {person.name}
 
 
@@ -103,6 +115,26 @@ Details of {person.name}
             <th>
                 País
             </th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <input bind:value={personData.name}>
+            </td>
+            <td>
+                <input bind:value={personData.short_description} style:width={personData.short_description.length * 8 + 'px'}>
+            </td>
+            <td>
+                <input bind:value={personData.gender}>
+            </td>
+            <td>
+                <input bind:value={personData.country}>
+                
+            </td>
+        </tr>            
+    </tbody>
+    <thead>
+        <tr>
             <th>
                 Profesión
             </th>
@@ -118,38 +150,24 @@ Details of {person.name}
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <input bind:value={personData.name}>
-            </td>
-            <td>
-                <input bind:value={personData.short_description}>
-            </td>
-            <td>
-                <input bind:value={personData.gender}>
-            </td>
-            <td>
-                <input bind:value={personData.country}>
-            </td>
-            <td>
-                <input bind:value={personData.occupation}>
-            </td>
-            <td>
-                <input bind:value={personData.birth_year}>
-            </td>
-            <td>
-                <input bind:value={personData.death_year}>
-            </td>
-            <td>
-                <input bind:value={personData.age_of_death}>
-            </td>
-            <td>
-                <Button color="primary" on:click="{updatePerson}">Actualizar</Button>
-            </td>
-        </tr>            
+        <td>
+            <input bind:value={personData.occupation}>
+        </td>
+        <td>
+            <input bind:value={personData.birth_year}>
+        </td>
+        <td>
+            <input bind:value={personData.death_year}>
+        </td>
+        <td>
+            <input bind:value={personData.age_of_death}>
+        </td>
+        <td>
+            <Button color="primary" on:click="{updatePerson}">Actualizar</Button>
+        </td>
     </tbody>
 </table>
-
+{/if}
 
 {#if Msg != ""}
 <hr>

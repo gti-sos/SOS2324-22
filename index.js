@@ -12,7 +12,7 @@ import cors from "cors";
 let app = express();
 
 
-let dbFamouPeople = new dataStore();
+let dbFamousPeople = new dataStore();
 let db = new dataStore();
 let dbForBillionaires = new dataStore();
 let dbtop100richest = new dataStore();
@@ -23,8 +23,8 @@ const PORT = (process.env.PORT || 10000);
 app.use(cors());
 
 app.use(bodyParser.json());
-LoadBackendFP1(app,dbFamouPeople);
-//LoadBackendFP2(app,dbFamouPeople);
+//LoadBackendFP1(app,dbFamousPeople);
+LoadBackendFP2(app,dbFamousPeople);
 LoadBackendFB(app,db); 
 LoadBackendFBL(app,dbForBillionaires);
 LoadBackendTR(app, dbtop100richest);

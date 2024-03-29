@@ -3,7 +3,7 @@
     import { dev } from "$app/environment";
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 
-    let API = "http://localhost:10000/api/v1/famous-people"
+    let API = "http://localhost:10000/api/v2/famous-people"
     let people = []
     let errorMsg = "";
     let Msg = ""; 
@@ -31,12 +31,17 @@
             let data = await response.json();
             people = data;
             
-            if (response.status == 201) {
+            if (response.status == 200) {
                 Msg = "Personas creadas con éxito";
                 setTimeout(() => {
                     Msg ="";
                 },3000);
-            } else {
+            } else if (people.length ===0){
+                Msg = "La lista esta vacía";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            }else {
                 errorMsg = "Error cargando personas";
                 setTimeout(() => {
                     errorMsg ="";
@@ -55,9 +60,9 @@
             });
             console.log(`Deleting person with name ${n}`);
         
-        if (response.status == 200){
+        if (response.status === 200){
             Msg = "Persona borrada con éxito"
-            getPeople();
+            people = people.filter(p => p.name !== n);
             setTimeout(() => {
                     Msg= "";
                 }, 3000);
@@ -110,9 +115,9 @@
             let status = await response.status;
             console.log(`Creation response status ${status}`)
 
-            if (status == 201) {
-                Msg = "Persona creada con éxito"
+            if (status === 201) {
                 getPeople();
+                Msg = "Persona creada con éxito";
                 setTimeout(() => {
                     Msg= "";
                 }, 3000);
@@ -122,7 +127,7 @@
                 errorMsg= "";
                 }, 3000);
             }
-
+            
         } catch(e) {
             errorMsg = e;
         }
@@ -130,6 +135,59 @@
 
         
 </script>
+
+<style>
+    input {
+        width: 200px; /* Ancho inicial predeterminado */
+        border: 1px solid #ccc; /* Añade un borde para claridad */
+        padding: 5px; /* Añade algo de espacio interno */
+        font-size: 16px; /* Define el tamaño de la fuente */
+    }
+    .person-container {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+    }
+
+    .person-container li {
+        margin-right: 1rem;
+    }
+
+    .delete-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    }
+    .message-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    }
+
+    .message {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    }
+
+    .success {
+    background-color: #77dd77;
+    color: #333;
+    }
+
+    .error {
+    background-color: #ff6666;
+    color: white;
+}
+
+
+    
+</style>
+
 
 <table>
     <thead>
@@ -146,6 +204,25 @@
             <th>
                 País
             </th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <input bind:value={newPerson.name}>
+            </td>
+            <td>
+                <input bind:value={newPerson.short_description} style:width={newPerson.short_description.length * 8 + 'px'}>
+            </td>
+            <td>
+                <input bind:value={newPerson.gender}>
+            </td>
+            <td>
+                <input bind:value={newPerson.country}>
+            </td>
+        </tr>            
+    </tbody>
+    <thead>
+        <tr>
             <th>
                 Profesión
             </th>
@@ -161,53 +238,40 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <input bind:value={newPerson.name}>
-            </td>
-            <td>
-                <input bind:value={newPerson.short_description}>
-            </td>
-            <td>
-                <input bind:value={newPerson.gender}>
-            </td>
-            <td>
-                <input bind:value={newPerson.country}>
-            </td>
-            <td>
-                <input bind:value={newPerson.occupation}>
-            </td>
-            <td>
-                <input bind:value={newPerson.birth_year}>
-            </td>
-            <td>
-                <input bind:value={newPerson.death_year}>
-            </td>
-            <td>
-                <input bind:value={newPerson.age_of_death}>
-            </td>
-            <td>
-                <Button color="primary" on:click="{CreatePeople}">Crear</Button>
-            </td>
-        </tr>            
+        <td>
+            <input bind:value={newPerson.occupation}>
+        </td>
+        <td>
+            <input bind:value={newPerson.birth_year}>
+        </td>
+        <td>
+            <input bind:value={newPerson.death_year}>
+        </td>
+        <td>
+            <input bind:value={newPerson.age_of_death}>
+        </td>
+        <td>
+            <Button color="primary" on:click="{CreatePeople}">Crear</Button>
+        </td>
     </tbody>
 </table>
 
+
 <ul>
     {#each people as person}
-        <li><a href="/famous-people/{person.name}/{person.country}">{person.name}</a>- {person.gender}</li> <Button color="primary" on:click="{DeletePeople(person.name)}">Borrar</Button>
+        <div class="person-container" ><li><a href="/famous-people/{person.name}/{person.country}">{person.name}</a>- {person.gender}</li> <Button class="delete-button" color="danger" on:click="{DeletePeople(person.name)}">Borrar</Button></div>
     {/each}
 </ul>
 
 <Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
 
-{#if Msg != ""}
-<hr>
-{Msg}
-{/if}
-
-
-{#if errorMsg != ""}
-<hr>
-ERROR: {errorMsg}
-{/if}
+<div class="message-container">
+    {#if Msg != ""}
+      <div class="message success">{Msg}</div>
+    {/if}
+  
+    {#if errorMsg != ""}
+      <div class="message error">{errorMsg}</div>
+    {/if}
+</div>
+  
