@@ -159,10 +159,10 @@ function LoadBackendFP2(app,dbFamousPeople)  {
 
   dbFamousPeople.insert(initial_list);
 
-    /*app.get(API_BASE+"/famous-people/docs",(req,res)=> {
-      res.redirect("https://documenter.getpostman.com/view/32927496/2sA2xe4E37");
+    app.get(API_BASE+"/famous-people/docs",(req,res)=> {
+      res.redirect("https://documenter.getpostman.com/view/32927496/2sA35G4NQZ");
     });
-*/
+
     app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {
       dbFamousPeople.find({}, (err, docs) => {
         if(err){
@@ -284,7 +284,23 @@ dbFamousPeople.find( { name: personName }, (err,searchedPerson) => {
       });
     });
 
-    
+    app.put(API_BASE+"/famous-people/:name", (req,res) => {
+      let name = req.params.name;
+      let newData = req.body;
+  
+      dbFamousPeople.update({"name": name}, {$set: newData}, (err,numUpdated) => {
+        if(err){
+          console.log(err);
+          res.sendStatus(400, "Bad request");
+        }else{
+          if(numUpdated===0){
+            res.sendStatus(404, "Not found");
+          }else{
+            res.sendStatus(200, "Ok");
+          }
+        }
+      });
+    });
       
     
     app.put(API_BASE+"/famous-people", (req,res) =>{

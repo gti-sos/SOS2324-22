@@ -151,9 +151,6 @@
         next();
     }
 
-
-
-    
     
     function LoadBackendFP1(app,dbFamousPeople)  {
 
@@ -282,7 +279,25 @@
           });
         });
 
-        
+        app.put(API_BASE+"/famous-people/:name", (req,res) => {
+          let name = req.params.name;
+          let newData = req.body;
+      
+          dbFamousPeople.update({"name": name}, {$set: newData}, (err,numUpdated) => {
+            if(err){
+              console.log(err);
+              res.sendStatus(400, "Bad request");
+            }else{
+              if(numUpdated===0){
+                res.sendStatus(404, "Not found");
+              }else{
+                res.sendStatus(200, "Ok");
+              }
+            }
+          });
+        });
+      
+      
           
         
         app.put(API_BASE+"/famous-people", (req,res) =>{
