@@ -2,7 +2,9 @@
     import {page} from '$app/stores';
     import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
+    import  MessageContainer  from "../../../MessageContainer.svelte";
 
+    
     let person = $page.params;
     const API = `http://localhost:10000/api/v2/famous-people/${person.name}/${person.country}`;
     let errorMsg = "";
@@ -87,10 +89,10 @@
 
 <style>
     input {
-        width: 200px; /* Ancho inicial predeterminado */
-        border: 1px solid #ccc; /* Añade un borde para claridad */
-        padding: 5px; /* Añade algo de espacio interno */
-        font-size: 16px; /* Define el tamaño de la fuente */
+        width: 200px; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        font-size: 16px; 
     }
 </style>
 
@@ -169,13 +171,5 @@ Details of {person.name}
 </table>
 {/if}
 
-{#if Msg != ""}
-<hr>
-{Msg}
-{/if}
 
-
-{#if errorMsg != ""}
-<hr>
-ERROR: {errorMsg}
-{/if}
+<MessageContainer {Msg} {errorMsg}/>

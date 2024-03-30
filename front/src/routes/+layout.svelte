@@ -6,7 +6,7 @@
 </script>
 
 <Header/>
-<h1>Es com F*ck</h1>
+<h1>Famous companies and people</h1>
 <hr>
 <slot></slot>
 <hr>

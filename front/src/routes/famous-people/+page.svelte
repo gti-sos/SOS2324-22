@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import { dev } from "$app/environment";
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
+    import  MessageContainer  from '../MessageContainer.svelte';
 
     let API = "http://localhost:10000/api/v2/famous-people"
     let people = []
@@ -31,11 +32,11 @@
             let data = await response.json();
             people = data;
             
-            if (response.status == 200) {
-                Msg = "Personas creadas con éxito";
+            if (response.status === 200) {
+                /*Msg = "Personas creadas con éxito";
                 setTimeout(() => {
                     Msg ="";
-                },3000);
+                },3000);*/
             } else if (people.length ===0){
                 Msg = "La lista esta vacía";
                 setTimeout(() => {
@@ -83,10 +84,9 @@
                 method: "DELETE"
             });
             
-        
         if (response.status == 200){
-            Msg = "Personas borrada con éxito"
-            getPeople();
+            Msg = "Personas borradas con éxito"
+            people= [];
             setTimeout(() => {
                     Msg= "";
                 }, 3000);
@@ -100,7 +100,7 @@
             errorMsg = e;
             
         }
-        }
+    }
     
             
     async function CreatePeople() {
@@ -138,10 +138,10 @@
 
 <style>
     input {
-        width: 200px; /* Ancho inicial predeterminado */
-        border: 1px solid #ccc; /* Añade un borde para claridad */
-        padding: 5px; /* Añade algo de espacio interno */
-        font-size: 16px; /* Define el tamaño de la fuente */
+        width: 200px; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        font-size: 16px; 
     }
     .person-container {
         display: flex;
@@ -162,30 +162,6 @@
     color: white;
     cursor: pointer;
     }
-    .message-container {
-    margin: 1rem 0;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    }
-
-    .message {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    }
-
-    .success {
-    background-color: #77dd77;
-    color: #333;
-    }
-
-    .error {
-    background-color: #ff6666;
-    color: white;
-}
-
-
-    
 </style>
 
 
@@ -265,13 +241,5 @@
 
 <Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
 
-<div class="message-container">
-    {#if Msg != ""}
-      <div class="message success">{Msg}</div>
-    {/if}
-  
-    {#if errorMsg != ""}
-      <div class="message error">{errorMsg}</div>
-    {/if}
-</div>
+<MessageContainer {Msg} {errorMsg}/>
   
