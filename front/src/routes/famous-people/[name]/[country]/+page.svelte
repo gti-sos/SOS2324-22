@@ -98,8 +98,8 @@
 
 
 
-Details of {person.name}
-
+<h2>Details of {person.name}</h2>
+<hr>
 
 {#if personData}
 <table>
