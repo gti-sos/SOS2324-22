@@ -65,21 +65,21 @@ let list = [
 
 
 
-function LoadBackendTR2(app,dbtop100richest)  {
+function LoadBackendTR2(app,dbtop100richest2)  {
 
-  dbtop100richest.insert(list);
+  dbtop100richest2.insert(list);
 
     app.get(API_BASE+"/top-richest/docs",(req,res)=> {
       res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
     });
 
     app.get(API_BASE+"/top-richest/loadInitialData", (req, res) => {
-      dbtop100richest.find({}, (err, docs) => {
+      dbtop100richest2.find({}, (err, docs) => {
         if(err){
             res.sendStatus(500, "Internal Error");
         }else {
             if (docs.length === 0) {
-                dbtop100richest.insert(list);
+                dbtop100richest2.insert(list);
                 res.sendStatus(201, "Created");
             } else{
                 res.sendStatus(409, "Conflict");
@@ -103,7 +103,7 @@ app.get(API_BASE + '/top-richest', (req, res) => {
       }
   }
 
-  dbtop100richest.find(filter)
+  dbtop100richest2.find(filter)
       .skip(offset)
       .limit(limit)
       .exec((err, list) => {
@@ -118,7 +118,7 @@ app.get(API_BASE + '/top-richest', (req, res) => {
 app.get(API_BASE+"/top-richest/:name", (req,res) => {
 let personName = req.params.name;
 
-dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
+dbtop100richest2.find( { name: personName }, (err,searchedPerson) => {
     if(err){
         res.sendStatus(404,"Company not found");
     } else {
@@ -139,14 +139,14 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
     app.post(API_BASE+"/top-richest", validarDatos, (req,res)=>{
         let person = req.body;
 
-        dbtop100richest.findOne({ name: person.name}, (err,existingPerson) => {
+        dbtop100richest2.findOne({ name: person.name}, (err,existingPerson) => {
           if(err){
             res.sendStatus(500,"Internal Error");
           } else{
             if (existingPerson) {
               res.sendStatus(409, "Person already exists");
             } else{
-              dbtop100richest.insert(person, (err,newPerson) =>{
+              dbtop100richest2.insert(person, (err,newPerson) =>{
                 if (err) {
                   res.sendStatus(500,"Internal Error");
                 } else {
@@ -166,7 +166,7 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
     app.delete(API_BASE + "/top-richest/:name", (req, res) => {
         let personToDelete = req.params.name;
 
-        dbtop100richest.remove({ "name": personToDelete }, {},(err,numRemoved) => {
+        dbtop100richest2.remove({ "name": personToDelete }, {},(err,numRemoved) => {
           if(err){
             res.sendStatus(500,"Internal Error");
           }else{
@@ -181,7 +181,7 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
 
     app.delete(API_BASE + "/top-richest", (req,res)=> {
 
-      dbtop100richest.remove({}, {multi : true }, (err,numRemoved) => {
+      dbtop100richest2.remove({}, {multi : true }, (err,numRemoved) => {
         if(err){
           res.sendStatus(500,"Internal Error");
         } else{
@@ -198,7 +198,7 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
       let name = req.params.name;
       let newData = req.body;
   
-      dbtop100richest.update({"name": name}, {$set: newData}, (err,numUpdated) => {
+      dbtop100richest2.update({"name": name}, {$set: newData}, (err,numUpdated) => {
         if(err){
           console.log(err);
           res.sendStatus(400, "Bad request");
@@ -222,7 +222,7 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
       let name=req.params.name;
       let nationality=req.params.nationality;
 
-      dbtop100richest.find({"name":name, "nationality":nationality}, (err,info) => {
+      dbtop100richest2.find({"name":name, "nationality":nationality}, (err,info) => {
           if(err){
               res.sendStatus(404,"Not Found");
           }else if(info.length===0){
@@ -244,13 +244,13 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
     const { name, nationality } = req.params;
     const nuevo = req.body;
   
-    dbtop100richest.find({ name, nationality }, (err, info) => {
+    dbtop100richest2.find({ name, nationality }, (err, info) => {
       if (err) {
         res.sendStatus(500, "Internal Error");
       } else if (info.length === 0) {
         res.sendStatus(404, "Not Found");
       } else {
-        dbtop100richest.update({ name, nationality }, {$set: nuevo}, (err, numUpdated) => {
+        dbtop100richest2.update({ name, nationality }, {$set: nuevo}, (err, numUpdated) => {
           if (err) {
             res.sendStatus(500, "Internal Error");
           } else {
@@ -269,7 +269,7 @@ dbtop100richest.find( { name: personName }, (err,searchedPerson) => {
       let name=req.params.name;
       let nationality=req.params.nationality;
   
-      dbtop100richest.remove( {"name":name, "nationality":nationality},{ multi: true },(err,numRemoved)=>{
+      dbtop100richest2.remove( {"name":name, "nationality":nationality},{ multi: true },(err,numRemoved)=>{
       if(err){
           res.sendStatus(500,"Internal Error");
       }else{
