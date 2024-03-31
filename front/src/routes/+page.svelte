@@ -19,7 +19,7 @@
     <h3>Team</h3>
         <a href="https://github.com/juarosrap">Juan Ros Raposo</a><br>
         <a href="https://github.com/dantainie">Daniel Taillefer Nieto</a><br>
-        <a href="https://github.com/rubgonama">Rubén Amador González</a><br>
+        <a href="https://github.com/rubgonama">Rubén González Amador</a><br>
         <a href="https://github.com/benvelben">Benjamin Velasco Bendezu</a>
   
     <hr>    
