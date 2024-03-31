@@ -2,8 +2,8 @@
     <h2>Documentación Postman</h2>
     <ul>
         <li><a href="https://sos2324-22.appspot.com/api/v2/famous-people/docs">Documentación famous-people</a></li>
-        <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billonaires/docs">Documentación </a></li>
-        <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billionaires-list/docs">Documentación </a></li>
+        <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billonaires/docs">Documentación forbes-billonaires</a></li>
+        <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billionaires-list/docs">Documentación forbes-billionaires-list</a></li>
         <li><a href="https://sos2324-22.appspot.com/api/v1/top-richest/docs">Documentación top-richest</a></li>
     </ul>
     <h2>API's</h2>
