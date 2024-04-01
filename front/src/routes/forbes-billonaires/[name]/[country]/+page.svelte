@@ -2,98 +2,151 @@
     import {page} from '$app/stores';
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
+    import MessageContainer from '../../../MessageContainer.svelte';
 
     let company = $page.params;
-    const API = `http://localhost:10000/forbes-billonaires/${company.name}/${company.country}`;
+    const API = `http://localhost:10000/api/v2/forbes-billonaires/${company.name}/${company.country}`;
     let errorMsg = "";
     let Msg = "";
+    let companyData;
 
-    onMount(() => {
-        getForbes_billonaires();
-    })
+   
 
     async function getForbes_billonaires() {
-
-        const response = await fetch(API, {
-            method: "GET",
-        });
-        try {
-            const data = await res.json();
-            result = JSON.stringify(data, null, 2);
-            updated_name = data.name;
-            updated_country = data.country;
-        } catch (e) {
-            console.log(`Error parsing result`);
-        }
+        const response = await fetch(API,{
+            method: "GET"
+        })
+        const data = await response.json();
         
-        if(response.status == 404){
-            Msg = `No existe la persona`;
+        try {
+
+            let rank = data.rank 
+            let name = data.name;
+            let country = data.country;
+            let sale = data.sale;
+            let profit = data.profit;
+            let asset = data.asset;
+            let market_value = data.market_value;
+            let year = data.year;
+            
+
+            if(response.status == 404){
+            errorMsg = `No existe la compañia`;
             setTimeout(() => {
                 Msg = "";
             }, 3000);
-        }else{
-            if(response.status == 400){
-                Msg = "Ha habido un error en la petición";
-                setTimeout(() => {
-                    Msg = "";
-                }, 3000);
-            }
         }
+     } catch(e) {
+            errorMsg = e;
     }
+        
+    return data;
+    
+}
+
+onMount(async() => {
+        companyData = await getForbes_billonaires();
+    })
     
     async function updateCompany(){
-        const companyDetails = await fetch(`http://localhost:10000/forbes-billonaires/${company.name}`);
-        const updatedCompany = await companyDetails.json(); 
-        try{
-            let response = await fetch(API,{
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedCompany)
-            });
-        if (response.status == 200){
-            Msg = "Compañia actualizada con éxito"
-            getForbes_billonaires();
-            setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Esa companñia no existe";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
+            const updatedCompany = {
+                    rank: companyData?.rank,
+                    name: companyData?.name,
+                    country: companyData?.country,
+                    sale: companyData?.sale,
+                    profit: companyData?.profit,
+                    asset: companyData?.asset,
+                    market_value: companyData?.market_value,
+                    year: companyData?.year,
+            };
+
+            try{
+                let response = await fetch(API,{
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedCompany)
+                });
+            if (response.status == 200){
+                Msg = "Compañia actualizada con éxito"
+                getForbes_billonaires();
+                setTimeout(() => {
+                        Msg= "";
+                    }, 3000);
+            } else {
+                errorMsg = "Esa compañia no existe";
+                setTimeout(() => {
+                    errorMsg= "";
+                    }, 3000);
+            }
+            } catch(e) {
+                errorMsg = e;
+            }
         }
-        } catch(e) {
-            errorMsg = e;
-        }
-    }
     
     
 
 </script>
-Details of {company.name}
+<h2>Details of {company.name}</h2>
+<hr>
 
 
-
+{#if companyData}
 <table>
     <thead>
         <tr>
             <th>
-                Nombre
+                Rank
             </th>
             <th>
-                País
+                Name
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                Sale
+            </th>
+            <th>
+                Profit
+            </th>
+            <th>
+                Asset
+            </th>
+            <th>
+                Market value
+            </th>
+            <th>
+                Year
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-                <input bind:value={company.name}>
+                <input bind:value={companyData.rank}>
             </td>
             <td>
-                <input bind:value={company.country}>
+                <input bind:value={companyData.name}>
+            </td>
+            <td>
+                <input bind:value={companyData.country}>
+            </td>
+            <td>
+                <input bind:value={companyData.sale}>
+            </td>
+            <td>
+                <input bind:value={companyData.profit}>
+            </td>
+            <td>
+                <input bind:value={companyData.asset}>
+            </td>
+            <td>
+                <input bind:value={companyData.market_value}>
+            </td>
+            <td>
+                <input bind:value={companyData.year}>
             </td>
             <td>
                 <Button color="primary" on:click="{updateCompany}">Actualizar</Button>
@@ -101,14 +154,6 @@ Details of {company.name}
         </tr>            
     </tbody>
 </table>
-
-{#if Msg != ""}
-<hr>
-{Msg}
 {/if}
 
-
-{#if errorMsg != ""}
-<hr>
-ERROR: {errorMsg}
-{/if}
+<MessageContainer {Msg} {errorMsg}/>

@@ -1,5 +1,4 @@
-
-const API_BASE = "/api/v1";
+const API_BASE = "/api/v2";
 
 let lista = [
     { rank: 1,
@@ -177,7 +176,9 @@ function validarDatos(req, res, next) {
   next();
 }
 
-function LoadBackendFB(app,db) {
+function LoadBackendFB2(app,db) {
+
+  db.insert(lista);
 
   app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
     res.redirect("https://documenter.getpostman.com/view/32927299/2sA2xe6FJo");
@@ -241,17 +242,22 @@ function LoadBackendFB(app,db) {
   app.get(API_BASE + "/forbes-billonaires/:name", (req, res) => {
     let companyName = req.params.name;
   
-    db.findOne({ name: companyName }, (err, searchedCompany) => {
+    db.find({ name: companyName }, (err, searchedCompany) => {
       if (err) {
         return res.sendStatus(404, "Company not found");
-      }
-      if (searchedCompany) {
-        return res.send(searchedCompany);
-      }
-      res.sendStatus(404, "Company not found");
-    });
-  });
-
+    } else {
+        if(searchedCompany.length === 0){
+            res.sendStatus(404,"Company not found");
+        } else {
+            const filteredResult = searchedCompany.map(company => {
+                const { _id, ...rest } = company; 
+                return rest; 
+            });
+            res.send(filteredResult);
+        }
+    }
+});
+});
   app.get(API_BASE+"/forbes-billonaires/:name/:country", (req,res) => {
     let name=req.params.name;
     let country=req.params.country;
@@ -398,4 +404,4 @@ function LoadBackendFB(app,db) {
 
 }
 
-export {LoadBackendFB,lista};
+export {LoadBackendFB2,lista};

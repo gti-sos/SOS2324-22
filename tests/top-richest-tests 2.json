@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "c7e8c60a-6ab6-456e-8564-caea948c518e",
+		"name": "top100-richest-people",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32912906",
+		"_collection_link": "https://bold-capsule-113501.postman.co/workspace/sos2324-22~280f2686-1856-4053-a6eb-1371784520ed/collection/32912906-c7e8c60a-6ab6-456e-8564-caea948c518e?action=share&source=collection_link&creator=32912906"
+	},
+	"item": [
+		{
+			"name": "borra todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loadInitialData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get por nombre acierto 200",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/:name ",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						":name "
+					],
+					"variable": [
+						{
+							"key": "name ",
+							"value": "Elon Musk"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get por nombre error 404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Chiqui Ibai"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscar por pais",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/pais/:nationality",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						"pais",
+						":nationality"
+					],
+					"variable": [
+						{
+							"key": "nationality",
+							"value": "United States of America"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borra por nombre",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Bill Gates"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post ya existente 409",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " { \"name\": \"Elon Musk\", \"net_worth\": 240, \"bday_year\": 1971, \"age\": 51, \"nationality\": \"South Africa\" }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post exitoso 201",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " { \"name\": \"RAJOY\", \"net_worth\": 99999999, \"bday_year\": 1971, \"age\": 51, \"nationality\": \"South Africa\" }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualzia millonario campos correctos",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Chiki Ibai\",\r\n    \"net_worth\": 250,\r\n    \"bday_year\": 1971,\r\n    \"age\": 51,\r\n    \"nationality\": \"South Africa\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Elon Musk"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualiza millonario con campos incorrectos 400",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " { \"name\": \"Elon Musk\", \"dinerito\": 240, \"bday_year\": 1971, \"age\": 51, \"nationality\": \"Sudáfrica\" }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Elon Musk"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "method not allowed 405",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borra todo Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/top-richest",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"top-richest"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
