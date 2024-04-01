@@ -31,7 +31,7 @@
             let death_year = data.death_year;
             let age_of_death = data.age_of_death
 
-            if(response.status == 404){
+            if(response.status === 404){
             errorMsg = `No existe la persona`;
             setTimeout(() => {
                 Msg = "";
@@ -100,9 +100,13 @@
 </style>
 
 
+{#if personData}
+    <h2>Detalles de {person.name }</h2>
+    <hr>
+{:else}
+    <p>Esta persona no existe.</p>
+{/if}
 
-<h2>Detalles de {person.name}</h2>
-<hr>
 
 {#if personData}
 <table>
@@ -173,6 +177,9 @@
     </tbody>
 </table>
 {/if}
+
+
+
 
 
 <MessageContainer {Msg} {errorMsg}/>
