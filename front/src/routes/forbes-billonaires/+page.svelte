@@ -116,13 +116,13 @@
                 console.log(`Creation response status ${status}`)
     
                 if (status === 201) {
-                    Msg = "Company creada con éxito"
+                    Msg = "compañia creada con éxito"
                     getForbes_billonaires();
                     setTimeout(() => {
                         Msg= "";
                     }, 3000);
                 } else {
-                    errorMsg = "La Company ya existe";
+                    errorMsg = "La compañia ya existe";
                     setTimeout(() => {
                     errorMsg= "";
                     }, 3000);
