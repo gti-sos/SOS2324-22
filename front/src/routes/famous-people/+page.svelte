@@ -46,6 +46,11 @@
                 setTimeout(() => {
                     Msg ="";
                 },3000);
+            } else if( response.status === 400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
             }else {
                 errorMsg = "Error cargando personas";
                 setTimeout(() => {
