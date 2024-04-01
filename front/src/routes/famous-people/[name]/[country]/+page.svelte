@@ -19,7 +19,7 @@
         
         try {
             
-            name = data.name;
+            let name = data.name;
             let short_description = data.short_description;
             let gender = data.gender;
             let country = data.country;
