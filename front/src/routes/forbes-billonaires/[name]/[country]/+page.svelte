@@ -92,8 +92,14 @@ onMount(async() => {
     
 
 </script>
-<h2>Details of {company.name}</h2>
-<hr>
+
+{#if companyData}
+    <h2>Details of {company.name}</h2>
+    <hr>
+{:else}
+    <p>Esta persona no existe</p>
+
+{/if}
 
 
 {#if companyData}
