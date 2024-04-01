@@ -1,138 +1,140 @@
 <script>
-    import {onMount} from "svelte";
-    import { dev } from "$app/environment";
-    import { Button, Col, Row } from '@sveltestrap/sveltestrap';
-    import  MessageContainer  from '../MessageContainer.svelte';
+	import {onMount} from "svelte";
+	import { dev } from "$app/environment";
+	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
+	import  MessageContainer  from '../MessageContainer.svelte';
 
-    let API = "http://localhost:10000/api/v2/forbes-billionaires-list"
-    let people = []
-    let errorMsg = "";
-    let Msg = ""; 
+	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000';
+	const API = `${API_BASE}/api/v2/forbes-billionaires-list`;
+	//const API = http://localhost:10000/api/v2/forbes-billionaires-list
+	let people = []
+	let errorMsg = "";
+	let Msg = "";
 
-    const newPerson = { 
-        rank: 11,
-		name: 'Bernardose Arnault family',
-		net_worth: 211,
-		age: 74,
-		country: 'France',
-		source: 'LVMH',
-		industry: 'Fashion'
-    }
+	const newPerson = {
+	rank: 11,
+	name: 'Bernardose Arnault family',
+	net_worth: 211,
+	age: 74,
+	country: 'France',
+	source: 'LVMH',
+	industry: 'Fashion'
+	}
 
-    onMount(() => {
-        getForBillionaires();
-    })
+	onMount(() => {
+	getForBillionaires();
+	})
 
-    export async function getForBillionaires() {
-        try {
-            let response = await fetch(API,{
-                method: "GET"
-            });
-            let data = await response.json();
-            people = data;
-            
-            if (response.status === 200) {
-                Msg = "Billonarios creados con éxito";
-                setTimeout(() => {
-                    Msg ="";
-                },3000);
-            } else if (people.length ===0){
-                Msg = "La lista esta vacía";
-                setTimeout(() => {
-                    Msg ="";
-                },3000);
-            }else {
-                errorMsg = "Error cargando personas";
-                setTimeout(() => {
-                    errorMsg ="";
-                },3000);
-            }
-        } catch(e) {
-            errorMsg = e;
-        }
-            
-    }
+	export async function getForBillionaires() {
+	try {
+	let response = await fetch(API,{
+	method: "GET"
+	});
+	let data = await response.json();
+	people = data;
 
-    async function deleteMillonarios(n) {
-        try {
-            let response = await fetch(API+"/"+n,{
-                method: "DELETE"
-            });
-            console.log(`Borrando billonario ${n}`);
-        
-        if (response.status === 200){
-            Msg = "Billonario borrado con éxito"
-            people = people.filter(p => p.name !== n);
-            setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Ese billonario no existe";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-        }
-        } catch(e) {
-            errorMsg = e;
-        }
-    }
+	if (response.status === 200) {
+	Msg = "Billonarios creados con éxito";
+	setTimeout(() => {
+	Msg ="";
+	},3000);
+	} else if (people.length ===0){
+	Msg = "La lista esta vacía";
+	setTimeout(() => {
+	Msg ="";
+	},3000);
+	}else {
+	errorMsg = "Error cargando personas";
+	setTimeout(() => {
+	errorMsg ="";
+	},3000);
+	}
+	} catch(e) {
+	errorMsg = e;
+	}
 
-    async function deleteAllBillionaires() {
-        try {
-            let response = await fetch(API,{
-                method: "DELETE"
-            });
-            
-        if (response.status == 200){
-            Msg = "Millonarios borrados con éxito"
-            people= [];
-            setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Ya están todas los millonarios borrados";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-        }
-        } catch(e) {
-            errorMsg = e;
-            
-        }
-    }
-    
-            
-    async function createBillionaires() {
-        try {
-            let response = await fetch(API,{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newPerson)
-            });
-            let status = await response.status;
-            console.log(`Creation response status ${status}`)
+	}
 
-            if (status === 201) {
-                getForBillionaires();
-                Msg = "Billonario creada con éxito";
-                setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-            } else {
-                errorMsg = "El billonario ya existe";
-                setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-            }
-            
-        } catch(e) {
-            errorMsg = e;
-        }
-    }
+	async function deleteMillonarios(n) {
+	try {
+	let response = await fetch(API+"/"+n,{
+	method: "DELETE"
+	});
+	console.log(`Borrando billonario ${n}`);
 
-        
+	if (response.status === 200){
+	Msg = "Billonario borrado con éxito"
+	people = people.filter(p => p.name !== n);
+	setTimeout(() => {
+	Msg= "";
+	}, 3000);
+	} else {
+	errorMsg = "Ese billonario no existe";
+	setTimeout(() => {
+	errorMsg= "";
+	}, 3000);
+	}
+	} catch(e) {
+	errorMsg = e;
+	}
+	}
+
+	async function deleteAllBillionaires() {
+	try {
+	let response = await fetch(API,{
+	method: "DELETE"
+	});
+
+	if (response.status == 200){
+	Msg = "Millonarios borrados con éxito"
+	people= [];
+	setTimeout(() => {
+	Msg= "";
+	}, 3000);
+	} else {
+	errorMsg = "Ya están todas los millonarios borrados";
+	setTimeout(() => {
+	errorMsg= "";
+	}, 3000);
+	}
+	} catch(e) {
+	errorMsg = e;
+
+	}
+	}
+
+
+	async function createBillionaires() {
+	try {
+	let response = await fetch(API,{
+	method: "POST",
+	headers: {
+	"Content-Type": "application/json"
+	},
+	body: JSON.stringify(newPerson)
+	});
+	let status = await response.status;
+	console.log(`Creation response status ${status}`)
+
+	if (status === 201) {
+	getForBillionaires();
+	Msg = "Billonario creada con éxito";
+	setTimeout(() => {
+	Msg= "";
+	}, 3000);
+	} else {
+	errorMsg = "El billonario ya existe";
+	setTimeout(() => {
+	errorMsg= "";
+	}, 3000);
+	}
+
+	} catch(e) {
+	errorMsg = e;
+	}
+	}
+
+
 </script>
 
 <style>

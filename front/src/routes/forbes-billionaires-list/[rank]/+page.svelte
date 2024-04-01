@@ -1,88 +1,89 @@
 <script>
-    import {page} from '$app/stores';
-    import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
-    import { onMount } from 'svelte';
-    import  MessageContainer  from "../../MessageContainer.svelte";
+	import {page} from '$app/stores';
+	import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
+	import { onMount } from 'svelte';
+	import  MessageContainer  from "../../MessageContainer.svelte";
 
-    
-    let person = $page.params;
-    const API = `http://localhost:10000/api/v2/forbes-billionaires-list/${person.rank}`;
-    let errorMsg = "";
-    let Msg = "";
-    let billionaireData;
 
-    async function getBillionaire() {
-        const response = await fetch(API,{
-            method: "GET"
-        })
-        const data = await response.json();
-        
-        try {
-            
-			let rank = data.rank;
-            let name = data.name;
-            let net_worth = data.net_worth;
-            let age = data.age;
-            let country = data.country;
-            let source = data.source;
-			let industry = data.industry;
-    
+	let person = $page.params;
+	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
+	const API = `${API_BASE}/api/v2/forbes-billionaires-list/${person.rank}`;
+	let errorMsg = "";
+	let Msg = "";
+	let billionaireData;
 
-            if(response.status == 404){
-            errorMsg = `No existe el billonario`;
-            setTimeout(() => {
-                Msg = "";
-            }, 3000);
-        }
-     } catch(e) {
-            errorMsg = e;
-    }
-        
-    return data;
-    
-}
+	async function getBillionaire() {
+	const response = await fetch(API,{
+	method: "GET"
+	})
+	const data = await response.json();
 
-    onMount(async () => {
-        billionaireData = await getBillionaire();
-        console.log(billionaireData.name)
-    })
-    
-    async function updateBillionaire(){
-        const updatedBillionaire = {
-		        rank: billionaireData?.rank,
-                name: billionaireData?.name,
-                net_worth: billionaireData?.net_worth,
-                age: billionaireData?.age,
-                country: billionaireData?.country,
-                source: billionaireData?.source,
-				industry: billionaireData?.industry,
-        };
+	try {
 
-        try{
-            let response = await fetch(API,{
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedBillionaire)
-            });
-        if (response.ok){
-            Msg = "Billonario actualizado con éxito"
-            getBillionaire();
-            setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Ese billonario no existe";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-        }
-        } catch(e) {
-            errorMsg = e;
-        }
-    }
-    
+	let rank = data.rank;
+	let name = data.name;
+	let net_worth = data.net_worth;
+	let age = data.age;
+	let country = data.country;
+	let source = data.source;
+	let industry = data.industry;
+
+
+	if(response.status == 404){
+	errorMsg = `No existe el billonario`;
+	setTimeout(() => {
+	Msg = "";
+	}, 3000);
+	}
+	} catch(e) {
+	errorMsg = e;
+	}
+
+	return data;
+
+	}
+
+	onMount(async () => {
+		billionaireData = await getBillionaire();
+		console.log(billionaireData.name)
+	})
+
+	async function updateBillionaire(){
+	const updatedBillionaire = {
+	rank: billionaireData?.rank,
+	name: billionaireData?.name,
+	net_worth: billionaireData?.net_worth,
+	age: billionaireData?.age,
+	country: billionaireData?.country,
+	source: billionaireData?.source,
+	industry: billionaireData?.industry,
+	};
+
+	try{
+	let response = await fetch(API,{
+	method: "PUT",
+	headers: {
+	"Content-Type": "application/json"
+	},
+	body: JSON.stringify(updatedBillionaire)
+	});
+	if (response.ok){
+	Msg = "Billonario actualizado con éxito"
+	getBillionaire();
+	setTimeout(() => {
+	Msg= "";
+	}, 3000);
+	} else {
+	errorMsg = "Ese billonario no existe";
+	setTimeout(() => {
+	errorMsg= "";
+	}, 3000);
+	}
+	} catch(e) {
+	errorMsg = e;
+	}
+	}
+
 
 </script>
 
