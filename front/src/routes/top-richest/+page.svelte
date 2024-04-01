@@ -44,7 +44,7 @@
                     Msg ="";
                 },3000);
             }else {
-                errorMsg = "Error cargando personas";
+                errorMsg = "Error cargando millonarios";
                 setTimeout(() => {
                     errorMsg ="";
                 },3000);
@@ -118,12 +118,12 @@
 
             if (status === 201) {
                 getMillonarios();
-                Msg = "Persona creada con éxito";
+                Msg = "Millonario creado con éxito";
                 setTimeout(() => {
                     Msg= "";
                 }, 3000);
             } else {
-                errorMsg = "La persona ya existe";
+                errorMsg = "El millonario ya existe";
                 setTimeout(() => {
                 errorMsg= "";
                 }, 3000);
