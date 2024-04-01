@@ -3,10 +3,13 @@
     import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
     import  MessageContainer  from "../../../MessageContainer.svelte";
-
+    import { dev } from "$app/environment";
     
     let person = $page.params;
-    const API = `http://localhost:10000/api/v2/famous-people/${person.name}/${person.country}`;
+    let API = "/api/v2/famous-people";
+    if (dev){
+        API= "http://localhost:10000/api/v2/famous-people"
+    }
     let errorMsg = "";
     let Msg = "";
     let personData;
