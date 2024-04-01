@@ -2,6 +2,7 @@
     import {page} from '$app/stores';
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
+    import { dev } from "$app/environment";
     import MessageContainer from '../../../MessageContainer.svelte';
 
     let company = $page.params;
