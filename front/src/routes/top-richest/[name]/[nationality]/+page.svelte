@@ -4,10 +4,11 @@
     import { onMount } from 'svelte';
     import  MessageContainer  from "../../../MessageContainer.svelte";
 
-    const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
-	const API = `${API_BASE}/api/v2/top-richest/${person.name}/${person.nationality}`;
+    
 
     let person = $page.params;
+    const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
+    const API = `${API_BASE}/api/v2/top-richest/${person.name}/${person.nationality}`;
     let errorMsg = "";
     let Msg = "";
     let millonarioData;
