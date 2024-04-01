@@ -5,7 +5,10 @@
     import MessageContainer from '../../../MessageContainer.svelte';
 
     let company = $page.params;
-    const API = `http://localhost:10000/api/v2/forbes-billonaires/${company.name}/${company.country}`;
+    let API = "/api/v2/forbes-billonaires"
+        if (dev){
+            API="http://localhost:10000"+API;
+        }
     let errorMsg = "";
     let Msg = "";
     let companyData;
