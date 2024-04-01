@@ -181,7 +181,7 @@ function LoadBackendFB2(app,db) {
   db.insert(lista);
 
   app.get(API_BASE+"/forbes-billonaires/docs",(req,res)=> {
-    res.redirect("https://documenter.getpostman.com/view/32927299/2sA2xe6FJo");
+    res.redirect("https://documenter.getpostman.com/view/32927299/2sA35HX1PB");
   });
 
   //API

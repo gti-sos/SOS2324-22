@@ -101,28 +101,28 @@ onMount(async() => {
     <thead>
         <tr>
             <th>
-                Rank
+                Ranking
             </th>
             <th>
-                Name
+                Nombre
             </th>
             <th>
-                Country
+                Pais
             </th>
             <th>
-                Sale
+                Ventas
             </th>
             <th>
-                Profit
+                Beneficio
             </th>
             <th>
-                Asset
+                Activos
             </th>
             <th>
-                Market value
+                Valor de mercado
             </th>
             <th>
-                Year
+                Año
             </th>
         </tr>
     </thead>

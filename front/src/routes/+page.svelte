@@ -4,7 +4,7 @@
         <li><a href="https://sos2324-22.appspot.com/api/v1/famous-people/docs">Documentación famous-people V1</a></li>
         <li><a href="https://sos2324-22.appspot.com/api/v2/famous-people/docs">Documentación famous-people V2</a></li>
         <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billonaires/docs">Documentación forbes-billonaires</a></li>
-        <li><a href="https://sos2324-22.appspot.com/api/v1/forbes-billonaires/docs">Documentación forbes-billonaires v2</a></li>
+        <li><a href="https://sos2324-22.appspot.com/api/v2/forbes-billonaires/docs">Documentación forbes-billonaires v2</a></li>
         <li><a href="https://sos2324-22.appspot.com/api/v2/forbes-billionaires-list/docs">Documentación forbes-billionaires-list</a></li>
         <li><a href="https://sos2324-22.appspot.com/api/v1/top-richest/docs">Documentación top-richest</a></li>
     </ul>

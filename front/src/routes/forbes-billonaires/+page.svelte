@@ -41,6 +41,11 @@
                 setTimeout(() => {
                     Msg ="";
                 },3000);
+            }else if(response.status===400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
             }else {
                 errorMsg = "Error cargando compañias";
                 setTimeout(() => {
@@ -116,13 +121,13 @@
                 console.log(`Creation response status ${status}`)
     
                 if (status === 201) {
-                    Msg = "Company creada con éxito"
+                    Msg = "compañia creada con éxito"
                     getForbes_billonaires();
                     setTimeout(() => {
                         Msg= "";
                     }, 3000);
                 } else {
-                    errorMsg = "La Company ya existe";
+                    errorMsg = "La compañia ya existe";
                     setTimeout(() => {
                     errorMsg= "";
                     }, 3000);
@@ -141,28 +146,28 @@
         <thead>
             <tr>
                 <th>
-                    Rank
+                    Ranking
                 </th>
                 <th>
-                    Name
+                    Nombre
                 </th>
                 <th>
-                    Country
+                    Pais
                 </th>
                 <th>
-                    Sale
+                    Ventas
                 </th>
                 <th>
-                    Profit
+                    Beneficio
                 </th>
                 <th>
-                    Asset
+                    Activos
                 </th>
                 <th>
-                    Market value
+                    Valor de mercado
                 </th>
                 <th>
-                    Year
+                    Año
                 </th>
             </tr>
         </thead>
