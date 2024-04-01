@@ -6,9 +6,9 @@
     import { dev } from "$app/environment";
     
     let person = $page.params;
-    let API = "/api/v2/famous-people";
+    let API = "/api/v2/famous-people/"+person.name+"/"+person.country;
     if (dev){
-        API= "http://localhost:10000/api/v2/famous-people"
+        API= "http://localhost:10000";
     }
     let errorMsg = "";
     let Msg = "";
