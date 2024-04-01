@@ -142,7 +142,7 @@ function validarDatos(req, res, next) {
     next();
 }
 
-function LoadBackendFBL(app, dbForBillionaires) {
+function LoadBackendFBL1(app, dbForBillionaires) {
 
     app.get(API_BASE + '/forbes-billionaires-list/loadInitialData', (req, res) => {
         dbForBillionaires.find({}, (err, docs) => {
@@ -298,4 +298,4 @@ function LoadBackendFBL(app, dbForBillionaires) {
     });
     
 }
-export {LoadBackendFBL,lista};
+export {LoadBackendFBL1,lista};
