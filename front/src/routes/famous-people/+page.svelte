@@ -4,7 +4,11 @@
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import  MessageContainer  from '../MessageContainer.svelte';
 
-    let API = "http://localhost:10000/api/v2/famous-people"
+    let API = "/api/v2/famous-people"
+
+    if (dev){
+        API = "http://localhost:10000"+API;
+    }
     let people = []
     let errorMsg = "";
     let Msg = ""; 
