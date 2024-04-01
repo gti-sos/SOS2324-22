@@ -1,12 +1,16 @@
 <script>
     import {page} from '$app/stores';
     import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
+    import { dev } from "$app/environment";
     import { onMount } from 'svelte';
     import  MessageContainer  from "../../../MessageContainer.svelte";
 
-    
+    let API = "/api/v2/top-richest/${person.name}/${person.nationality}"
+    if (dev){
+        API = "http://localhost:10000"+API;
+    }
+
     let person = $page.params;
-    const API = `http://localhost:10000/api/v2/top-richest/${person.name}/${person.nationality}`;
     let errorMsg = "";
     let Msg = "";
     let millonarioData;
