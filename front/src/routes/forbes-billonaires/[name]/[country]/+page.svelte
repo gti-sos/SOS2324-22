@@ -6,7 +6,7 @@
     import MessageContainer from '../../../MessageContainer.svelte';
 
     let company = $page.params;
-    let API = "/api/v2/forbes-billonaires"
+    let API = "/api/v2/forbes-billonaires/"+company.name+"/"+company.country;
         if (dev){
             API="http://localhost:10000"+API;
         }
