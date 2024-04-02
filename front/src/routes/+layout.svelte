@@ -5,6 +5,11 @@
 
 </script>
 
+<svelte:head>
+  <title>Grupo 22</title>
+</svelte:head>
+
+
 <Header/>
 <h1>Grupo 22</h1>
 <hr>  
@@ -12,6 +17,10 @@
 <hr>
 <Footer/>
 <Styles/>
+
+
+
+
 
 <style>
 
