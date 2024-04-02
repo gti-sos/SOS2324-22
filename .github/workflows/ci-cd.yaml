@@ -1,4 +1,4 @@
-name: CI
+name: CI / CD
 on : [push,pull_request]
 jobs:
   test:
@@ -8,8 +8,8 @@ jobs:
       - run: cd front; npm install; cd ..
       - run: cd front; npm run build; cd ..
       - run: npm install
-      - run: npm start &
-      - run: npm run test
+      - run: npx playwright install --with-deps
+      - run: npm test
 
 
   deploy:
