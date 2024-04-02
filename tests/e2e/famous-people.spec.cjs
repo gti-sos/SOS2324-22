@@ -1,19 +1,50 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('List people', async ({ page }) => {
+  await page.goto('http://localhost:10000');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+  await page.getByRole('navigation').getByRole('link', { name: 'famous-people' }).click();
+
+  await page.waitForTimeout(2000);
+
+  let personCount = (await page.locator('.svelte-1316pci').all()).length;
+  expect(personCount).toBeGreaterThan(0);
+
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('Create new person', async ({ page }) => {
+  await page.goto('http://localhost:10000');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+  await page.getByRole('navigation').getByRole('link', { name: 'famous-people' }).click();
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  await page.getByRole('button', { name: 'Crear'}).click();
+  let messageNewPerson = (await page.getByText('Persona creada con éxito'));
+  expect(messageNewPerson).toBeVisible();
+
+});
+
+test('Delete a person', async ({ page }) => {
+  await page.goto('http://localhost:10000');
+
+  await page.getByRole('navigation').getByRole('link', { name: 'famous-people' }).click();
+
+  await page.locator('div').filter({ hasText: /^Louis Armstrong- Male Borrar$/ }).getByRole('button').click();
+
+  let messageDeletedPerson = (await page.getByText('Persona borrada con éxito'));
+  expect(messageDeletedPerson).toBeVisible();
+
+});
+
+test('Delete all', async ({ page }) => {
+  await page.goto('http://localhost:10000');
+
+  await page.getByRole('navigation').getByRole('link', { name: 'famous-people' }).click();
+  await page.waitForTimeout(2000);
+
+  await page.getByRole('button', { name: 'Borrar todo'}).click();
+
+  let messageDeletedPerson = (await page.getByText('Personas borradas con éxito'));
+  expect(messageDeletedPerson).toBeVisible();
+
 });

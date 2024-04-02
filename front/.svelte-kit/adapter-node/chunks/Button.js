@@ -1,4 +1,4 @@
-import { c as create_ssr_component, f as compute_rest_props, h as spread, i as escape_object, j as escape_attribute_value, b as add_attribute, e as escape } from "./ssr.js";
+import { c as create_ssr_component, g as compute_rest_props, h as spread, i as escape_object, j as escape_attribute_value, a as add_attribute, e as escape } from "./ssr.js";
 function toClassName(value) {
   let result = "";
   if (typeof value === "string" || typeof value === "number") {

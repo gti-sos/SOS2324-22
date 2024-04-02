@@ -233,18 +233,23 @@ function add_attribute(name, value, boolean) {
 function style_object_to_string(style_object) {
   return Object.keys(style_object).filter((key) => style_object[key]).map((key) => `${key}: ${escape_attribute_value(style_object[key])};`).join(" ");
 }
+function add_styles(style_object) {
+  const styles = style_object_to_string(style_object);
+  return styles ? ` style="${styles}"` : "";
+}
 export {
-  subscribe as a,
-  add_attribute as b,
+  add_attribute as a,
+  add_styles as b,
   create_ssr_component as c,
   each as d,
   escape as e,
-  compute_rest_props as f,
-  getContext as g,
+  subscribe as f,
+  compute_rest_props as g,
   spread as h,
   escape_object as i,
   escape_attribute_value as j,
-  safe_not_equal as k,
+  getContext as k,
+  safe_not_equal as l,
   missing_component as m,
   noop as n,
   setContext as s,

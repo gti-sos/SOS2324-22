@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/forbes-billonaires/[name]/[country]/+page.svelte";
+export { default as component } from "../../../../src/routes/forbes-billionaires-list/+page.svelte";

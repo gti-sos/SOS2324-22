@@ -1,18 +1,21 @@
-import { c as create_ssr_component, a as subscribe, e as escape, b as add_attribute, v as validate_component } from "../../../../../chunks/ssr.js";
+import { c as create_ssr_component, f as subscribe, v as validate_component } from "../../../../../chunks/ssr.js";
 import { p as page } from "../../../../../chunks/stores.js";
-import { B as Button } from "../../../../../chunks/Button.js";
 import "../../../../../chunks/Theme.svelte_svelte_type_style_lang.js";
+import { M as MessageContainer } from "../../../../../chunks/MessageContainer.js";
+const css = {
+  code: "input.svelte-1b14d9v{width:200px;border:1px solid #ccc;padding:5px;font-size:16px}",
+  map: null
+};
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   let person = $page.params;
-  `http://localhost:10000/famous-people/${person.name}/${person.country}`;
+  "/api/v2/famous-people/" + person.name + "/" + person.country;
+  let errorMsg = "";
+  let Msg = "";
+  $$result.css.add(css);
   $$unsubscribe_page();
-  return `Details of ${escape(person.name)} <table><thead data-svelte-h="svelte-1pommon"><tr><th>Nombre</th> <th>País</th></tr></thead> <tbody><tr><td><input${add_attribute("value", person.name, 0)}></td> <td><input${add_attribute("value", person.country, 0)}></td> <td>${validate_component(Button, "Button").$$render($$result, { color: "primary" }, {}, {
-    default: () => {
-      return `Actualizar`;
-    }
-  })}</td></tr></tbody></table> ${``} ${``}`;
+  return `${`<p data-svelte-h="svelte-1m4dz9i">Esta persona no existe.</p>`} ${``} ${validate_component(MessageContainer, "MessageContainer").$$render($$result, { Msg, errorMsg }, {}, {})}`;
 });
 export {
   Page as default

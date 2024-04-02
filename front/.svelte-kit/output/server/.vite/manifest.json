@@ -15,6 +15,16 @@
       "_ssr.js"
     ]
   },
+  "_MessageContainer.js": {
+    "file": "chunks/MessageContainer.js",
+    "name": "MessageContainer",
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/MessageContainer.D9aikaHl.css"
+    ]
+  },
   "_Theme.svelte_svelte_type_style_lang.js": {
     "file": "chunks/Theme.svelte_svelte_type_style_lang.js",
     "name": "Theme.svelte_svelte_type_style_lang",
@@ -55,16 +65,6 @@
       "_exports.js"
     ]
   },
-  "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
-    "file": "entries/fallbacks/error.svelte.js",
-    "name": "entries/fallbacks/error.svelte",
-    "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
-    "isEntry": true,
-    "imports": [
-      "_ssr.js",
-      "_stores.js"
-    ]
-  },
   "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
     "file": "index.js",
     "name": "index",
@@ -74,6 +74,15 @@
       "_internal.js",
       "_exports.js",
       "_index.js"
+    ]
+  },
+  "src/routes/+error.svelte": {
+    "file": "entries/pages/_error.svelte.js",
+    "name": "entries/pages/_error.svelte",
+    "src": "src/routes/+error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
     ]
   },
   "src/routes/+layout.svelte": {
@@ -86,13 +95,25 @@
       "_Theme.svelte_svelte_type_style_lang.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.Bhssup5K.css"
+      "_app/immutable/assets/_layout.BvKuCQTZ.css"
     ]
   },
   "src/routes/+page.svelte": {
     "file": "entries/pages/_page.svelte.js",
     "name": "entries/pages/_page.svelte",
     "src": "src/routes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DpdwFXLn.css"
+    ]
+  },
+  "src/routes/about/+page.svelte": {
+    "file": "entries/pages/about/_page.svelte.js",
+    "name": "entries/pages/about/_page.svelte",
+    "src": "src/routes/about/+page.svelte",
     "isEntry": true,
     "imports": [
       "_ssr.js"
@@ -106,7 +127,11 @@
     "imports": [
       "_ssr.js",
       "_Button.js",
-      "_Theme.svelte_svelte_type_style_lang.js"
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.C5g9zWpA.css"
     ]
   },
   "src/routes/famous-people/[name]/[country]/+page.svelte": {
@@ -117,8 +142,41 @@
     "imports": [
       "_ssr.js",
       "_stores.js",
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.yOnVQHCI.css"
+    ]
+  },
+  "src/routes/forbes-billionaires-list/+page.svelte": {
+    "file": "entries/pages/forbes-billionaires-list/_page.svelte.js",
+    "name": "entries/pages/forbes-billionaires-list/_page.svelte",
+    "src": "src/routes/forbes-billionaires-list/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
       "_Button.js",
-      "_Theme.svelte_svelte_type_style_lang.js"
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.C5g9zWpA.css"
+    ]
+  },
+  "src/routes/forbes-billionaires-list/[rank]/+page.svelte": {
+    "file": "entries/pages/forbes-billionaires-list/_rank_/_page.svelte.js",
+    "name": "entries/pages/forbes-billionaires-list/_rank_/_page.svelte",
+    "src": "src/routes/forbes-billionaires-list/[rank]/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_stores.js",
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.yOnVQHCI.css"
     ]
   },
   "src/routes/forbes-billonaires/+page.svelte": {
@@ -129,7 +187,8 @@
     "imports": [
       "_ssr.js",
       "_Button.js",
-      "_Theme.svelte_svelte_type_style_lang.js"
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
     ]
   },
   "src/routes/forbes-billonaires/[name]/[country]/+page.svelte": {
@@ -140,8 +199,38 @@
     "imports": [
       "_ssr.js",
       "_stores.js",
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ]
+  },
+  "src/routes/top-richest/+page.svelte": {
+    "file": "entries/pages/top-richest/_page.svelte.js",
+    "name": "entries/pages/top-richest/_page.svelte",
+    "src": "src/routes/top-richest/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
       "_Button.js",
-      "_Theme.svelte_svelte_type_style_lang.js"
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.C5g9zWpA.css"
+    ]
+  },
+  "src/routes/top-richest/[name]/[nationality]/+page.svelte": {
+    "file": "entries/pages/top-richest/_name_/_nationality_/_page.svelte.js",
+    "name": "entries/pages/top-richest/_name_/_nationality_/_page.svelte",
+    "src": "src/routes/top-richest/[name]/[nationality]/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_stores.js",
+      "_Theme.svelte_svelte_type_style_lang.js",
+      "_MessageContainer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.yOnVQHCI.css"
     ]
   }
 }
