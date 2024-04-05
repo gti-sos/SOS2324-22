@@ -16,3 +16,4 @@ and the richest companies.
     - http://sos2324-22.appspot.com/api/v1/forbes-billionaires/docs (developed by Daniel Taillefer Nieto)
     - http://sos2324-22.appspot.com/api/v1/forbes-billionaires-list/docs (developed by Rubén González Amador)
     - http://sos2324-22.appspot.com/api/v1/top-richest/docs (developed by Benjamín Velasco Bendezu)
+    - http://sos2324-22.appspot.com/api/v2/top-richest/docs (developed by Benjamín Velasco Bendezu)
