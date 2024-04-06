@@ -28,7 +28,7 @@ test('Delete a company', async ({ page }) => {
 
   await page.getByRole('navigation').getByRole('link', { name: 'forbes-billonaires' }).click();
 
-  await page.locator('listitem').filter({ hasText: /^Apple-45.217 Borrar$/ }).getByRole('button').click();
+  await page.locator('ul > button').first().click();
 
   let messageDeletedCompany = (await page.getByText('Compañia borrada con éxito'));
   expect(messageDeletedCompany).toBeVisible();
@@ -43,7 +43,7 @@ test('Delete all', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Borrar todo'}).click();
 
-  let messageDeletedCompany = (await page.getByText('Compañias borradas con éxito'));
+  let messageDeletedCompany = (await page.getByText('Compañias borrada con éxito'));
   expect(messageDeletedCompany).toBeVisible();
 
 });
