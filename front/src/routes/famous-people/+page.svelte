@@ -1,5 +1,5 @@
 <script>
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import { dev } from "$app/environment";
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import  MessageContainer  from '../MessageContainer.svelte';
