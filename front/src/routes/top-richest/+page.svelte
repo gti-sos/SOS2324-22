@@ -4,7 +4,11 @@
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import  MessageContainer  from '../MessageContainer.svelte';
 
-    let API = "http://localhost:10000/api/v2/top-richest"
+    let API = "/api/v2/top-richest"
+    if (dev){
+        API = "http://localhost:10000"+API;
+    }
+
     let people = []
     let errorMsg = "";
     let Msg = ""; 
@@ -40,7 +44,7 @@
                     Msg ="";
                 },3000);
             }else {
-                errorMsg = "Error cargando personas";
+                errorMsg = "Error cargando millonarios";
                 setTimeout(() => {
                     errorMsg ="";
                 },3000);
@@ -114,12 +118,12 @@
 
             if (status === 201) {
                 getMillonarios();
-                Msg = "Persona creada con éxito";
+                Msg = "Millonario creado con éxito";
                 setTimeout(() => {
                     Msg= "";
                 }, 3000);
             } else {
-                errorMsg = "La persona ya existe";
+                errorMsg = "El millonario ya existe";
                 setTimeout(() => {
                 errorMsg= "";
                 }, 3000);

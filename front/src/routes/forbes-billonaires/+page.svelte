@@ -2,8 +2,12 @@
         import {onMount} from "svelte";
         import { dev } from "$app/environment";
         import { Button, Col, Row } from '@sveltestrap/sveltestrap';
+        import MessageContainer from "../MessageContainer.svelte";
     
-        let API = "http://localhost:10000/api/v1/forbes-billonaires"
+        let API = "/api/v2/forbes-billonaires"
+        if (dev){
+            API="http://localhost:10000"+API;
+        }
         let companies = []
         let errorMsg = "";
         let Msg = ""; 
@@ -25,15 +29,32 @@
     
         export async function getForbes_billonaires() {
             try {
-                let response = await fetch(API,{
-                    method: "GET"
-                });
-                let data = await response.json();
-                companies = data;
-                console.log(data);
-            } catch(e) {
-                errorMsg = e;
+            let response = await fetch(API,{
+                method: "GET"
+            });
+            let data = await response.json();
+            companies = data;
+            
+            if (response.status === 200) {
+            } else if (companies.length ===0){
+                Msg = "La lista esta vacía";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            }else if(response.status===400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            }else {
+                errorMsg = "Error cargando compañias";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
             }
+        } catch(e) {
+            errorMsg = e;
+        }
                 
         }
     
@@ -46,7 +67,7 @@
             
             if (response.status == 200){
                 Msg = "Compañia borrada con éxito"
-                getForbes_billonaires();
+                companies = companies.filter(c => c.name !== n) ;
                 setTimeout(() => {
                         Msg= "";
                     }, 3000);
@@ -70,7 +91,7 @@
             
             if (response.status == 200){
                 Msg = "Compañias borrada con éxito"
-                getForbes_billonaires();
+                companies = [];
                 setTimeout(() => {
                         Msg= "";
                     }, 3000);
@@ -99,14 +120,14 @@
                 let status = await response.status;
                 console.log(`Creation response status ${status}`)
     
-                if (status == 201) {
-                    Msg = "Company creada con éxito"
+                if (status === 201) {
+                    Msg = "compañia creada con éxito"
                     getForbes_billonaires();
                     setTimeout(() => {
                         Msg= "";
                     }, 3000);
                 } else {
-                    errorMsg = "La Company ya existe";
+                    errorMsg = "La compañia ya existe";
                     setTimeout(() => {
                     errorMsg= "";
                     }, 3000);
@@ -116,6 +137,7 @@
                 errorMsg = e;
             }
         }
+        
     
             
     </script>
@@ -124,28 +146,28 @@
         <thead>
             <tr>
                 <th>
-                    Rank
+                    Ranking
                 </th>
                 <th>
-                    Name
+                    Nombre
                 </th>
                 <th>
-                    Country
+                    Pais
                 </th>
                 <th>
-                    Sale
+                    Ventas
                 </th>
                 <th>
-                    Profit
+                    Beneficio
                 </th>
                 <th>
-                    Asset
+                    Activos
                 </th>
                 <th>
-                    Market value
+                    Valor de mercado
                 </th>
                 <th>
-                    Year
+                    Año
                 </th>
             </tr>
         </thead>
@@ -184,19 +206,10 @@
     
     <ul>
         {#each companies as company}
-            <li><a href="/forbes-billonaires/{company.name}/{company.country}">{company.name}</a>- {company.profit}</li> <Button color="primary" on:click="{DeleteCompany(company.name)}">Borrar</Button>
+            <li><a href="/forbes-billonaires/{company.name}/{company.country}">{company.name}</a>- {company.profit}</li> <Button color="danger" on:click="{DeleteCompany(company.name)}">Borrar</Button>
         {/each}
     </ul>
     
     <Button color="danger" on:click="{DeleteCompanies}">Borrar todo</Button>
     
-    {#if Msg != ""}
-    <hr>
-    {Msg}
-    {/if}
-    
-    
-    {#if errorMsg != ""}
-    <hr>
-    ERROR: {errorMsg}
-    {/if}
+   <MessageContainer {Msg} {errorMsg}/>

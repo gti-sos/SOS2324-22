@@ -211,8 +211,8 @@
                 res.sendStatus(404,"Company not found");
             } else {
                 const filteredResult = searchedPerson.map(person => {
-                    const { _id, ...rest } = person; // Remove _id field
-                    return rest; // Return object without _id field
+                    const { _id, ...rest } = person; 
+                    return rest; 
                 });
                 res.send(filteredResult);
             }

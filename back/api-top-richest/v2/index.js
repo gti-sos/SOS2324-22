@@ -70,7 +70,7 @@ function LoadBackendTR2(app,dbtop100richest2)  {
   dbtop100richest2.insert(list);
 
     app.get(API_BASE+"/top-richest/docs",(req,res)=> {
-      res.redirect("https://documenter.getpostman.com/view/32912906/2sA2xh3t5t");
+      res.redirect("https://documenter.getpostman.com/view/32912906/2sA35HXLnj");
     });
 
     app.get(API_BASE+"/top-richest/loadInitialData", (req, res) => {

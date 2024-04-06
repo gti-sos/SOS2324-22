@@ -160,7 +160,7 @@ function LoadBackendFP2(app,dbFamousPeople)  {
   dbFamousPeople.insert(initial_list);
 
     app.get(API_BASE+"/famous-people/docs",(req,res)=> {
-      res.redirect("https://documenter.getpostman.com/view/32927496/2sA35G4NQZ");
+      res.redirect("https://documenter.getpostman.com/view/32927299/2sA35HX1PB");
     });
 
     app.get(API_BASE+"/famous-people/loadInitialData", (req, res) => {

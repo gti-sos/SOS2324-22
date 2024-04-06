@@ -1,10 +1,14 @@
 <script>
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import { dev } from "$app/environment";
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
     import  MessageContainer  from '../MessageContainer.svelte';
 
-    let API = "http://localhost:10000/api/v2/famous-people"
+    let API = "/api/v2/famous-people"
+
+    if (dev){
+        API = "http://localhost:10000"+API;
+    }
     let people = []
     let errorMsg = "";
     let Msg = ""; 
@@ -41,6 +45,11 @@
                 Msg = "La lista esta vacía";
                 setTimeout(() => {
                     Msg ="";
+                },3000);
+            } else if( response.status === 400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    errorMsg ="";
                 },3000);
             }else {
                 errorMsg = "Error cargando personas";

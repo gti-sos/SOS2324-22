@@ -9,14 +9,20 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "npm run test-famous-people && npm run test2 && npm run test-forbes-billonaires && npm run test-forbes-billionaires-list",
-    "test-forbes-billonaires": "npx newman run ./tests/forbes-billonaires.json -e ./tests/enviroments/Local.json",
-    "test2": "npx newman run ./tests/top-richest-tests.json -e ./tests/enviroments/Local.json",
-    "test-famous-people": "npx newman run ./tests/famous-people.json -e ./tests/enviroments/Local.json",
-    "test-forbes-billionaires-list": "npx newman run ./tests/forbes-billionaires-list.json -e ./tests/enviroments/Local.json"
+    "pretest": "npm start &",
+    "test-integration": "npm run test-famous-people && npm run test2 && npm run test-forbes-billonaires && npm run test-forbes-billionaires-list",
+    "test-forbes-billonaires": "npx newman run ./tests/integration/forbes-billonaires2.json -e ./tests/integration/enviroments/Local.json",
+    "test2": "npx newman run ./tests/integration/top-richest-tests.json -e ./tests/integration/enviroments/Local.json",
+    "test-famous-people": "npx newman run ./tests/integration/famous-people2.json -e ./tests/integration/enviroments/Local.json",
+    "test-forbes-billionaires-list": "npx newman run ./tests/integration/forbes-billionaires-list.json -e ./tests/integration/enviroments/Local.json",
+    "test-e2e": "npx playwright test",
+    "test": "npm run test-integration && npm run test-e2e",
+    "posttest": "kill `ps -uax | grep \"node index\" | grep -v \"grep\" | grep -v \"sh\" | awk '{print$2}'`"
   },
   "type": "module",
   "devDependencies": {
-    "@sveltejs/adapter-node": "^5.0.1"
+    "@playwright/test": "^1.42.1",
+    "@sveltejs/adapter-node": "^5.0.1",
+    "@types/node": "^20.12.2"
   }
 }

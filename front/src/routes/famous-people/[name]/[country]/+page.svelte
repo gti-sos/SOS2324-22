@@ -3,10 +3,13 @@
     import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
     import { onMount } from 'svelte';
     import  MessageContainer  from "../../../MessageContainer.svelte";
-
+    import { dev } from "$app/environment";
     
     let person = $page.params;
-    const API = `http://localhost:10000/api/v2/famous-people/${person.name}/${person.country}`;
+    let API = "/api/v2/famous-people/"+person.name+"/"+person.country;
+    if (dev){
+        API= "http://localhost:10000";
+    }
     let errorMsg = "";
     let Msg = "";
     let personData;
@@ -19,7 +22,7 @@
         
         try {
             
-            name = data.name;
+            let name = data.name;
             let short_description = data.short_description;
             let gender = data.gender;
             let country = data.country;
@@ -28,7 +31,7 @@
             let death_year = data.death_year;
             let age_of_death = data.age_of_death
 
-            if(response.status == 404){
+            if(response.status === 404){
             errorMsg = `No existe la persona`;
             setTimeout(() => {
                 Msg = "";
@@ -97,9 +100,13 @@
 </style>
 
 
+{#if personData}
+    <h2>Detalles de {person.name }</h2>
+    <hr>
+{:else}
+    <p>Esta persona no existe.</p>
+{/if}
 
-<h2>Details of {person.name}</h2>
-<hr>
 
 {#if personData}
 <table>
@@ -170,6 +177,9 @@
     </tbody>
 </table>
 {/if}
+
+
+
 
 
 <MessageContainer {Msg} {errorMsg}/>
