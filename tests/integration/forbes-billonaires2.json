@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "29d0b717-2867-4caa-a738-ea590574fc45",
+		"name": "forbes-billonaires API Testing v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32927299",
+		"_collection_link": "https://bold-capsule-113501.postman.co/workspace/sos2324-22~280f2686-1856-4053-a6eb-1371784520ed/collection/32927299-29d0b717-2867-4caa-a738-ea590574fc45?action=share&source=collection_link&creator=32927299"
+	},
+	"item": [
+		{
+			"name": "GET v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Apple v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rank\": 12,\n    \"name\": \"Microsoft\",\n    \"country\": \"United State\",\n    \"sale\": 200.481,\n    \"profit\": 49.217,\n    \"asset\": 300.141,\n    \"market_value\": 321.039,\n    \"year\": 2017\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Apple Fail v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Apple v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"rank\": 9,\n        \"name\": \"Apple\",\n        \"country\": \"United State\",\n        \"sale\": 2000.481,\n        \"profit\": 45.217,\n        \"asset\": 300.141,\n        \"market_value\": 752.039,\n        \"year\": 2017\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Fail v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  Apple v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/Apple",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						"Apple"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE v1/forbes-billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Initial Forbes Billonaires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET name,country v1/forbes-billonaires Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/:name/:country",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						":name",
+						":country"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						},
+						{
+							"key": "country",
+							"value": "United State"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT name,country v1/forbes-billonaires Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"rank\": 9,\n        \"name\": \"Apple\",\n        \"country\": \"United State\",\n        \"sale\": 2000.481,\n        \"profit\": 45.217,\n        \"asset\": 300.141,\n        \"market_value\": 752.039,\n        \"year\": 2017\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/:name/:country",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						":name",
+						":country"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Apple"
+						},
+						{
+							"key": "country",
+							"value": "United State"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  name,country v1/forbes-billonaires Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/forbes-billonaires/Toyota Motor/Japan",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"forbes-billonaires",
+						"Toyota Motor",
+						"Japan"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
