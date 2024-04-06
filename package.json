@@ -11,7 +11,7 @@
     "start": "node index.js",
     "pretest": "npm start &",
     "test-integration": "npm run test-famous-people && npm run test2 && npm run test-forbes-billonaires && npm run test-forbes-billionaires-list",
-    "test-forbes-billonaires": "npx newman run ./tests/integration/forbes-billonaires.json -e ./tests/integration/enviroments/Local.json",
+    "test-forbes-billonaires": "npx newman run ./tests/integration/forbes-billonaires 2.json -e ./tests/integration/enviroments/Local.json",
     "test2": "npx newman run ./tests/integration/top-richest-tests.json -e ./tests/integration/enviroments/Local.json",
     "test-famous-people": "npx newman run ./tests/integration/famous-people.json -e ./tests/integration/enviroments/Local.json",
     "test-forbes-billionaires-list": "npx newman run ./tests/integration/forbes-billionaires-list.json -e ./tests/integration/enviroments/Local.json",
