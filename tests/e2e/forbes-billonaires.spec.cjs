@@ -19,6 +19,7 @@ test('Create new company', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Crear'}).click();
   let messageNewPerson = (await page.getByText('Compañia creada con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageNewPerson).toBeVisible();
 
 });
@@ -31,6 +32,7 @@ test('Delete a company', async ({ page }) => {
   await page.locator('ul > button').first().click();
 
   let messageDeletedCompany = (await page.getByText('Compañia borrada con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageDeletedCompany).toBeVisible();
 
 });
@@ -44,6 +46,7 @@ test('Delete all', async ({ page }) => {
   await page.getByRole('button', { name: 'Borrar todo'}).click();
 
   let messageDeletedCompany = (await page.getByText('Compañias borrada con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageDeletedCompany).toBeVisible();
 
 });

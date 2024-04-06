@@ -19,6 +19,7 @@ test('Create new person', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Crear'}).click();
   let messageNewPerson = (await page.getByText('Persona creada con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageNewPerson).toBeVisible();
 });
 
@@ -30,6 +31,7 @@ test('Delete a person', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^Louis Armstrong- Male Borrar$/ }).getByRole('button').click();
 
   let messageDeletedPerson = (await page.getByText('Persona borrada con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageDeletedPerson).toBeVisible();
 });
 
@@ -42,5 +44,6 @@ test('Delete all', async ({ page }) => {
   await page.getByRole('button', { name: 'Borrar todo'}).click();
 
   let messageDeletedPerson = (await page.getByText('Personas borradas con éxito'));
+  await page.waitForTimeout(2000);
   expect(messageDeletedPerson).toBeVisible();
 });
