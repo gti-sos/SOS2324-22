@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "e5fe696f-fbcb-48bb-9155-14a07b485e09",
+		"name": "famous-people API Testing V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32927496",
+		"_collection_link": "https://bold-capsule-113501.postman.co/workspace/280f2686-1856-4053-a6eb-1371784520ed/collection/32927496-e5fe696f-fbcb-48bb-9155-14a07b485e09?action=share&source=collection_link&creator=32927496"
+	},
+	"item": [
+		{
+			"name": "GET famous-people",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Wolfgang",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Wolfgang Amadeus Mozart"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Wolfgang Amadeus Mozart\",\r\n        \"short_description\": \"Austrian composer of the Classical period\",\r\n        \"gender\": \"female\",\r\n        \"country\": \"Archduchy of Austria\",\r\n        \"occupation\": \"Artist\",\r\n        \"birth_year\": 1756,\r\n        \"death_year\": 1791,\r\n        \"age_of_death\": 30\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Wolfgang Amadeus Mozart"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people"
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Juan\",\r\n        \"short_description\": \"British philologist and author of classic high fantasy works\",\r\n        \"gender\": \"Female\",\r\n        \"country\": \"United Kingdom\",\r\n        \"occupation\": \"philologist\",\r\n        \"birth_year\": 1892,\r\n        \"death_year\": 1973,\r\n        \"age_of_death\": 91\r\n       \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{SERVER}}/api/v2/famous-people"
+			},
+			"response": []
+		},
+		{
+			"name": "POST  bad request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Wolfgang Amadeus Mozart"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ALL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people"
+			},
+			"response": []
+		},
+		{
+			"name": "GET loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people/loadInitialData"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ONE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Adolf Hitler"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET por dos campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches scheme\", function () {\r",
+							"    pm.expect(pm.response.size == 8);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name/:country",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name",
+						":country"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Adolf Hitler"
+						},
+						{
+							"key": "country",
+							"value": "Germany"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT por dos campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"J. R. R. Tolkien\",\r\n        \"short_description\": \"British philologist and author of classic high fantasy works\",\r\n        \"gender\": \"Female\",\r\n        \"country\": \"United Kingdom\",\r\n        \"occupation\": \"Politician\",\r\n        \"birth_year\": 1892,\r\n        \"death_year\": 1973,\r\n        \"age_of_death\": 81\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name/:country",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name",
+						":country"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "J. R. R. Tolkien"
+						},
+						{
+							"key": "country",
+							"value": "United Kingdom"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE por dos campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v2/famous-people/:name/:country",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"famous-people",
+						":name",
+						":country"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "Abraham Lincoln"
+						},
+						{
+							"key": "country",
+							"value": "United States of America"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ALL Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people"
+			},
+			"response": []
+		},
+		{
+			"name": "GET loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{SERVER}}/api/v2/famous-people/loadInitialData"
+			},
+			"response": []
+		}
+	]
+}
