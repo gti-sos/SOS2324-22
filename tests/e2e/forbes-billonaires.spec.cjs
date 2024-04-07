@@ -8,7 +8,7 @@ test('List companies', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   let companyCount = (await page.getByRole('listitem').all()).length;
-  expect(companyCount).toBeGreaterThan(0);
+  await expect(companyCount).toBeGreaterThan(0);
 
 });
 
@@ -20,7 +20,7 @@ test('Create new company', async ({ page }) => {
   await page.getByRole('button', { name: 'Crear'}).click();
   let messageNewPerson = (await page.getByText('Compañia creada con éxito'));
   // await page.waitForTimeout(2000);
-  expect(messageNewPerson).toBeVisible();
+  await expect(messageNewPerson).toBeVisible();
 
 });
 
@@ -33,7 +33,7 @@ test('Delete a company', async ({ page }) => {
 
   let messageDeletedCompany = (await page.getByText('Compañia borrada con éxito'));
   // await page.waitForTimeout(2000);
-  expect(messageDeletedCompany).toBeVisible();
+  await expect(messageDeletedCompany).toBeVisible();
 
 });
 
@@ -47,6 +47,6 @@ test('Delete all', async ({ page }) => {
 
   let messageDeletedCompany = (await page.getByText('Compañias borrada con éxito'));
   // await page.waitForTimeout(2000);
-  expect(messageDeletedCompany).toBeVisible();
+  await expect(messageDeletedCompany).toBeVisible();
 
 });

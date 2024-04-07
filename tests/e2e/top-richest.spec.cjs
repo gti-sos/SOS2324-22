@@ -9,7 +9,7 @@ test('List people', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   let millionaireCount = (await page.locator('.svelte-1316pci').all()).length;
-  expect(millionaireCount).toBeGreaterThan(0);
+  await expect(millionaireCount).toBeGreaterThan(0);
 
 });
 
@@ -20,7 +20,7 @@ test('Create new millionaire', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Crear'}).click();
   let messageNewmillionaire = (await page.getByText('Millonarios creados con éxito'));
-  expect(messageNewmillionaire).toBeVisible();
+  await expect(messageNewmillionaire).toBeVisible();
 
 });
 
@@ -32,7 +32,7 @@ test('Delete a millionaire', async ({ page }) => {
   await page.locator('div').filter({ hasText: /^Elon Musk- 240 Borrar$/ }).getByRole('button').click();
 
   let messageDeletedmillionaire = (await page.getByText('Millonario borrado con éxito'));
-  expect(messageDeletedmillionaire).toBeVisible();
+  await expect(messageDeletedmillionaire).toBeVisible();
 
 });
 
@@ -45,6 +45,6 @@ test('Delete all', async ({ page }) => {
   await page.getByRole('button', { name: 'Borrar todo'}).click();
 
   let messageDeletedmillionaire = (await page.getByText('Millonarios borrados con éxito'));
-  expect(messageDeletedmillionaire).toBeVisible();
+  await expect(messageDeletedmillionaire).toBeVisible();
 
 });
