@@ -42,9 +42,31 @@
                 method: "GET"
             });
 
-            let data = await response.json();
+           let data = await response.json();
             people = data;
-        } catch (e) {
+            
+            if (response.status === 200) {
+                /*Msg = "Millonarios creados con éxito";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);*/
+            } else if (people.length ===0){
+                Msg = "La lista esta vacía";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            } else if( response.status === 400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
+            }else {
+                errorMsg = "Error cargando millonarios";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
+            }
+        } catch(e) {
             errorMsg = e;
         }
     }
