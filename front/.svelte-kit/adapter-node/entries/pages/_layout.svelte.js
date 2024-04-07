@@ -6,7 +6,7 @@ const css$1 = {
 };
 const Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$1);
-  return `<nav class="svelte-1ihmghz" data-svelte-h="svelte-p5c0lf"><a href="/" class="svelte-1ihmghz">Iniciio</a> <a href="/famous-people" class="svelte-1ihmghz">famous-people</a> <a href="/forbes-billonaires" class="svelte-1ihmghz">forbes-billonaires</a> <a href="/forbes-billionaires-list" class="svelte-1ihmghz">forbes-billionaires-list</a> <a href="/top-richest" class="svelte-1ihmghz">top-richest</a> <a href="/about" class="svelte-1ihmghz">Sobre</a> </nav>`;
+  return `<nav class="svelte-1ihmghz" data-svelte-h="svelte-1t8ufb6"><a href="/" class="svelte-1ihmghz">Inicio</a> <a href="/famous-people" class="svelte-1ihmghz">famous-people</a> <a href="/forbes-billonaires" class="svelte-1ihmghz">forbes-billonaires</a> <a href="/forbes-billionaires-list" class="svelte-1ihmghz">forbes-billionaires-list</a> <a href="/top-richest" class="svelte-1ihmghz">top-richest</a> <a href="/about" class="svelte-1ihmghz">Sobre</a> </nav>`;
 });
 const Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `Made by gti.sos2324-22`;
@@ -35,7 +35,7 @@ const css = {
 };
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
-  return `${validate_component(Header, "Header").$$render($$result, {}, {}, {})} <h1 data-svelte-h="svelte-1gp92ev">Grupo 22</h1> <hr class="svelte-19q733z"> ${slots.default ? slots.default({}) : ``} <hr class="svelte-19q733z"> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})} ${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}`;
+  return `${$$result.head += `<!-- HEAD_svelte-u6kzbk_START -->${$$result.title = `<title>Grupo 22</title>`, ""}<!-- HEAD_svelte-u6kzbk_END -->`, ""} ${validate_component(Header, "Header").$$render($$result, {}, {}, {})} <h1 data-svelte-h="svelte-1gp92ev">Grupo 22</h1> <hr class="svelte-19q733z"> ${slots.default ? slots.default({}) : ``} <hr class="svelte-19q733z"> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})} ${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}`;
 });
 export {
   Layout as default

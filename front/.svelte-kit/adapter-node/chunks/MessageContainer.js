@@ -1,4 +1,5 @@
 import { c as create_ssr_component, e as escape } from "./ssr.js";
+/* empty css                                               */
 const css = {
   code: ".message-container.svelte-12643pp{margin:1rem 0;padding:1rem;border:1px solid #ccc;border-radius:4px}.message.svelte-12643pp{padding:0.5rem 1rem;border-radius:4px}.success.svelte-12643pp{background-color:#77dd77;color:#333}.error.svelte-12643pp{background-color:#ff6666;color:white}",
   map: null

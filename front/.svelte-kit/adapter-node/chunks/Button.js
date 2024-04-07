@@ -1,4 +1,16 @@
 import { c as create_ssr_component, g as compute_rest_props, h as spread, i as escape_object, j as escape_attribute_value, a as add_attribute, e as escape } from "./ssr.js";
+function isObject(value) {
+  const type = typeof value;
+  return value !== null && (type === "object" || type === "function");
+}
+function getColumnSizeClass(isXs, colWidth, colSize) {
+  if (colSize === true || colSize === "") {
+    return isXs ? "col" : `col-${colWidth}`;
+  } else if (colSize === "auto") {
+    return isXs ? "col-auto" : `col-${colWidth}-auto`;
+  }
+  return isXs ? `col-${colSize}` : `col-${colWidth}-${colSize}`;
+}
 function toClassName(value) {
   let result = "";
   if (typeof value === "string" || typeof value === "number") {
@@ -99,5 +111,8 @@ const Button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   )}${add_attribute("this", inner, 0)}>${slots.default ? slots.default({}) : ` ${children ? `${escape(children)}` : `${slots.default ? slots.default({}) : ``}`} `}</button>`}`;
 });
 export {
-  Button as B
+  Button as B,
+  classnames as c,
+  getColumnSizeClass as g,
+  isObject as i
 };

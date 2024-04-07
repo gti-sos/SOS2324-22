@@ -25,6 +25,10 @@
       "_app/immutable/assets/MessageContainer.D9aikaHl.css"
     ]
   },
+  "_MessageContainer.svelte_svelte_type_style_lang.js": {
+    "file": "_app/immutable/assets/MessageContainer.D9aikaHl.css",
+    "src": "_MessageContainer.svelte_svelte_type_style_lang.js"
+  },
   "_Theme.svelte_svelte_type_style_lang.js": {
     "file": "chunks/Theme.svelte_svelte_type_style_lang.js",
     "name": "Theme.svelte_svelte_type_style_lang",
@@ -211,11 +215,11 @@
     "imports": [
       "_ssr.js",
       "_Button.js",
-      "_Theme.svelte_svelte_type_style_lang.js",
-      "_MessageContainer.js"
+      "_Theme.svelte_svelte_type_style_lang.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.C5g9zWpA.css"
+      "_app/immutable/assets/_page._KdaN9OZ.css",
+      "_app/immutable/assets/MessageContainer.D9aikaHl.css"
     ]
   },
   "src/routes/top-richest/[name]/[nationality]/+page.svelte": {

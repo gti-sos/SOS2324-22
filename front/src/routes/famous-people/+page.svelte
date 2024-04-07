@@ -12,6 +12,21 @@
     let people = []
     let errorMsg = "";
     let Msg = ""; 
+    let currentPage = 1;
+	let offset = 0;
+	const limit = 10;
+    let search = {
+        name: '',
+        short_description: '',
+        gender: '',
+        country: '',
+        occupation: '',
+        birth_year: null,
+        death_year: null,
+        age_of_death: null
+    };
+    
+
 
     const newPerson = { 
         name: 'Mariano Rajoy',
@@ -30,7 +45,7 @@
 
     export async function getPeople() {
         try {
-            let response = await fetch(API,{
+            let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`,{
                 method: "GET"
             });
             let data = await response.json();
@@ -142,6 +157,48 @@
         }
     }
 
+    
+	async function searchPeople() {
+    const params = new URLSearchParams();
+    for (const key in search) {
+        if (search[key]) {
+            params.append(key, search[key]);
+        }
+    }
+
+    try {
+        const response = await fetch(`${API}/?${params}`, {
+            method: "GET"
+        });
+        const data = await response.json();
+
+        if (response.status === 200) {
+            people = data;
+            errorMsg = "";
+        } else {
+            errorMsg = "Error al realizar la búsqueda";
+        }
+    } catch (error) {
+        errorMsg = "Error del servidor al realizar la búsqueda";
+    }
+}
+
+
+
+    async function nextPage() {
+		if(people.length === limit){
+			offset += limit;
+			currentPage += 1;
+			await getPeople();
+		}
+	}
+	
+	async function previousPage(){
+		offset = Math.max(0, offset - limit);
+		currentPage = Math.max(1, currentPage-1);
+		await getPeople();
+	}
+
         
 </script>
 
@@ -173,6 +230,23 @@
     }
 </style>
 
+
+
+<div>
+    <h2>Buscar por campos</h2>
+
+    <input bind:value={search.name} placeholder="Nombre">
+    <input bind:value={search.short_description} placeholder="Breve descripcion">
+    <input bind:value={search.gender} placeholder="Género">
+    <input bind:value={search.country} placeholder="País">
+    <input bind:value={search.occupation} placeholder="Profesión">
+    <input bind:value={search.birth_year} placeholder="Año de nacimiento">
+    <input bind:value={search.death_year} placeholder="Año de fallecimiento">
+    <input bind:value={search.age_of_death} placeholder="Edad de muerte">
+</div>
+
+
+<Button color="primary" on:click="{searchPeople}">Buscar</Button>
 
 <table>
     <thead>
@@ -250,5 +324,12 @@
 
 <Button color="danger" on:click="{DeleteAllPeople}">Borrar todo</Button>
 
+
+<div>
+	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
+	<span>Página actual: {currentPage}</span>
+	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
+</div>
+
+
 <MessageContainer {Msg} {errorMsg}/>
-  
