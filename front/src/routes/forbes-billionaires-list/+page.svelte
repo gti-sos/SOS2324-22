@@ -4,7 +4,7 @@
 	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 	import  MessageContainer  from '../MessageContainer.svelte';
 
-	const API_BASE = /*'https://sos2324-22.appspot.com' ||*/ 'http://localhost:10000';
+	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000';
 	const API = `${API_BASE}/api/v2/forbes-billionaires-list`;
 	let people = []
 	let errorMsg = "";
@@ -24,10 +24,10 @@
 	}
 	
 	let search = {
-        rank: '',
+        rank: null,
         name: '',
-        net_worth: '',
-        age: '',
+        net_worth: null,
+        age: null,
         country: '',
         source: '',
         industry: ''
@@ -68,10 +68,17 @@
 	}
 	
 	async function searchBillionaires() {
-		const params = new URLSearchParams(search);
+		const params = new URLSearchParams();
+		for (const key in search) {
+			if (search[key] !== '' && search[key] !== null) {
+				const value = key === 'rank' || key === 'age' || key === 'net_worth' ? Number(search[key]) : search[key];
+				params.append(key, search[key]);
+			}
+		}
+		
 		
 		try{
-			const response = await fetch(`${API}/?${params}`,{
+			const response = await fetch(`${API}?${params}`,{
 				methos: "GET"
 			});
 			const data = await response.json();
@@ -170,7 +177,7 @@
 	}
 	
 	async function nextPage() {
-		if(people.length = limit){
+		if(people.length === limit){
 			offset += limit;
 			currentPage += 1;
 			await getForBillionaires();
@@ -235,11 +242,19 @@
         <div class="person-container" ><li><a href="/forbes-billionaires-list/{person.rank}">{person.name}</a>- {person.net_worth}</li> <Button class="delete-button" color="danger" on:click="{deleteBillonario(person.rank)}">Borrar</Button></div>
     {/each}
 </ul>
+
+<div>
+	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
+	<span>Página actual: {currentPage}</span>
+	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
+</div>
 	
-	<div>
+<div>
 	<h2>Crear un nuevo billonario</h2>
 </div>
 
+
+	
 <table>
     <thead>
         <tr>
@@ -301,11 +316,7 @@
     </tbody>
 </table>
 
-<div>
-	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
-	<span>Página actual: {currentPage}</span>
-	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
-</div>
+
 
 <Button color="danger" on:click="{deleteAllBillionaires}">Borrar todo</Button>
 
