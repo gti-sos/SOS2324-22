@@ -125,13 +125,13 @@
 			});
 
 			if (response.status == 200){
-				Msg = "Millonarios borrados con éxito"
+				Msg = "Billonarios borrados con éxito"
 				people= [];
 				setTimeout(() => {
 					Msg= "";
 				}, 3000);
 			} else {
-				errorMsg = "Ya están todas los millonarios borrados";
+				errorMsg = "Ya están todos los billonarios borrados";
 				setTimeout(() => {
 					errorMsg= "";
 				}, 3000);
@@ -160,7 +160,7 @@
 
 			if (status === 201) {
 				getForBillionaires();
-				Msg = "Billonario creada con éxito";
+				Msg = "Billonario creado con éxito";
 				setTimeout(() => {
 					Msg= "";
 				}, 3000);
