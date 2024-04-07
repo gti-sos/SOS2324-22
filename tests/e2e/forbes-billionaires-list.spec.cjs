@@ -44,8 +44,8 @@ test('Delete all', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Borrar todo'}).click();
 
-  let messageDeletedPerson = (await page.getByText('Billonarios borrados con éxito'));
-  await expect(messageDeletedPerson).toBeVisible();
+  let messageDeletedBillionaires = (await page.getByText('Ya están todos los billonarios borrados'));
+  await expect(messageDeletedBillionaires).toBeVisible();
 
 });
 
