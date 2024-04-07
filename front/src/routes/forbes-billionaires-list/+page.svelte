@@ -165,7 +165,7 @@
 					Msg= "";
 				}, 3000);
 			} else {
-				errorMsg = "El billonario ya existe";
+				errorMsg = "El billonario ya existe o hay campos erróneos";
 				setTimeout(() => {
 					errorMsg= "";
 				}, 3000);
