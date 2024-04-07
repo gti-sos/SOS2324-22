@@ -13,19 +13,6 @@ test('List people', async ({ page }) => {
 
 });
 
-test('Delete all', async ({ page }) => {
-  await page.goto('http://localhost:10000');
-
-  await page.getByRole('navigation').getByRole('link', { name: 'forbes-billionaires-list' }).click();
-  await page.waitForTimeout(2000);
-
-  await page.getByRole('button', { name: 'Borrar todo'}).click();
-
-  let messageDeletedPerson = (await page.getByText('Billonarios borrados con éxito'));
-  await expect(messageDeletedPerson).toBeVisible();
-
-});
-
 test('Create new person', async ({ page }) => {
   await page.goto('http://localhost:10000');
 
@@ -45,6 +32,19 @@ test('Delete a person', async ({ page }) => {
   await page.locator('ul > div > button').first().click();
 
   let messageDeletedPerson = (await page.getByText('Billonario borrado con éxito'));
+  await expect(messageDeletedPerson).toBeVisible();
+
+});
+
+test('Delete all', async ({ page }) => {
+  await page.goto('http://localhost:10000');
+
+  await page.getByRole('navigation').getByRole('link', { name: 'forbes-billionaires-list' }).click();
+  await page.waitForTimeout(2000);
+
+  await page.getByRole('button', { name: 'Borrar todo'}).click();
+
+  let messageDeletedPerson = (await page.getByText('Billonarios borrados con éxito'));
   await expect(messageDeletedPerson).toBeVisible();
 
 });
