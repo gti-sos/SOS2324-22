@@ -4,134 +4,183 @@
 	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 	import  MessageContainer  from '../MessageContainer.svelte';
 
-	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000';
+	const API_BASE = /*'https://sos2324-22.appspot.com' ||*/ 'http://localhost:10000';
 	const API = `${API_BASE}/api/v2/forbes-billionaires-list`;
-	//const API = http://localhost:10000/api/v2/forbes-billionaires-list
 	let people = []
 	let errorMsg = "";
 	let Msg = "";
+	let currentPage = 1;
+	let offset = 0;
+	const limit = 10;
 
 	const newPerson = {
-	rank: 11,
-	name: 'Bernardose Arnault family',
-	net_worth: 211,
-	age: 74,
-	country: 'France',
-	source: 'LVMH',
-	industry: 'Fashion'
+		rank: 11,
+		name: 'Bernardose Arnault family',
+		net_worth: 211,
+		age: 74,
+		country: 'France',
+		source: 'LVMH',
+		industry: 'Fashion'
 	}
+	
+	let search = {
+        rank: '',
+        name: '',
+        net_worth: '',
+        age: '',
+        country: '',
+        source: '',
+        industry: ''
+    };
 
 	onMount(() => {
-	getForBillionaires();
+		getForBillionaires();
 	})
 
 	export async function getForBillionaires() {
-	try {
-	let response = await fetch(API,{
-	method: "GET"
-	});
-	let data = await response.json();
-	people = data;
+		try {
+			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`,{
+				method: "GET"
+			});
+			let data = await response.json();
+			people = data;
 
-	if (response.status === 200) {
-	Msg = "Billonarios creados con éxito";
-	setTimeout(() => {
-	Msg ="";
-	},3000);
-	} else if (people.length ===0){
-	Msg = "La lista esta vacía";
-	setTimeout(() => {
-	Msg ="";
-	},3000);
-	}else {
-	errorMsg = "Error cargando personas";
-	setTimeout(() => {
-	errorMsg ="";
-	},3000);
-	}
-	} catch(e) {
-	errorMsg = e;
-	}
+			if (response.status === 200) {
+				/*Msg = "Billonarios creados con éxito";
+				setTimeout(() => {
+					Msg ="";
+				},3000);*/
+			} else if (people.length ===0){
+				Msg = "La lista esta vacía";
+				setTimeout(() => {
+					Msg ="";
+				},3000);
+			}else {
+				errorMsg = "Error cargando personas";
+				setTimeout(() => {
+					errorMsg ="";
+				},3000);
+			}
+		} catch(e) {
+			errorMsg = e;
+		}
 
 	}
-
-	async function deleteMillonarios(n) {
-	try {
-	let response = await fetch(API+"/"+n,{
-	method: "DELETE"
-	});
-	console.log(`Borrando billonario ${n}`);
-
-	if (response.status === 200){
-	Msg = "Billonario borrado con éxito"
-	people = people.filter(p => p.name !== n);
-	setTimeout(() => {
-	Msg= "";
-	}, 3000);
-	} else {
-	errorMsg = "Ese billonario no existe";
-	setTimeout(() => {
-	errorMsg= "";
-	}, 3000);
+	
+	async function searchBillionaires() {
+		const params = new URLSearchParams(search);
+		
+		try{
+			const response = await fetch(`${API}/?${params}`,{
+				methos: "GET"
+			});
+			const data = await response.json();
+			
+			if (response.status === 200) {
+				people = data;
+				errorMsg = "";
+			} else {
+				errorMsg = "Error al realizar la búsqueda";
+			}
+		} catch (error) {
+			errorMsg = "Error del servidor al realizar la búsqueda";
+		}
 	}
-	} catch(e) {
-	errorMsg = e;
-	}
+
+	async function deleteBillonario(rank) {
+		try {
+			let response = await fetch(`${API}/${rank}`,{
+				method: "DELETE"
+			});
+			console.log(`Borrando billonario ${rank}`);
+
+			if (response.status === 200){
+				Msg = "Billonario borrado con éxito"
+				people = people.filter(p => p.rank !== rank);
+				setTimeout(() => {
+					Msg= "";
+				}, 3000);
+			} else {
+				errorMsg = "Ese billonario no existe";
+				setTimeout(() => {
+					errorMsg= "";
+				}, 3000);
+			}
+		} catch(e) {
+			errorMsg = e;
+		}
 	}
 
 	async function deleteAllBillionaires() {
-	try {
-	let response = await fetch(API,{
-	method: "DELETE"
-	});
+		try {
+			let response = await fetch(API,{
+				method: "DELETE"
+			});
 
-	if (response.status == 200){
-	Msg = "Millonarios borrados con éxito"
-	people= [];
-	setTimeout(() => {
-	Msg= "";
-	}, 3000);
-	} else {
-	errorMsg = "Ya están todas los millonarios borrados";
-	setTimeout(() => {
-	errorMsg= "";
-	}, 3000);
-	}
-	} catch(e) {
-	errorMsg = e;
+			if (response.status == 200){
+				Msg = "Millonarios borrados con éxito"
+				people= [];
+				setTimeout(() => {
+					Msg= "";
+				}, 3000);
+			} else {
+				errorMsg = "Ya están todas los millonarios borrados";
+				setTimeout(() => {
+					errorMsg= "";
+				}, 3000);
+			}
+		} catch(e) {
+			errorMsg = e;
 
-	}
+		}
 	}
 
 
 	async function createBillionaires() {
-	try {
-	let response = await fetch(API,{
-	method: "POST",
-	headers: {
-	"Content-Type": "application/json"
-	},
-	body: JSON.stringify(newPerson)
-	});
-	let status = await response.status;
-	console.log(`Creation response status ${status}`)
+		try {
+			newPerson.rank = parseInt(newPerson.rank);
+			newPerson.net_worth = parseFloat(newPerson.net_worth);
+			newPerson.age = parseInt(newPerson.age);
+			let response = await fetch(API,{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(newPerson)
+			});
+			let status = await response.status;
+			console.log(`Creation response status ${status}`)
 
-	if (status === 201) {
-	getForBillionaires();
-	Msg = "Billonario creada con éxito";
-	setTimeout(() => {
-	Msg= "";
-	}, 3000);
-	} else {
-	errorMsg = "El billonario ya existe";
-	setTimeout(() => {
-	errorMsg= "";
-	}, 3000);
-	}
+			if (status === 201) {
+				getForBillionaires();
+				Msg = "Billonario creada con éxito";
+				setTimeout(() => {
+					Msg= "";
+				}, 3000);
+			} else {
+				errorMsg = "El billonario ya existe";
+				setTimeout(() => {
+					errorMsg= "";
+				}, 3000);
+			}
 
-	} catch(e) {
-	errorMsg = e;
+		} catch(e) {
+			errorMsg = e;
+		}
 	}
+	
+	async function nextPage() {
+		if(people.length = limit){
+			offset += limit;
+			currentPage += 1;
+			await getForBillionaires();
+		}
+	}
+	
+	async function previousPage(){
+		offset = Math.max(0, offset - limit);
+		currentPage = Math.max(1, currentPage-1);
+		await getForBillionaires();
 	}
 
 
@@ -165,6 +214,31 @@
     }
 </style>
 
+
+<div>
+	<h2>Buscar por campos</h2>
+</div>
+
+<input bind:value={search.rank} placeholder="Rank">
+<input bind:value={search.name} placeholder="Nombre">
+<input bind:value={search.net_worth} placeholder="Patrimonio neto">
+<input bind:value={search.age} placeholder="Edad">
+<input bind:value={search.country} placeholder="País">
+<input bind:value={search.source} placeholder="Empresa">
+<input bind:value={search.industry} placeholder="Industria">
+
+<Button color="primary" on:click="{searchBillionaires}">Buscar</Button>
+
+
+<ul>
+    {#each people as person}
+        <div class="person-container" ><li><a href="/forbes-billionaires-list/{person.rank}">{person.name}</a>- {person.net_worth}</li> <Button class="delete-button" color="danger" on:click="{deleteBillonario(person.rank)}">Borrar</Button></div>
+    {/each}
+</ul>
+	
+	<div>
+	<h2>Crear un nuevo billonario</h2>
+</div>
 
 <table>
     <thead>
@@ -227,12 +301,11 @@
     </tbody>
 </table>
 
-
-<ul>
-    {#each people as person}
-        <div class="person-container" ><li><a href="/forbes-billionaires-list/{person.rank}">{person.name}</a>- {person.net_worth}</li> <Button class="delete-button" color="danger" on:click="{deleteMillonarios(person.name)}">Borrar</Button></div>
-    {/each}
-</ul>
+<div>
+	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
+	<span>Página actual: {currentPage}</span>
+	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
+</div>
 
 <Button color="danger" on:click="{deleteAllBillionaires}">Borrar todo</Button>
 

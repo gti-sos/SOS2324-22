@@ -6,83 +6,84 @@
 
 
 	let person = $page.params;
-	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
+	const API_BASE = /*'https://sos2324-22.appspot.com' ||*/ 'http://localhost:10000'
 	const API = `${API_BASE}/api/v2/forbes-billionaires-list/${person.rank}`;
 	let errorMsg = "";
 	let Msg = "";
-	let billionaireData;
-
+	let billionaireData = null;
+	
 	async function getBillionaire() {
-	const response = await fetch(API,{
-	method: "GET"
-	})
-	const data = await response.json();
-
-	try {
-
-	let rank = data.rank;
-	let name = data.name;
-	let net_worth = data.net_worth;
-	let age = data.age;
-	let country = data.country;
-	let source = data.source;
-	let industry = data.industry;
-
-
-	if(response.status == 404){
-	errorMsg = `No existe el billonario`;
-	setTimeout(() => {
-	Msg = "";
-	}, 3000);
-	}
-	} catch(e) {
-	errorMsg = e;
+		const response = await fetch(API,{
+			method: "GET"
+		});
+    
+		try {
+			if (response.status === 404) {
+				errorMsg = `El billonario con el puesto ${person.rank} no existe`;
+				setTimeout(() => {
+					errorMsg = "";
+				}, 3000);
+				return null;
+			} else {
+				const data = await response.json();
+				return data;
+			}
+		} catch (error) {
+			/*errorMsg = "Error al obtener los datos del billonario";
+			setTimeout(() => {
+				errorMsg = "";
+			}, 3000);*/
+			return null;
+		}
 	}
 
-	return data;
+	
+	async function updateBillionaire() {
+		const updatedBillionaire = {
+			rank: parseInt(billionaireData?.rank),
+			name: billionaireData?.name,
+			net_worth: parseFloat(billionaireData?.net_worth),
+			age: parseInt(billionaireData?.age),
+			country: billionaireData?.country,
+			source: billionaireData?.source,
+			industry: billionaireData?.industry
+		};
 
-	}
+		try {
+        const response = await fetch(API, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedBillionaire)
+        });
+
+        if (response.ok) {
+            Msg = "Billonario actualizado con éxito";
+            getBillionaire();
+            setTimeout(() => {
+                Msg = "";
+            }, 3000);
+        } else {
+            errorMsg = "Error al actualizar el billonario";
+            setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+        }
+    } catch (error) {
+        errorMsg = error.message || "Error de red al intentar actualizar el billonario";
+        setTimeout(() => {
+            errorMsg = "";
+        }, 3000);
+    }
+}
 
 	onMount(async () => {
 		billionaireData = await getBillionaire();
-		console.log(billionaireData.name)
+		if(billionaireData){
+			console.log(billionaireData.name)
+		}
 	})
-
-	async function updateBillionaire(){
-	const updatedBillionaire = {
-	rank: billionaireData?.rank,
-	name: billionaireData?.name,
-	net_worth: billionaireData?.net_worth,
-	age: billionaireData?.age,
-	country: billionaireData?.country,
-	source: billionaireData?.source,
-	industry: billionaireData?.industry,
-	};
-
-	try{
-	let response = await fetch(API,{
-	method: "PUT",
-	headers: {
-	"Content-Type": "application/json"
-	},
-	body: JSON.stringify(updatedBillionaire)
-	});
-	if (response.ok){
-	Msg = "Billonario actualizado con éxito"
-	getBillionaire();
-	setTimeout(() => {
-	Msg= "";
-	}, 3000);
-	} else {
-	errorMsg = "Ese billonario no existe";
-	setTimeout(() => {
-	errorMsg= "";
-	}, 3000);
-	}
-	} catch(e) {
-	errorMsg = e;
-	}
-	}
 
 
 </script>
@@ -98,11 +99,15 @@
 
 
 
-<h2>Details of {person.name}</h2>
-<hr>
-
 {#if billionaireData}
-<table>
+	<h2>Detalles de {billionaireData.name }</h2>
+	<hr>
+{:else}
+	<p>Esta persona no existe.</p>
+{/if}
+
+	{#if billionaireData}
+	<table>
     <thead>
         <tr>
 			<th>
@@ -121,7 +126,7 @@
 	<tbody>
 		<tr>
 			<td>
-				<input bind:value={billionaireData.rank}>
+				<input bind:value={billionaireData.rank} disabled>
             </td>
 			<td>
 				<input bind:value={billionaireData.name}>
