@@ -134,7 +134,7 @@
 				errorMsg = "Ya están todos los billonarios borrados";
 				setTimeout(() => {
 					errorMsg= "";
-				}, 3000);
+				}, 3000);		
 			}
 		} catch(e) {
 			errorMsg = e;
