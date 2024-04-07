@@ -188,7 +188,7 @@ function LoadBackendFBL2(app, dbForBillionaires) {
 
 
     app.get(API_BASE + "/forbes-billionaires-list/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/26204506/2sA2xh3t1V");
+        res.redirect("https://documenter.getpostman.com/view/26204506/2sA35HXLnk");
     });
 
     /*app.get(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
@@ -241,10 +241,10 @@ function LoadBackendFBL2(app, dbForBillionaires) {
         res.sendStatus(405, "Method not allowed");
     })
 
-    app.delete(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
-        let billionaireDeleted = req.params.name;
+    app.delete(API_BASE + "/forbes-billionaires-list/:rank", (req, res) => {
+        let rank = parseInt(req.params.rank);
 
-        dbForBillionaires.remove({ "name": billionaireDeleted }, {}, (err, numRemoved) => {
+        dbForBillionaires.remove({ rank : rank }, {}, (err, numRemoved) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
