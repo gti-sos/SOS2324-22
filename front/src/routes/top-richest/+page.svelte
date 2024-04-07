@@ -223,9 +223,9 @@ ERROR: {errorMsg}
 			</ul>
             <div class="pagination" style="margin-bottom: 20px;">
             
-                <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios}>Borrar todos los millonarios</Button>
-                <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0}>Anterior</Button>
-                <Button on:click={nextPage} disabled={people.length < limit}>Siguiente</Button>
+                <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios} class="btn-sm">Borrar todos los millonarios</Button>
+                <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
+                <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
             </div>
 		</div>
 	</Col>
@@ -275,7 +275,7 @@ ERROR: {errorMsg}
                 <li class="py-1 millionaireItem">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <a href="/top-richest/{result.name}/{result.net_worth}">{result.name} {result.net_worth}</a>
+                            <a href="/top-richest/{result.name}/{result.nationality}">{result.name} {result.nationality}</a>
                         </div>
                     </div>
                 </li>
