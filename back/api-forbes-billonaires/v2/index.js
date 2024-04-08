@@ -92,7 +92,7 @@ let lista = [
       year: 2017    
     },
     { rank: 11,
-      name: 'Microsoft',
+      name: 'Nike',
       country: 'United State',
       sale: 113.107,
       profit: 24.8566,
