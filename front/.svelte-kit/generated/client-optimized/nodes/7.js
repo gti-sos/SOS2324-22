@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/forbes-billionaires-list/[rank]/+page.svelte";
