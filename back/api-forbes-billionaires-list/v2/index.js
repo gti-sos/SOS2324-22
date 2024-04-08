@@ -92,7 +92,6 @@ let lista = [
         industry: 'Technology',
     }];
 
-    
 
 function validarDatos(req, res, next) {
     const json = req.body;
