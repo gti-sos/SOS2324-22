@@ -13,6 +13,17 @@
     let errorMsg = "";
     let Msg = ""; 
 
+    let searchParams = {
+        name: "",
+        net_worth: "",
+        bday_year: "",
+        age: "",
+        nationality: "",
+
+    };
+    let searchResults = [];
+    let searchErrorMsg = "";
+
     const newPerson = { 
         name: 'Elon Musk', 
         net_worth: 240, 
@@ -25,23 +36,29 @@
         getMillonarios();
     })
 
-    export async function getMillonarios() {
+    async function getMillonarios() {
         try {
-            let response = await fetch(API,{
+            let response = await fetch(`${API}?limit=${limit}&offset=${offset}`, {
                 method: "GET"
             });
-            let data = await response.json();
+
+           let data = await response.json();
             people = data;
             
             if (response.status === 200) {
-                Msg = "Millonarios creados con éxito";
+                /*Msg = "Millonarios creados con éxito";
                 setTimeout(() => {
                     Msg ="";
-                },3000);
+                },3000);*/
             } else if (people.length ===0){
                 Msg = "La lista esta vacía";
                 setTimeout(() => {
                     Msg ="";
+                },3000);
+            } else if( response.status === 400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    errorMsg ="";
                 },3000);
             }else {
                 errorMsg = "Error cargando millonarios";
@@ -52,7 +69,6 @@
         } catch(e) {
             errorMsg = e;
         }
-            
     }
 
     async function deleteMillonarios(n) {
@@ -105,127 +121,271 @@
     
             
     async function createMillonarios() {
-        try {
-            let response = await fetch(API,{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newPerson)
-            });
-            let status = await response.status;
-            console.log(`Creation response status ${status}`)
+    try {
+        let response = await fetch(API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newPerson)
+        });
+        let status = response.status;
+        console.log(`Creation response status ${status}`);
 
-            if (status === 201) {
-                getMillonarios();
-                Msg = "Millonario creado con éxito";
-                setTimeout(() => {
-                    Msg= "";
-                }, 3000);
+        if (status === 201) {
+            getMillonarios();
+            Msg = "Millonario creado con éxito";
+            setTimeout(() => {
+                Msg = "";
+            }, 3000);
+        } else if (status === 409) {
+            getMillonarios();
+            Msg = "El millonario ya existe";
+            setTimeout(() => {
+                Msg = "";
+            }, 3000);
+        } else {
+            errorMsg = "Error creando el millonario";
+            setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+        }
+
+    } catch (e) {
+        errorMsg = e;
+    }
+}
+
+    async function searchReports() {
+        try {
+            let queryString = Object.keys(searchParams)
+                .filter(key => searchParams[key] !== "")
+                .map(key => `${key}=${searchParams[key]}`)
+                .join("&");
+
+            let response = await fetch(`${API}?${queryString}`, {
+                method: "GET"
+            });
+
+            if (response.ok) {
+                let data = await response.json();
+                searchResults = data;
+                searchErrorMsg = "";
             } else {
-                errorMsg = "El millonario ya existe";
-                setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
+                searchErrorMsg = `Error en la búsqueda: ${response.statusText}`;
             }
-            
-        } catch(e) {
-            errorMsg = e;
+        } catch (e) {
+            searchErrorMsg = `Error en la búsqueda: ${e.message}`;
         }
     }
+    // Paginacion
+
+
+    let limit = 10; 
+    let offset = 0; 
+
+   
+
+    function nextPage() {
+        offset += limit;
+        getMillonarios();
+    }
+
+
+    function previousPage() {
+        if (offset >= limit) {
+            offset -= limit;
+            getMillonarios();
+        }
+    }
+
+
+    function parseNet_worth(value) {
+        return parseInt(value);
+    }
+
+    function parseBday_year(value) {
+        return parseInt(value);
+    }
+
+    function parseAge(value) {
+        return parseInt(value);
+    }
+
 
         
 </script>
 
+{#if errorMsg != ""}
+ERROR: {errorMsg}
+{/if}
+
+<Row>
+	<Col sm="3">
+		<div class="api-section d-flex flex-column justify-content-end">
+			<h2>Lista de Millonarios</h2>
+			<ul>
+				{#each people as m}
+					<li class="py-1 millionaireItem">
+						<div class="d-flex justify-content-between align-items-center">
+							<div>
+								<a href="/top-richest/{m.name}/{m.nationality}">{m.name} {m.nationality}</a>
+							</div>
+							<div class="edits">
+								<Button
+									color="danger"
+									outline
+									size="sm"
+									on:click={() => deleteMillonarios(m.name)}>Borrar</Button
+								>
+							</div>
+						</div>
+					</li>
+				{/each}
+			</ul>
+            <div class="pagination" style="margin-bottom: 20px;">
+            
+                <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios} class="btn-sm">Borrar todos los millonarios</Button>
+                <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
+                <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
+            </div>
+		</div>
+	</Col>
+    <Col sm="3">
+		<div class="create-section">
+			<h2>Buscar Millonarios</h2>
+            <form on:submit|preventDefault={searchReports}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="py-1">Nombre:</td>
+                            <td class="py-1"><input placeholder="Nombre del millonario" bind:value={searchParams.name} /></td>
+                        </tr>
+                        <tr>
+                            <td class="py-1">Patrimonio neto:</td>
+                            <td class="py-1"><input type="number" placeholder="1" bind:value={searchParams.net_worth} /></td>
+                        </tr>
+                        <tr>
+                            <td class="py-1">Año de nacimiento:</td>
+                            <td class="py-1"><input placeholder="2024" bind:value={searchParams.bday_year} /></td>
+                        </tr>
+                        <tr>
+                            <td class="py-1">Edad:</td>
+                            <td class="py-1"><input placeholder="0" bind:value={searchParams.age} /></td>
+                        </tr>
+                        <tr>
+                            <td class="py-1">Nacionalidad:</td>
+                            <td class="py-1"><input placeholder="Nacionalidad" bind:value={searchParams.nationality} /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            <div class="centered-button">
+                <Button color="primary" style="" outline>Buscar</Button>
+            </div>
+        </form>
+    </div>
+    {#if searchErrorMsg}
+        <p>{searchErrorMsg}</p>
+    {/if}
+	</Col>
+    {#if searchResults.length > 0}
+    <Col sm="3">
+    <div class="create-section">
+        <h3>Resultados de la búsqueda:</h3>
+        <ul>
+            {#each searchResults as result}
+                <li class="py-1 millionaireItem">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="/top-richest/{result.name}/{result.nationality}">{result.name} {result.nationality}</a>
+                        </div>
+                    </div>
+                </li>
+            {/each}
+        </ul>
+    </div>
+    <div class="d-flex justify-content-between">
+        
+    </div>
+    </Col>
+    {/if}
+	<Col sm="3">
+		<div class="create-section">
+			<h2>Añadir nuevo Millonario</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="py-1">Nombre:</td>
+                        <td class="py-1"><input placeholder="Nombre del millonario" bind:value={newPerson.name} /></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Patrimonio Neto:</td>
+                        <td class="py-1"><input type="number" placeholder="0" on:input={e => newPerson.net_worth = parseNet_worth(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Año de nacimiento:</td>
+                        <td class="py-1"><input placeholder="2024" on:input={e => newPerson.bday_year = parseBday_year(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Edad:</td>
+                        <td class="py-1"><input placeholder="0" on:input={e => newPerson.age = parseAge(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Nacionalidad:</td>
+                        <td class="py-1"><input placeholder="Nacionalidad" bind:value={newPerson.nationality} /></td>
+                    </tr>
+                </tbody>
+            </table>
+			<div class="centered-button">
+				<Button color="primary" outline on:click={createMillonarios}>Crear</Button>
+			</div>
+            {#if Msg}
+				<p>{Msg}</p>
+			{/if}
+			{#if errorMsg}
+				<p>{errorMsg}</p>
+			{/if}
+		</div>
+	</Col>
+</Row>
+
 <style>
-    input {
-        width: 200px; 
-        border: 1px solid #ccc; 
-        padding: 5px; 
-        font-size: 16px; 
-    }
-    .person-container {
-        display: flex;
-        align-items: center;
-        margin: 1rem 0;
-    }
 
-    .person-container li {
-        margin-right: 1rem;
-    }
+/* Estilos para títulos */
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 0.8em;
+    color: #333;
+}
 
-    .delete-button {
-    margin-right: 1rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f44336;
-    color: white;
-    cursor: pointer;
-    }
+
+
+.create-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.api-section {
+    margin-top: 2em;
+    margin-left: 2em;
+}
+
+
+/* Estilos para áreas de edición */
+.edits {
+    display: flex;
+    margin-left: 2em;
+}
+
+/* Estilos para botones centrados */
+.centered-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+}
+
 </style>
 
 
-<table>
-    <thead>
-        <tr>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Patrimonio neto
-            </th>
-            <th>
-                Año de nacimiento
-            </th>
-          
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <input bind:value={newPerson.name}>
-            </td>
-            <td>
-                <input bind:value={newPerson.net_worth}>
-            </td>
-            <td>
-                <input bind:value={newPerson.bday_year}>
-            </td>
-        </tr>            
-    </tbody>
-    <thead>
-        <tr>
-            <th>
-                Edad
-            </th>
-            <th>
-                Nacionalidad
-            </th>
-           
-        </tr>
-    </thead>
-    <tbody>
-        <td>
-            <input bind:value={newPerson.age}>
-        </td>
-        <td>
-            <input bind:value={newPerson.nationality}>
-        </td>
-       
-        <td>
-            <Button color="primary" on:click="{createMillonarios}">Crear</Button>
-        </td>
-    </tbody>
-</table>
-
-
-<ul>
-    {#each people as person}
-        <div class="person-container" ><li><a href="/top-richest/{person.name}/{person.nationality}">{person.name}</a>- {person.net_worth}</li> <Button class="delete-button" color="danger" on:click="{deleteMillonarios(person.name)}">Borrar</Button></div>
-    {/each}
-</ul>
-
-<Button color="danger" on:click="{deleteAllMillonarios}">Borrar todo</Button>
-
-<MessageContainer {Msg} {errorMsg}/>
-  

@@ -35,7 +35,7 @@ const css = {
 };
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
-  return `${validate_component(Header, "Header").$$render($$result, {}, {}, {})} <h1 data-svelte-h="svelte-1gp92ev">Grupo 22</h1> <hr class="svelte-19q733z"> ${slots.default ? slots.default({}) : ``} <hr class="svelte-19q733z"> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})} ${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}`;
+  return `${$$result.head += `<!-- HEAD_svelte-u6kzbk_START -->${$$result.title = `<title>Grupo 22</title>`, ""}<!-- HEAD_svelte-u6kzbk_END -->`, ""} ${validate_component(Header, "Header").$$render($$result, {}, {}, {})} <h1 data-svelte-h="svelte-1gp92ev">Grupo 22</h1> <hr class="svelte-19q733z"> ${slots.default ? slots.default({}) : ``} <hr class="svelte-19q733z"> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})} ${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}`;
 });
 export {
   Layout as default

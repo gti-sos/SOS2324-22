@@ -90,6 +90,33 @@ let lista = [
       asset: 412.496,
       market_value: 171.85,
       year: 2017    
+    },
+    { rank: 11,
+      name: 'Microsoft',
+      country: 'United State',
+      sale: 113.107,
+      profit: 24.8566,
+      asset: 2611.539,
+      market_value: 141.229,
+      year: 2017    
+    },
+    { rank: 12,
+      name: 'Google',
+      country: 'United State',
+      sale: 217.481,
+      profit: 45.217,
+      asset: 331.141,
+      market_value: 752.039,
+      year: 2017    
+    },
+    { rank: 13,
+      name: 'Aramco',
+      country: 'Saudi Arabia',
+      sale: 249.902,
+      profit: 17.1115,
+      asset: 412.496,
+      market_value: 171.85,
+      year: 2017    
     }];
 
   
