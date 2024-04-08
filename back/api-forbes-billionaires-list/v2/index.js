@@ -191,23 +191,11 @@ function LoadBackendFBL2(app, dbForBillionaires) {
         res.redirect("https://documenter.getpostman.com/view/26204506/2sA35HXLnk");
     });
 
-    /*app.get(API_BASE + "/forbes-billionaires-list/:name", (req, res) => {
-        let personName = req.params.name;
-
-        dbForBillionaires.findOne({ name: personName }, { _id: 0 }, (err, searchedPerson) => {
-            if (err) {
-                res.sendStatus(404,"Person not found");
-            } else {
-                res.send(searchedPerson);
-            }
-        })
-    });*/
-
     app.get(API_BASE + "/forbes-billionaires-list/:rank", (req, res) => {
         let rank = parseInt(req.params.rank);
 
         dbForBillionaires.findOne({ rank: rank }, { _id: 0 }, (err, searchedPerson) => {
-            if (err) {
+            if (err || !searchedPerson) {
                 res.sendStatus(404, "Person not found");
             } else {
                 res.send(searchedPerson);
@@ -218,7 +206,7 @@ function LoadBackendFBL2(app, dbForBillionaires) {
     app.post(API_BASE + "/forbes-billionaires-list/",validarDatos, (req, res) => {
         let person = req.body;
 
-        dbForBillionaires.findOne({ name: person.name }, (err, existingPerson) => {
+        dbForBillionaires.findOne({ rank: person.rank }, (err, existingPerson) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {

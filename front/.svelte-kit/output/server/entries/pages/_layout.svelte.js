@@ -6,7 +6,7 @@ const css$1 = {
 };
 const Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$1);
-  return `<nav class="svelte-1ihmghz" data-svelte-h="svelte-p5c0lf"><a href="/" class="svelte-1ihmghz">Iniciio</a> <a href="/famous-people" class="svelte-1ihmghz">famous-people</a> <a href="/forbes-billonaires" class="svelte-1ihmghz">forbes-billonaires</a> <a href="/forbes-billionaires-list" class="svelte-1ihmghz">forbes-billionaires-list</a> <a href="/top-richest" class="svelte-1ihmghz">top-richest</a> <a href="/about" class="svelte-1ihmghz">Sobre</a> </nav>`;
+  return `<nav class="svelte-1ihmghz" data-svelte-h="svelte-1t8ufb6"><a href="/" class="svelte-1ihmghz">Inicio</a> <a href="/famous-people" class="svelte-1ihmghz">famous-people</a> <a href="/forbes-billonaires" class="svelte-1ihmghz">forbes-billonaires</a> <a href="/forbes-billionaires-list" class="svelte-1ihmghz">forbes-billionaires-list</a> <a href="/top-richest" class="svelte-1ihmghz">top-richest</a> <a href="/about" class="svelte-1ihmghz">Sobre</a> </nav>`;
 });
 const Footer = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `Made by gti.sos2324-22`;

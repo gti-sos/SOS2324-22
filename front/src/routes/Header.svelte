@@ -1,5 +1,5 @@
 <nav>
-    <a href="/">Iniciio</a>
+    <a href="/">Inicio</a>
     <a href="/famous-people">famous-people</a>
     <a href="/forbes-billonaires">forbes-billonaires</a>
 	<a href="/forbes-billionaires-list">forbes-billionaires-list</a>
