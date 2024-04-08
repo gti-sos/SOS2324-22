@@ -301,13 +301,13 @@
             <input bind:value={newPerson.occupation}>
         </td>
         <td>
-            <input bind:value={newPerson.birth_year}>
+            <input type="number" bind:value={newPerson.birth_year}>
         </td>
         <td>
-            <input bind:value={newPerson.death_year}>
+            <input type="number" bind:value={newPerson.death_year}>
         </td>
         <td>
-            <input bind:value={newPerson.age_of_death}>
+            <input type="number" bind:value={newPerson.age_of_death}>
         </td>
         <td>
             <Button color="primary" on:click="{CreatePeople}">Crear</Button>
