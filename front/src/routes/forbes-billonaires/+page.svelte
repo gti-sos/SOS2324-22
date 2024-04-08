@@ -199,7 +199,7 @@
 <div>
     <h2>Buscar por campos</h2>
 
-    <input bind:value={search.rank} placeholder="Ranking">
+    <input bind:value={search.rank} type="number" placeholder="Ranking">
     <input bind:value={search.name} placeholder="Nombre Compañia">
     <input bind:value={search.country} placeholder="País">
     <input bind:value={search.sale} placeholder="Ventas">
@@ -244,7 +244,7 @@
     <tbody>
         <tr>
             <td>
-                <input bind:value={newCompany.rank}>
+                <input type="number" bind:value={newCompany.rank}>
             </td>
             <td>
                 <input bind:value={newCompany.name}>
@@ -253,19 +253,19 @@
                 <input bind:value={newCompany.country}>
             </td>
             <td>
-                <input bind:value={newCompany.sale}>
+                <input type="number" bind:value={newCompany.sale}>
             </td>
             <td>
-                <input bind:value={newCompany.profit}>
+                <input type="number" bind:value={newCompany.profit}>
             </td>
             <td>
-                <input bind:value={newCompany.asset}>
+                <input type="number" bind:value={newCompany.asset}>
             </td>
             <td>
-                <input bind:value={newCompany.market_value}>
+                <input type="number" bind:value={newCompany.market_value}>
             </td>
             <td>
-                <input bind:value={newCompany.year}>
+                <input type="number" bind:value={newCompany.year}>
             </td>
             <td>
                 <Button color="primary" on:click="{CreateCompany}">Crear</Button>
