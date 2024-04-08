@@ -8,7 +8,7 @@ test('List people', async ({ page }) => {
   
   await page.waitForTimeout(2000);
 
-  let billionaireCount = (await page.locator('.svelte-1316pci').all()).length;
+  let billionaireCount = (await page.locator('.s-iksz06zXxa-n').all()).length;
   await expect(billionaireCount).toBeGreaterThan(0);
 
 });
