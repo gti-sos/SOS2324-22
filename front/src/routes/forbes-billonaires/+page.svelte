@@ -11,6 +11,19 @@
     let companies = []
     let errorMsg = "";
     let Msg = ""; 
+    let currentPage = 1;
+	let offset = 0;
+	const limit = 10;
+    let search = { 
+            rank: null,
+            name: '',
+            country: '',
+            sale: null,
+            profit: null,
+            asset: null,
+            market_value: null,
+            year: null    
+    }
 
     const newCompany = { 
             rank: 20,
@@ -29,29 +42,30 @@
 
     export async function getForbes_billonaires() {
         try {
-        let response = await fetch(API,{
-            method: "GET"
-        });
-        let data = await response.json();
-        companies = data;
+            let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`,{
+                method: "GET"
+            });
+            let data = await response.json();
+            companies = data;
+
         
-        if (response.status === 200) {
-        } else if (companies.length ===0){
-            Msg = "La lista esta vacía";
-            setTimeout(() => {
-                Msg ="";
-            },3000);
-        }else if(response.status===400){
-            errorMsg = "Formato incorrecto";
-            setTimeout(() => {
-                Msg ="";
-            },3000);
-        }else {
-            errorMsg = "Error cargando compañias";
-            setTimeout(() => {
-                errorMsg ="";
-            },3000);
-        }
+            if (response.status === 200) {
+            } else if (companies.length ===0){
+                Msg = "La lista esta vacía";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            }else if(response.status===400){
+                errorMsg = "Formato incorrecto";
+                setTimeout(() => {
+                    Msg ="";
+                },3000);
+            }else {
+                errorMsg = "Error cargando compañias";
+                setTimeout(() => {
+                    errorMsg ="";
+                },3000);
+            }
     } catch(e) {
         errorMsg = e;
     }
@@ -137,10 +151,66 @@
             errorMsg = e;
         }
     }
+
+    async function searchCompany() {
+    const params = new URLSearchParams();
+    for (const key in search) {
+        if (search[key]) {
+            params.append(key, search[key]);
+        }
+    }
+    
+
+    try {
+        const response = await fetch(`${API}/?${params}`, {
+            method: "GET"
+        });
+        const data = await response.json();
+
+        if (response.status === 200) {
+            companies = data;
+            errorMsg = "";
+        } else {
+            errorMsg = "Error al realizar la búsqueda";
+        }
+    } catch (error) {
+        errorMsg = "Error del servidor al realizar la búsqueda";
+    }
+}
+
+    async function nextPage() {
+            if(companies.length === limit){
+                offset += limit;
+                currentPage += 1;
+                await getForbes_billonaires();
+            }
+        }
+	
+	async function previousPage(){
+		offset = Math.max(0, offset - limit);
+		currentPage = Math.max(1, currentPage-1);
+		await getForbes_billonaires();
+	}
     
 
         
 </script>
+
+<div>
+    <h2>Buscar por campos</h2>
+
+    <input bind:value={search.rank} placeholder="Ranking">
+    <input bind:value={search.name} placeholder="Nombre Compañia">
+    <input bind:value={search.country} placeholder="País">
+    <input bind:value={search.sale} placeholder="Ventas">
+    <input bind:value={search.profit} placeholder="Beneficio">
+    <input bind:value={search.asset} placeholder="Activos">
+    <input bind:value={search.market_value} placeholder="Valor de Mercado">
+    <input bind:value={search.year} placeholder="Año">
+</div>
+
+
+<Button color="primary" on:click="{searchCompany}">Buscar</Button>
 
 <table>
     <thead>
@@ -211,5 +281,12 @@
 </ul>
 
 <Button color="danger" on:click="{DeleteCompanies}">Borrar todo</Button>
+
+<div>
+	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
+	<span>Página actual: {currentPage}</span>
+	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
+</div>
+
 
 <MessageContainer {Msg} {errorMsg}/>
