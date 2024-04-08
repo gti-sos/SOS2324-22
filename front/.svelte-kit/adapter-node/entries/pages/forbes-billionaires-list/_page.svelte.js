@@ -6,12 +6,9 @@ const css = {
   code: "input.svelte-1316pci.svelte-1316pci{width:200px;border:1px solid #ccc;padding:5px;font-size:16px}.person-container.svelte-1316pci.svelte-1316pci{display:flex;align-items:center;margin:1rem 0}.person-container.svelte-1316pci li.svelte-1316pci{margin-right:1rem}",
   map: null
 };
-const API_BASE = (
-  /*'https://sos2324-22.appspot.com' ||*/
-  "http://localhost:10000"
-);
 const limit = 10;
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  const API_BASE = "https://sos2324-22.appspot.com";
   const API = `${API_BASE}/api/v2/forbes-billionaires-list`;
   let people = [];
   let errorMsg = "";
@@ -28,10 +25,10 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     industry: "Fashion"
   };
   let search = {
-    rank: "",
+    rank: null,
     name: "",
-    net_worth: "",
-    age: "",
+    net_worth: null,
+    age: null,
     country: "",
     source: "",
     industry: ""
@@ -76,11 +73,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
         return `Borrar`;
       }
     })}</div>`;
-  })}</ul> <div data-svelte-h="svelte-ob8lhq"><h2>Crear un nuevo billonario</h2></div> <table><thead data-svelte-h="svelte-g90tak"><tr><th>Puesto</th> <th>Nombre</th> <th>Patrimonio neto (billones)</th> <th>Edad</th></tr></thead> <tbody><tr><td><input class="svelte-1316pci"${add_attribute("value", newPerson.rank, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.name, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.net_worth, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.age, 0)}></td></tr></tbody> <thead data-svelte-h="svelte-1mw0dur"><tr><th>País</th> <th>Empresa</th> <th>Industria</th></tr></thead> <tbody><td><input class="svelte-1316pci"${add_attribute("value", newPerson.country, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.source, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.industry, 0)}></td> <td>${validate_component(Button, "Button").$$render($$result, { color: "primary" }, {}, {
-    default: () => {
-      return `Crear`;
-    }
-  })}</td></tbody></table> <div>${validate_component(Button, "Button").$$render($$result, { color: "primary" }, {}, {
+  })}</ul> <div>${validate_component(Button, "Button").$$render($$result, { color: "primary" }, {}, {
     default: () => {
       return `Página anterior`;
     }
@@ -88,7 +81,11 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     default: () => {
       return `Página siguiente`;
     }
-  })}</div> ${validate_component(Button, "Button").$$render($$result, { color: "danger" }, {}, {
+  })}</div> <div data-svelte-h="svelte-ob8lhq"><h2>Crear un nuevo billonario</h2></div> <table><thead data-svelte-h="svelte-g90tak"><tr><th>Puesto</th> <th>Nombre</th> <th>Patrimonio neto (billones)</th> <th>Edad</th></tr></thead> <tbody><tr><td><input class="svelte-1316pci"${add_attribute("value", newPerson.rank, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.name, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.net_worth, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.age, 0)}></td></tr></tbody> <thead data-svelte-h="svelte-1mw0dur"><tr><th>País</th> <th>Empresa</th> <th>Industria</th></tr></thead> <tbody><td><input class="svelte-1316pci"${add_attribute("value", newPerson.country, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.source, 0)}></td> <td><input class="svelte-1316pci"${add_attribute("value", newPerson.industry, 0)}></td> <td>${validate_component(Button, "Button").$$render($$result, { color: "primary" }, {}, {
+    default: () => {
+      return `Crear`;
+    }
+  })}</td></tbody></table> ${validate_component(Button, "Button").$$render($$result, { color: "danger" }, {}, {
     default: () => {
       return `Borrar todo`;
     }

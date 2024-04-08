@@ -41,8 +41,4 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 });
 
 export { Layout as default };
-<<<<<<<< HEAD:front/build/server/chunks/_layout.svelte-D6nSFhzg.js
-//# sourceMappingURL=_layout.svelte-D6nSFhzg.js.map
-========
 //# sourceMappingURL=_layout.svelte-DbKvBx3M.js.map
->>>>>>>> ee388526ddc9e656f4020e655d806a5e06e48b88:front/build/server/chunks/_layout.svelte-DbKvBx3M.js
