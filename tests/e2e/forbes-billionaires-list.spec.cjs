@@ -32,6 +32,7 @@ test('Delete a person', async ({ page }) => {
   await page.locator('ul > div > button').first().click();
 
   let messageDeletedPerson = (await page.getByText('Billonario borrado con éxito'));
+  await page.waitForTimeout(1000);
   await expect(messageDeletedPerson).toBeVisible();
 
 });

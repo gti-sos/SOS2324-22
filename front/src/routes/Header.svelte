@@ -2,8 +2,9 @@
     <a href="/">Inicio</a>
     <a href="/famous-people">famous-people</a>
     <a href="/forbes-billonaires">forbes-billonaires</a>
-	<a href="/forbes-billionaires-list">forbes-billionaires-list</a>
+	  <a href="/forbes-billionaires-list">forbes-billionaires-list</a>
     <a href="/top-richest">top-richest</a>
+    <a href="/graph">graph</a>
     <a href="/about">Sobre</a>
 </nav>
 
