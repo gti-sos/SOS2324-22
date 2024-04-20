@@ -4,9 +4,14 @@
 	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 	import  MessageContainer  from '../MessageContainer.svelte';
 
-	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000';
-	const API = `${API_BASE}/api/v2/forbes-billionaires-list`;
-	let people = []
+	/*const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000';
+	const API = `${API_BASE}/api/v2/forbes-billionaires-list`;*/
+	
+	let API = "/api/v2/forbes-billionaires-list";
+    if (dev){
+        API= "http://localhost:10000";
+    }
+	let people = [];
 	let errorMsg = "";
 	let Msg = "";
 	let currentPage = 1;

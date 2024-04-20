@@ -3,11 +3,17 @@
 	import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
 	import { onMount } from 'svelte';
 	import  MessageContainer  from "../../MessageContainer.svelte";
+	import { dev } from "$app/environment";
 
 
 	let person = $page.params;
-	const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
-	const API = `${API_BASE}/api/v2/forbes-billionaires-list/${person.rank}`;
+	/*const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
+	const API = `${API_BASE}/api/v2/forbes-billionaires-list/${person.rank}`;*/
+	
+	let API = "/api/v2/forbes-billionaires-list/${person.rank}";
+    if (dev){
+        API= "http://localhost:10000";
+    }
 	let errorMsg = "";
 	let Msg = "";
 	let billionaireData = null;
