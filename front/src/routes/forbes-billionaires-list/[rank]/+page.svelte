@@ -7,10 +7,8 @@
 
 
 	let person = $page.params;
-	/*const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
-	const API = `${API_BASE}/api/v2/forbes-billionaires-list/${person.rank}`;*/
 	
-	let API = "/api/v2/forbes-billionaires-list/${person.rank}";
+	let API = "/api/v2/forbes-billionaires-list/"+person.rank;
     if (dev){
         API= "http://localhost:10000";
     }
