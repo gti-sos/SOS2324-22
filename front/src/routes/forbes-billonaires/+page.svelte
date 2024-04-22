@@ -5,6 +5,7 @@
     import MessageContainer from "../MessageContainer.svelte";
 
     let API = "/api/v2/forbes-billonaires"
+    let API2 = "/forbes-billonaires"
     if (dev){
         API="http://localhost:10000"+API;
     }
@@ -156,6 +157,7 @@
     const params = new URLSearchParams();
     for (const key in search) {
         if (search[key]) {
+            
             params.append(key, search[key]);
         }
     }
@@ -170,6 +172,10 @@
         if (response.status === 200) {
             companies = data;
             errorMsg = "";
+            if(companies.length===0){
+                errorMsg = "No exite el dato"
+            }
+            
         } else {
             errorMsg = "Error al realizar la búsqueda";
         }
@@ -281,12 +287,45 @@
 </ul>
 
 <Button color="danger" on:click="{DeleteCompanies}">Borrar todo</Button>
+<Button
+            style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+            on:click={() => {
+                window.location.href = API2 + '/graphs';
+            }}
+            >Graficos
+        </Button>
 
 <div>
 	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
 	<span>Página actual: {currentPage}</span>
 	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
 </div>
+
+<style>
+    div {
+        border-radius: 30px;
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-bottom: 15px;
+        padding-bottom: 25px;
+        padding-top: 25px;
+        text-align: center;
+        border-color: grey;
+        border-width: 1px;
+        border-style: solid;
+        background-color: blanchedalmond;
+    }
+
+    ul {
+        align-items: center;
+        margin-left: 100px;
+        margin-right: 100px;
+        list-style-position: center;
+
+    }
+
+
+</style>
 
 
 <MessageContainer {Msg} {errorMsg}/>
