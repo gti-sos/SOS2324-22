@@ -202,21 +202,38 @@
         
 </script>
 
-<div>
+<div id="filtrar-container">
     <h2>Buscar por campos</h2>
+    <br>
+    <div>
+        <input bind:value={search.rank} type="number" placeholder="Ranking">
 
-    <input bind:value={search.rank} type="number" placeholder="Ranking">
-    <input bind:value={search.name} placeholder="Nombre Compañia">
-    <input bind:value={search.country} placeholder="País">
-    <input bind:value={search.sale} placeholder="Ventas">
-    <input bind:value={search.profit} placeholder="Beneficio">
-    <input bind:value={search.asset} placeholder="Activos">
-    <input bind:value={search.market_value} placeholder="Valor de Mercado">
-    <input bind:value={search.year} placeholder="Año">
+        <input bind:value={search.name} placeholder="Nombre Compañia">
+    </div>
+    <br>
+    <div>
+        <input bind:value={search.country} placeholder="País">
+
+        <input bind:value={search.sale} placeholder="Ventas">
+    </div>
+    <br>
+    <div>
+        <input bind:value={search.profit} placeholder="Beneficio">
+
+        <input bind:value={search.asset} placeholder="Activos">
+    </div>
+    <br>
+    <div>
+        <input bind:value={search.market_value} placeholder="Valor de Mercado">
+
+        <input bind:value={search.year} placeholder="Año">
+    </div>
+    
+    <br>
+    <br>
+    <Button color="primary" on:click="{searchCompany}">Buscar</Button>
 </div>
 
-
-<Button color="primary" on:click="{searchCompany}">Buscar</Button>
 
 <table>
     <thead>
@@ -295,26 +312,23 @@
             >Graficos
         </Button>
 
-<div>
+<div id="pagina-siguiente-container">
 	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
 	<span>Página actual: {currentPage}</span>
 	<Button color="primary" on:click="{nextPage}">Página siguiente</Button>
 </div>
 
 <style>
-    div {
-        border-radius: 30px;
-        margin-left: 150px;
-        margin-right: 150px;
+    #filtrar-container {
+        margin-left: 30%;
+        margin-right: 30%;
         margin-bottom: 15px;
         padding-bottom: 25px;
-        padding-top: 25px;
-        text-align: center;
-        border-color: grey;
-        border-width: 1px;
-        border-style: solid;
-        background-color: blanchedalmond;
+        padding-top: 25px;  
+        text-align: center; 
+        background-color: rgba(236, 232, 232, 0.402);
     }
+    
 
     ul {
         align-items: center;
@@ -322,6 +336,10 @@
         margin-right: 100px;
         list-style-position: center;
 
+    }
+
+    #pagina-siguiente-container{
+        text-align: center;
     }
 
 
