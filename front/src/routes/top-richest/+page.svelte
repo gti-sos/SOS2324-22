@@ -249,6 +249,13 @@ ERROR: {errorMsg}
                 <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
                 <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
             </div>
+            <button
+            style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+            on:click={() => {
+                window.location.href = 'http://localhost:10000/top-richest/graphs';
+            }}
+            >Graficos
+        </button>
 		</div>
 	</Col>
     <Col sm="3">
@@ -282,6 +289,7 @@ ERROR: {errorMsg}
             <div class="centered-button">
                 <Button color="primary" style="" outline>Buscar</Button>
             </div>
+           
         </form>
     </div>
     {#if searchErrorMsg}
