@@ -252,7 +252,7 @@ ERROR: {errorMsg}
             <button
             style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
             on:click={() => {
-                window.location.href = 'http://localhost:10000/top-richest/graphs';
+                window.location.href = 'http://sos2324-22.appspot.com/top-richest/graphs';
             }}
             >Graficos
         </button>
