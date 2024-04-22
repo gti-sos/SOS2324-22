@@ -1,5 +1,11 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
 </svelte:head>
 
 
@@ -17,8 +23,8 @@
     }
 
 
-    onMount(async ()=>{
-        await getData();
+    onMount( ()=>{
+         getData();
     })
 
     async function getData(){
@@ -49,7 +55,7 @@
         });
 
             fillChart(categories, seriesData);
-            fillScatterChart(data);
+            fillAreaChart(data);
         }catch(error){
             console.log(error);
         } 
@@ -83,24 +89,45 @@
 
 
 
-    async function fillScatterChart(data) {
+    async function fillAreaChart(data) {
     try {
         
-        const scatterData = data.map(person => ({
-            name: person.name,
-            x: new Date(person.birth_year, 0), 
-            y: person.age_of_death,
-            z: person.death_year - person.birth_year 
+        const summaryByYear = {};
+
+   
+        data.forEach(person => {
+            const birthYear = person.birth_year;
+            const deathYear = person.death_year;
+            const ageOfDeath = person.age_of_death;
+
+            for (let year = birthYear; year <= deathYear; year++) {
+                if (!summaryByYear[year]) {
+                    summaryByYear[year] = {
+                        totalAge: 0,
+                        totalPeople: 0
+                    };
+                }
+
+                summaryByYear[year].totalAge += ageOfDeath;
+                summaryByYear[year].totalPeople++;
+            }
+        });
+
+      
+        const areaData = Object.keys(summaryByYear).map(year => ({
+            name: year.toString(),
+            x: new Date(year, 0),
+            y: summaryByYear[year].totalAge / summaryByYear[year].totalPeople
         }));
 
         
-        const chart = Highcharts.chart('scatterContainer', {
+        const chart = Highcharts.chart('areaContainer', {
             chart: {
-                type: 'scatter',
+                type: 'area',
                 zoomType: 'xy'
             },
             title: {
-                text: 'Relationship between Birth Year, Age of Death, and Life Duration'
+                text: 'Average Age of Death by Birth Year'
             },
             xAxis: {
                 type: 'datetime',
@@ -110,23 +137,23 @@
             },
             yAxis: {
                 title: {
-                    text: 'Age of Death'
+                    text: 'Average Age of Death'
                 }
             },
             tooltip: {
                 headerFormat: '<b>{series.name}</b><br>',
-                pointFormat: '{point.name}<br>Born: {point.x:%Y}<br>Died at age: {point.y}<br>Life Duration: {point.z} years'
+                pointFormat: 'Year: {point.name}<br>Average Age of Death: {point.y:.2f}'
             },
             series: [{
-                name: 'Famous People',
-                colorByPoint: true,
-                data: scatterData
+                name: 'Average Age of Death',
+                data: areaData
             }]
         });
     } catch (error) {
         console.log(error);
     }
 }
+
 
 
 </script>
@@ -136,6 +163,6 @@
         <div id="container"></div>
     </figure>
     <figure class="highcharts-figure">
-        <div id="scatterContainer"></div>
+        <div id="areaContainer"></div>
     </figure>
 </main>

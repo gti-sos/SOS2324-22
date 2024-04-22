@@ -1,11 +1,116 @@
-<section>
-    <h2>Juan</h2>
-    <ul>
-        <li>
-            <a href="/famous-people/graph_highchart">graph_highchart</a> Gráficos con Highchart
-        </li>
-    </ul>
-</section>
+<svelte:head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</svelte:head>
+
+<script>
+    import {onMount} from "svelte";
+    import {dev} from "$app/environment";
+
+    let API1 = "/api/v2/famous-people"
+    let API2 = "/api/v2/forbes-billonaires";
+    let API3 = "/api/v2/top-richest";
+    if(dev){
+        API1 = "http://localhost:10000" + API1;
+        API2 = "http://localhost:10000" + API2;
+        API3 = "http://localhost:10000" + API3;
+    }
+    
+    async function getData(){
+        try{
+
+            let data=[]
+            const res1 = await fetch(API1);
+            const data1 = await res1.json();
+
+            const res2 = await fetch(API2);
+            const data2 = await res2.json();
+
+            const res3 = await fetch(API3);
+            const data3 = await res3.json();
+            console.log(data1,data2,data3)
+
+
+            fillChart(data1,data2,data3); 
+        } catch (error){
+            console.log( `Error fetching data: ${error}`);
+        } 
+    }
+
+
+   
+    
+    async function fillChart(data1, data2, data3){
+        let chartData = [];
+
+        data1.forEach(person => {
+            const richestPerson = data3.find(item => item.bday_year === person.death_year);
+            const forbesBillionaire = data2.find(item => item.year === person.death_year);
+
+            console.log(person.name, richestPerson, forbesBillionaire); 
+
+            if (richestPerson && forbesBillionaire) {
+                console.log("hola")
+                chartData.push({
+                    name: forbesBillionaire,
+                    x: richestPerson.net_worth, 
+                    y: person.age_of_death,    
+                    country: person.country 
+                });
+            }
+        });
+
+        const chart = Highcharts.chart('container', {
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Edad de muerte vs. Valor neto (con distribución por país)'
+            },
+            xAxis: {
+                title: {
+                    text: 'Valor neto (en miles de millones de dólares)'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Edad de muerte'
+                }
+            },
+            tooltip: {
+                pointFormat: '<b>{point.name}</b><br>Valor neto: ${point.x}B<br>Edad de muerte: {point.y}<br>País: {point.country}'
+            },
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        radius: 8,
+                        symbol: 'circle'
+                    }
+                }
+            },
+            series: [{
+                name: 'Personas famosas',
+                data: chartData
+            }]
+        });
+    }
+
+
+
+    onMount(()=>{
+        getData();
+    })
+
+
+</script>
+
+
+<div id="container" style="width:100%; height:400px;"></div>
+
 
 <style>
 

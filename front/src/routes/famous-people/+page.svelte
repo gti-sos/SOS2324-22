@@ -247,6 +247,7 @@
 
 
 <Button color="primary" on:click="{searchPeople}">Buscar</Button>
+<Button color="primary" href="/famous-people/graph_highchart">Grafica</Button>
 
 <table>
     <thead>
