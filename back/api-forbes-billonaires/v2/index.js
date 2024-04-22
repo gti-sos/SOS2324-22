@@ -98,7 +98,7 @@ let lista = [
       profit: 24.8566,
       asset: 2611.539,
       market_value: 141.229,
-      year: 2017    
+      year: 1971    
     },
     { rank: 12,
       name: 'Google',
@@ -107,7 +107,7 @@ let lista = [
       profit: 45.217,
       asset: 331.141,
       market_value: 752.039,
-      year: 2017    
+      year: 1973    
     },
     { rank: 13,
       name: 'Aramco',
