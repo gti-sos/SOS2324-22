@@ -172,10 +172,19 @@
                 searchResults = data;
                 searchErrorMsg = "";
             } else {
-                searchErrorMsg = `Error en la búsqueda: ${response.statusText}`;
+                errorMsg = `Error en la búsqueda: ${response.statusText}`;
+                setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+                console.log(errorMsg);
             }
         } catch (e) {
-            searchErrorMsg = `Error en la búsqueda: ${e.message}`;
+            errorMsg = `Error en la búsqueda: ${e.message}`;
+            setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+            
+            console.log(e);
         }
     }
     // Paginacion
@@ -216,9 +225,7 @@
         
 </script>
 
-{#if errorMsg != ""}
-ERROR: {errorMsg}
-{/if}
+
 
 <Row>
 	<Col sm="3">
@@ -288,13 +295,18 @@ ERROR: {errorMsg}
                 </table>
             <div class="centered-button">
                 <Button color="primary" style="" outline>Buscar</Button>
+                {#if searchResults.length === 0 && !errorMsg}
+                    <p>No se ha encontrado ningún millonario.</p>
+                {/if}
+                {#if errorMsg}
+                    <p>{errorMsg}</p>
+                {/if}
+              
             </div>
            
         </form>
     </div>
-    {#if searchErrorMsg}
-        <p>{searchErrorMsg}</p>
-    {/if}
+
 	</Col>
     {#if searchResults.length > 0}
     <Col sm="3">
@@ -311,6 +323,9 @@ ERROR: {errorMsg}
                 </li>
             {/each}
         </ul>
+       
+		
+	   
     </div>
     <div class="d-flex justify-content-between">
         
