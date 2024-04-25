@@ -1,17 +1,18 @@
 <script>
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import { dev } from "$app/environment";
     import { Button, Col, Row } from '@sveltestrap/sveltestrap';
-    import  MessageContainer  from '../MessageContainer.svelte';
+    import MessageContainer from '../MessageContainer.svelte';
 
-    let API = "/api/v2/top-richest"
-    if (dev){
-        API = "http://localhost:10000"+API;
+    let API = "/api/v2/top-richest";
+    if (dev) {
+        API = "http://localhost:10000" + API;
     }
 
-    let people = []
+    let people = [];
     let errorMsg = "";
-    let Msg = ""; 
+    let Msg = "";
+    
 
     let searchParams = {
         name: "",
@@ -19,7 +20,6 @@
         bday_year: "",
         age: "",
         nationality: "",
-
     };
     let searchResults = [];
     let searchErrorMsg = "";
@@ -30,11 +30,11 @@
         bday_year: 1971, 
         age: 51, 
         nationality: 'South Africa'  
-    }
+    };
 
     onMount(() => {
         getMillonarios();
-    })
+    });
 
     async function getMillonarios() {
         try {
@@ -42,121 +42,98 @@
                 method: "GET"
             });
 
-           let data = await response.json();
+            let data = await response.json();
             people = data;
-            
+
             if (response.status === 200) {
-                /*Msg = "Millonarios creados con éxito";
-                setTimeout(() => {
-                    Msg ="";
-                },3000);*/
-            } else if (people.length ===0){
-                Msg = "La lista esta vacía";
-                setTimeout(() => {
-                    Msg ="";
-                },3000);
-            } else if( response.status === 400){
+                // No se requiere ningún mensaje de éxito aquí
+            } else if (people.length === 0) {
+                errorMsg = "La lista está vacía";
+            } else if (response.status === 400) {
                 errorMsg = "Formato incorrecto";
-                setTimeout(() => {
-                    errorMsg ="";
-                },3000);
-            }else {
+            } else {
                 errorMsg = "Error cargando millonarios";
-                setTimeout(() => {
-                    errorMsg ="";
-                },3000);
             }
-        } catch(e) {
+            setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+        } catch (e) {
             errorMsg = e;
         }
     }
 
     async function deleteMillonarios(n) {
         try {
-            let response = await fetch(API+"/"+n,{
+            let response = await fetch(API + "/" + n, {
                 method: "DELETE"
             });
-            console.log(`Borrando millonario ${n}`);
-        
-        if (response.status === 200){
-            Msg = "Millonario borrado con éxito"
-            people = people.filter(p => p.name !== n);
+
+            if (response.status === 200) {
+                Msg = "Millonario borrado con éxito";
+                people = people.filter(p => p.name !== n);
+            } else {
+                errorMsg = "Ese millonario no existe";
+            }
             setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Ese millonario no existe";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-        }
-        } catch(e) {
+                Msg = "";
+                errorMsg = "";
+            }, 3000);
+        } catch (e) {
             errorMsg = e;
         }
     }
 
     async function deleteAllMillonarios() {
         try {
-            let response = await fetch(API,{
+            let response = await fetch(API, {
                 method: "DELETE"
             });
-            
-        if (response.status == 200){
-            Msg = "Millonarios borrados con éxito"
-            people= [];
-            setTimeout(() => {
-                    Msg= "";
-                }, 3000);
-        } else {
-            errorMsg = "Ya están todas los millonarios borrados";
-            setTimeout(() => {
-                errorMsg= "";
-                }, 3000);
-        }
-        } catch(e) {
-            errorMsg = e;
-            
-        }
-    }
-    
-            
-    async function createMillonarios() {
-    try {
-        let response = await fetch(API, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newPerson)
-        });
-        let status = response.status;
-        console.log(`Creation response status ${status}`);
 
-        if (status === 201) {
-            getMillonarios();
-            Msg = "Millonario creado con éxito";
+            if (response.status === 200) {
+                Msg = "Millonarios borrados con éxito";
+                people = [];
+            } else {
+                errorMsg = "Ya están todos los millonarios borrados";
+            }
             setTimeout(() => {
                 Msg = "";
-            }, 3000);
-        } else if (status === 409) {
-            getMillonarios();
-            Msg = "El millonario ya existe";
-            setTimeout(() => {
-                Msg = "";
-            }, 3000);
-        } else {
-            errorMsg = "Error creando el millonario";
-            setTimeout(() => {
                 errorMsg = "";
             }, 3000);
+        } catch (e) {
+            errorMsg = e;
         }
-
-    } catch (e) {
-        errorMsg = e;
     }
-}
 
-    async function searchReports() {
+    async function createMillonarios() {
+        try {
+            let response = await fetch(API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newPerson)
+            });
+            let status = response.status;
+
+            if (status === 201) {
+                getMillonarios();
+                Msg = "Millonario creado con éxito";
+            } else if (status === 409) {
+                getMillonarios();
+                errorMsg = "El millonario ya existe";
+            } else {
+                errorMsg = "Error creando el millonario";
+            }
+            setTimeout(() => {
+                Msg = "";
+                errorMsg = "";
+            }, 3000);
+        } catch (e) {
+            errorMsg = e;
+        }
+    }
+
+    async function searchMillonarios() {
         try {
             let queryString = Object.keys(searchParams)
                 .filter(key => searchParams[key] !== "")
@@ -170,36 +147,34 @@
             if (response.ok) {
                 let data = await response.json();
                 searchResults = data;
-                searchErrorMsg = "";
+                if (searchResults.length > 0) {
+                    Msg = "Búsqueda exitosa";
+                } else {
+                    errorMsg = "No se ha encontrado ningún millonario.";
+                }
             } else {
                 errorMsg = `Error en la búsqueda: ${response.statusText}`;
-                setTimeout(() => {
-                errorMsg = "";
-            }, 3000);
-                console.log(errorMsg);
             }
+            setTimeout(() => {
+                errorMsg = "";
+                Msg = "";
+            }, 3000);
         } catch (e) {
-            errorMsg = `Error en la búsqueda: ${e.message}`;
+            errorMsg2 = `Error en la búsqueda: ${e.message}`;
             setTimeout(() => {
                 errorMsg = "";
             }, 3000);
-            
-            console.log(e);
         }
     }
-    // Paginacion
 
-
-    let limit = 10; 
-    let offset = 0; 
-
-   
+    // Paginación
+    let limit = 10;
+    let offset = 0;
 
     function nextPage() {
         offset += limit;
         getMillonarios();
     }
-
 
     function previousPage() {
         if (offset >= limit) {
@@ -209,25 +184,10 @@
     }
 
 
-    function parseNet_worth(value) {
-        return parseInt(value);
-    }
-
-    function parseBday_year(value) {
-        return parseInt(value);
-    }
-
-    function parseAge(value) {
-        return parseInt(value);
-    }
-
-
-        
 </script>
 
-
-
 <Row>
+    <!-- Columna de la lista de millonarios -->
 	<Col sm="3">
 		<div class="api-section d-flex flex-column justify-content-end">
 			<h2>Lista de Millonarios</h2>
@@ -251,24 +211,27 @@
 				{/each}
 			</ul>
             <div class="pagination" style="margin-bottom: 20px;">
-            
+                <!-- Botones de paginación -->
                 <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios} class="btn-sm">Borrar todos los millonarios</Button>
                 <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
                 <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
             </div>
+            <!-- Botón para ir a la página de gráficos -->
             <button
             style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
             on:click={() => {
                 window.location.href = 'http://sos2324-22.appspot.com/top-richest/graphs';
             }}
-            >Graficos
-        </button>
+            >Graficos</button>
+            <MessageContainer {Msg} {errorMsg}/>
 		</div>
 	</Col>
+
+    <!-- Columna de búsqueda -->
     <Col sm="3">
 		<div class="create-section">
 			<h2>Buscar Millonarios</h2>
-            <form on:submit|preventDefault={searchReports}>
+            <form on:submit|preventDefault={searchMillonarios}>
                 <table>
                     <tbody>
                         <tr>
@@ -293,48 +256,40 @@
                         </tr>
                     </tbody>
                 </table>
-            <div class="centered-button">
-                <Button color="primary" style="" outline>Buscar</Button>
-                {#if searchResults.length === 0 && !errorMsg}
-                    <p>No se ha encontrado ningún millonario.</p>
-                {/if}
-                {#if errorMsg}
-                    <p>{errorMsg}</p>
-                {/if}
-              
-            </div>
-           
-        </form>
-    </div>
-
+                <div class="centered-button">
+                    <Button color="primary" style="" outline>Buscar</Button>
+                </div>
+                
+                
+                
+            </form>
+        </div>
 	</Col>
+
+    <!-- Columna de resultados de búsqueda -->
     {#if searchResults.length > 0}
     <Col sm="3">
-    <div class="create-section">
-        <h3>Resultados de la búsqueda:</h3>
-        <ul>
-            {#each searchResults as result}
-                <li class="py-1 millionaireItem">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <a href="/top-richest/{result.name}/{result.nationality}">{result.name} {result.nationality}</a>
+        <div class="create-section">
+            <h3>Resultados de la búsqueda:</h3>
+            <ul>
+                {#each searchResults as result}
+                    <li class="py-1 millionaireItem">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/top-richest/{result.name}/{result.nationality}">{result.name} {result.nationality}</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-            {/each}
-        </ul>
-       
-		
-	   
-    </div>
-    <div class="d-flex justify-content-between">
-        
-    </div>
+                    </li>
+                {/each}
+            </ul>
+        </div>
     </Col>
     {/if}
-	<Col sm="3">
-		<div class="create-section">
-			<h2>Añadir nuevo Millonario</h2>
+
+    <!-- Columna para añadir nuevo millonario -->
+    <Col sm="3">
+        <div class="create-section">
+            <h2>Añadir nuevo Millonario</h2>
             <table>
                 <tbody>
                     <tr>
@@ -343,15 +298,15 @@
                     </tr>
                     <tr>
                         <td class="py-1">Patrimonio Neto:</td>
-                        <td class="py-1"><input type="number" placeholder="0" on:input={e => newPerson.net_worth = parseNet_worth(e.target.value)} /></td>
+                        <td class="py-1"><input type="number" placeholder="0" bind:value={newPerson.net_worth} /></td>
                     </tr>
                     <tr>
                         <td class="py-1">Año de nacimiento:</td>
-                        <td class="py-1"><input placeholder="2024" on:input={e => newPerson.bday_year = parseBday_year(e.target.value)} /></td>
+                        <td class="py-1"><input placeholder="2024" bind:value={newPerson.bday_year} /></td>
                     </tr>
                     <tr>
                         <td class="py-1">Edad:</td>
-                        <td class="py-1"><input placeholder="0" on:input={e => newPerson.age = parseAge(e.target.value)} /></td>
+                        <td class="py-1"><input placeholder="0" bind:value={newPerson.age} /></td>
                     </tr>
                     <tr>
                         <td class="py-1">Nacionalidad:</td>
@@ -359,18 +314,13 @@
                     </tr>
                 </tbody>
             </table>
-			<div class="centered-button">
-				<Button color="primary" outline on:click={createMillonarios}>Crear</Button>
-			</div>
-            {#if Msg}
-				<p>{Msg}</p>
-			{/if}
-			{#if errorMsg}
-				<p>{errorMsg}</p>
-			{/if}
-		</div>
-	</Col>
+            <div class="centered-button">
+                <Button color="primary" outline on:click={createMillonarios}>Crear</Button>
+            </div>
+        </div>
+    </Col>
 </Row>
+
 
 <style>
 
