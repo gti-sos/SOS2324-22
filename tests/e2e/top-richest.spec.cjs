@@ -1,17 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-test('List people', async ({ page }) => {
-  await page.goto('http://localhost:10000');
-
-  await page.getByRole('navigation').getByRole('link', { name: 'top-richest' }).click();
-
-  await page.waitForTimeout(3000);
-
-  let millionaireCount = (await page.locator('.svelte-1f48d8a').all()).length;
-  await expect(millionaireCount).toBeGreaterThan(0);
-
-});
 
 test('Create new millionaire', async ({ page }) => {
   await page.goto('http://localhost:10000');

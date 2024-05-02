@@ -12,17 +12,15 @@
     let people = [];
     let errorMsg = "";
     let Msg = "";
-    
 
     let searchParams = {
         name: "",
-        net_worth: "",
-        bday_year: "",
-        age: "",
+        net_worth: null,
+        bday_year: null,
+        age: null,
         nationality: "",
     };
     let searchResults = [];
-    let searchErrorMsg = "";
 
     const newPerson = { 
         name: 'Elon Musk', 
@@ -45,14 +43,8 @@
             let data = await response.json();
             people = data;
 
-            if (response.status === 200) {
-                // No se requiere ningún mensaje de éxito aquí
-            } else if (people.length === 0) {
-                errorMsg = "La lista está vacía";
-            } else if (response.status === 400) {
-                errorMsg = "Formato incorrecto";
-            } else {
-                errorMsg = "Error cargando millonarios";
+            if (response.status !== 200 || people.length === 0) {
+                errorMsg = response.status === 400 ? "Formato incorrecto" : "Error cargando millonarios";
             }
             setTimeout(() => {
                 errorMsg = "";
@@ -136,7 +128,7 @@
     async function searchMillonarios() {
         try {
             let queryString = Object.keys(searchParams)
-                .filter(key => searchParams[key] !== "")
+                .filter(key => searchParams[key] !== "" &&  searchParams[key] !== null )
                 .map(key => `${key}=${searchParams[key]}`)
                 .join("&");
 
@@ -160,7 +152,7 @@
                 Msg = "";
             }, 3000);
         } catch (e) {
-            errorMsg2 = `Error en la búsqueda: ${e.message}`;
+            errorMsg = `Error en la búsqueda: ${e.message}`;
             setTimeout(() => {
                 errorMsg = "";
             }, 3000);
@@ -182,34 +174,31 @@
             getMillonarios();
         }
     }
-
-
 </script>
 
 <Row>
     <!-- Columna de la lista de millonarios -->
-	<Col sm="3">
-		<div class="api-section d-flex flex-column justify-content-end">
-			<h2>Lista de Millonarios</h2>
-			<ul>
-				{#each people as m}
-					<li class="py-1 millionaireItem">
-						<div class="d-flex justify-content-between align-items-center">
-							<div>
-								<a href="/top-richest/{m.name}/{m.nationality}">{m.name} {m.nationality}</a>
-							</div>
-							<div class="edits">
-								<Button
-									color="danger"
-									outline
-									size="sm"
-									on:click={() => deleteMillonarios(m.name)}>Borrar</Button
-								>
-							</div>
-						</div>
-					</li>
-				{/each}
-			</ul>
+    <Col sm="3">
+        <div class="create-section">
+            <h2>Lista de Millonarios</h2>
+            <ul>
+                {#each people as m}
+                    <li class="py-1 millionaireItem">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/top-richest/{m.name}/{m.nationality}">{m.name} {m.nationality}</a>
+                            </div>
+                            <div class="edits">
+                                <Button
+                                    color="danger"
+                                    outline
+                                    size="sm"
+                                    on:click={() => deleteMillonarios(m.name)}>Borrar</Button>
+                            </div>
+                        </div>
+                    </li>
+                {/each}
+            </ul>
             <div class="pagination" style="margin-bottom: 20px;">
                 <!-- Botones de paginación -->
                 <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios} class="btn-sm">Borrar todos los millonarios</Button>
@@ -217,56 +206,42 @@
                 <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
             </div>
             <!-- Botón para ir a la página de gráficos -->
-            <button
-            style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
-            on:click={() => {
-                window.location.href = 'http://sos2324-22.appspot.com/top-richest/graphs';
-            }}
-            >Graficos</button>
+            <Button color="primary" outline style="margin-top: 10px;" on:click={() => window.location.href = 'http://sos2324-22.appspot.com/top-richest/graphs'}>Gráficos</Button>
             <MessageContainer {Msg} {errorMsg}/>
-		</div>
-	</Col>
+        </div>
+    </Col>
 
     <!-- Columna de búsqueda -->
     <Col sm="3">
-		<div class="create-section">
-			<h2>Buscar Millonarios</h2>
+        <div class="create-section">
+            <h2>Buscar Millonarios</h2>
             <form on:submit|preventDefault={searchMillonarios}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="py-1">Nombre:</td>
-                            <td class="py-1"><input placeholder="Nombre del millonario" bind:value={searchParams.name} /></td>
-                        </tr>
-                        <tr>
-                            <td class="py-1">Patrimonio neto:</td>
-                            <td class="py-1"><input type="number" placeholder="1" bind:value={searchParams.net_worth} /></td>
-                        </tr>
-                        <tr>
-                            <td class="py-1">Año de nacimiento:</td>
-                            <td class="py-1"><input placeholder="2024" bind:value={searchParams.bday_year} /></td>
-                        </tr>
-                        <tr>
-                            <td class="py-1">Edad:</td>
-                            <td class="py-1"><input placeholder="0" bind:value={searchParams.age} /></td>
-                        </tr>
-                        <tr>
-                            <td class="py-1">Nacionalidad:</td>
-                            <td class="py-1"><input placeholder="Nacionalidad" bind:value={searchParams.nationality} /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="centered-button">
-                    <Button color="primary" style="" outline>Buscar</Button>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input class="form-control" type="text" placeholder="Nombre del millonario" bind:value={searchParams.name} />
                 </div>
-                
-                
-                
+                <div class="form-group">
+                    <label>Patrimonio neto:</label>
+                    <input class="form-control" type="number" placeholder="1" bind:value={searchParams.net_worth} />
+                </div>
+                <div class="form-group">
+                    <label>Año de nacimiento:</label>
+                    <input class="form-control" type="number" placeholder="2024" bind:value={searchParams.bday_year} />
+                </div>
+                <div class="form-group">
+                    <label>Edad:</label>
+                    <input class="form-control" type="number" placeholder="0" bind:value={searchParams.age} />
+                </div>
+                <div class="form-group">
+                    <label>Nacionalidad:</label>
+                    <input class="form-control" type="text" placeholder="Nacionalidad" bind:value={searchParams.nationality} />
+                </div>
+                <Button color="primary" outline style="margin-top: 10px;">Buscar</Button>
             </form>
         </div>
-	</Col>
+    </Col>
 
-    <!-- Columna de resultados de búsqueda -->
+    <!-- Resultados de búsqueda -->
     {#if searchResults.length > 0}
     <Col sm="3">
         <div class="create-section">
@@ -290,40 +265,34 @@
     <Col sm="3">
         <div class="create-section">
             <h2>Añadir nuevo Millonario</h2>
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="py-1">Nombre:</td>
-                        <td class="py-1"><input placeholder="Nombre del millonario" bind:value={newPerson.name} /></td>
-                    </tr>
-                    <tr>
-                        <td class="py-1">Patrimonio Neto:</td>
-                        <td class="py-1"><input type="number" placeholder="0" bind:value={newPerson.net_worth} /></td>
-                    </tr>
-                    <tr>
-                        <td class="py-1">Año de nacimiento:</td>
-                        <td class="py-1"><input placeholder="2024" bind:value={newPerson.bday_year} /></td>
-                    </tr>
-                    <tr>
-                        <td class="py-1">Edad:</td>
-                        <td class="py-1"><input placeholder="0" bind:value={newPerson.age} /></td>
-                    </tr>
-                    <tr>
-                        <td class="py-1">Nacionalidad:</td>
-                        <td class="py-1"><input placeholder="Nacionalidad" bind:value={newPerson.nationality} /></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="centered-button">
-                <Button color="primary" outline on:click={createMillonarios}>Crear</Button>
-            </div>
+            <form on:submit|preventDefault={createMillonarios}>
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input class="form-control" type="text" placeholder="Nombre del millonario" bind:value={newPerson.name} />
+                </div>
+                <div class="form-group">
+                    <label>Patrimonio Neto:</label>
+                    <input class="form-control" type="number" placeholder="0" bind:value={newPerson.net_worth} />
+                </div>
+                <div class="form-group">
+                    <label>Año de nacimiento:</label>
+                    <input class="form-control" type="number" placeholder="2024" bind:value={newPerson.bday_year} />
+                </div>
+                <div class="form-group">
+                    <label>Edad:</label>
+                    <input class="form-control" type="number" placeholder="0" bind:value={newPerson.age} />
+                </div>
+                <div class="form-group">
+                    <label>Nacionalidad:</label>
+                    <input class="form-control" type="text" placeholder="Nacionalidad" bind:value={newPerson.nationality} />
+                </div>
+                <Button color="primary" outline style="margin-top: 10px;">Crear</Button>
+            </form>
         </div>
     </Col>
 </Row>
 
-
 <style>
-
 /* Estilos para títulos */
 h2 {
     font-size: 1.8em;
@@ -331,20 +300,25 @@ h2 {
     color: #333;
 }
 
-
-
+/* Estilos para formularios */
+.form-group {
+    margin-bottom: 15px;
+    
+}
 .create-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    margin-left: 50px;
+    margin-right: 15px;
+    
 }
 
-.api-section {
-    margin-top: 2em;
-    margin-left: 2em;
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
-
 
 /* Estilos para áreas de edición */
 .edits {
@@ -352,13 +326,6 @@ h2 {
     margin-left: 2em;
 }
 
-/* Estilos para botones centrados */
-.centered-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 1em;
-}
+
 
 </style>
-
-

@@ -7,7 +7,7 @@
     
 
     let person = $page.params;
-    const API_BASE = 'https://sos2324-22.appspot.com' || 'http://localhost:10000'
+    const API_BASE ='https://sos2324-22.appspot.com' ||'http://localhost:10000'
     const API = `${API_BASE}/api/v2/top-richest/${person.name}/${person.nationality}`;
     let errorMsg = "";
     let Msg = "";
@@ -20,13 +20,6 @@
         const data = await response.json();
         
         try {
-            
-            name = data.name;
-            let net_worth = data.net_worth;
-            let bday_year = data.bday_year;
-            let age = data.age;
-            let nationality = data.nationality;
-    
 
             if(response.status == 404){
             errorMsg = `No existe el millonario`;
@@ -50,9 +43,9 @@
     async function updateMillonario(){
         const updatedPerson = {
                 name: millonarioData?.name,
-                net_worth: millonarioData?.net_worth,
-                bday_year: millonarioData?.bday_year,
-                age: millonarioData?.age,
+                net_worth: parseInt(millonarioData?.net_worth),
+                bday_year: parseInt(millonarioData?.bday_year),
+                age: parseInt(millonarioData?.age),
                 nationality: millonarioData?.nationality,
         };
 
@@ -90,67 +83,65 @@
         border: 1px solid #ccc; 
         padding: 5px; 
         font-size: 16px; 
+        
     }
+
 </style>
 
 
 
-<h2>Details of {person.name}</h2>
+<h2>Detalles de {person.name}</h2>
 <hr>
 
 {#if millonarioData}
-<table>
-    <thead>
-        <tr>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Patrimonio Neto 
-            </th>
-            <th>
-                Año de nacimiento
-            </th>
-            <th>
-                Edad
-            </th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <input bind:value={millonarioData.name}>
-            </td>
-            <td>
-                <input bind:value={millonarioData.net_worth}>
-            </td>
-            <td>
-                <input bind:value={millonarioData.bday_year}>
-            </td>
-            <td>
-                <input bind:value={millonarioData.age}>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Patrimonio Neto</th>
+                        <th>Año de nacimiento</th>
+                        <th>Edad</th>
+                        <th>Nacionalidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input class="form-control" bind:value={millonarioData.name}></td>
+                        <td><input class="form-control" bind:value={millonarioData.net_worth}></td>
+                        <td><input class="form-control" bind:value={millonarioData.bday_year}></td>
+                        <td><input class="form-control" bind:value={millonarioData.age} type="number"></td>
+                        <td><input class="form-control" bind:value={millonarioData.nationality}></td>
+                        
+                    </tr>     
+                        
+                </tbody>
+                 
+            </table>
+            <MessageContainer {Msg} {errorMsg}/>  
+            
+        </div>
+        
+    </div>
+    <div class="col">
+        <div class="col-sm-6">
+            
+            <div class="d-flex justify-content-end mb-3">
                 
-            </td>
-        </tr>            
-    </tbody>
-    <thead>
-        <tr>
-            <th>
-                Nacionalidad
-            </th>
+                <Button color="primary" on:click="{updateMillonario}">Actualizar</Button>
+                
+            </div>
+           
+        </div>
+        
+    </div>
+</div>
 
-        </tr>
-    </thead>
-    <tbody>
-        <td>
-            <input bind:value={millonarioData.nationality}>
-        </td>
-       
-        <td>
-            <Button color="primary" on:click="{updateMillonario}">Actualizar</Button>
-        </td>
-    </tbody>
-</table>
 {/if}
 
 
-<MessageContainer {Msg} {errorMsg}/>
+
+
+
