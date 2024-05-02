@@ -312,6 +312,14 @@
             >Graficos
         </Button>
 
+<Button
+        style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+        on:click={() => {
+            window.location.href = API2 + '/chartist';
+        }}
+        >Graficos Chartist
+</Button>
+
 <div id="pagina-siguiente-container">
 	<Button color="primary" on:click="{previousPage}">Página anterior</Button>
 	<span>Página actual: {currentPage}</span>
