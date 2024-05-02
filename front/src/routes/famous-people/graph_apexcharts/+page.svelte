@@ -1,81 +1,72 @@
+<svelte:head>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</svelte:head>
+
 <script>
-    import { onMount } from "svelte";
-    import ApexCharts from 'apexcharts';
-    import { dev } from "$app/environment";
-  
-    let data = [];
-    let API = "/api/v2/famous-people";
-  
+  import { onMount } from 'svelte';
+  import { dev } from '$app/environment';
+
+  let API = "/api/v2/famous-people"
+
     if (dev){
-      API = "http://localhost:10000" + API;
+        API = "http://localhost:10000"+API;
     }
-  
-    onMount(() => {
-        getData();
-    });
-  
-    async function getData(){
-      try {
-        const res = await fetch(API, {
-          method: "GET",
-        });
-        const dataReceived = await res.json();
-        data = dataReceived;
+
+  let data = [];
+  let isDataReady = false;
+
+  onMount(() => {
+    fetchData();
+  });
+
+  async function fetchData() {
+    const res = await fetch(API);
+    try {
+      
+      const fetchedData = await res.json();
+      data = fetchedData;
+      console.log(data)
+
+      if (data.length > 0) {
+        isDataReady = true;
         createChart(data);
-      } catch(error) {
-        console.error("Error fetching data:", error);
       }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-  
-    async function createChart(data) {
-      
-      const countByCountry = data.reduce((acc, curr) => {
-        acc[curr.country] = (acc[curr.country] || 0) + 1;
-        return acc;
-      }, {});
-  
-      
-      const totalPeople = data.length;
-      const percentages = Object.entries(countByCountry).map(([country, count]) => ({
-        country,
-        percentage: ((count / totalPeople) * 100).toFixed(2)
-      }));
-  
-      // Preparar datos para ApexCharts
-      const chartData = {
-        series: percentages.map(item => item.percentage),
-        labels: percentages.map(item => item.country)
-      };
-  
-      
-      const options = {
-        chart: {
-          type: 'donut'
+  }
+
+  async function createChart() {
+    const chartOptions = {
+      chart: {
+        type: 'bar',
+        height: 400,
+      },
+      series: [
+        {
+          name: 'Edad de Muerte',
+          data: data.map(item => item.age_of_death), 
         },
-        labels: chartData.labels,
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }]
-      };
-  
-      
-      const chart = new ApexCharts(document.querySelector("#chart"), options);
-  
-      
-      chart.render();
-    }
+      ],
+      xaxis: {
+        categories: data.map(item => item.name), 
+        title: {
+          text: 'Personas',
+        },
+      },
+      yaxis: {
+        title: {
+          text: 'Edad (años)',
+        },
+      },
+    };
+
+    new ApexCharts(document.querySelector("#chart"), chartOptions).render();
+  }
 </script>
 
-
-
 <main>
+  
     <div id="chart"></div>
+  
 </main>
