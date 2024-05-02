@@ -247,7 +247,8 @@
 
 
 <Button color="primary" on:click="{searchPeople}">Buscar</Button>
-<Button color="primary" href="/famous-people/graph_highchart">Grafica</Button>
+<Button color="primary" href="/famous-people/graph_highchart">Graficas highcharts</Button>
+<Button color="primary" href="/famous-people/graph_apexcharts">Grafica ApexCharts</Button>
 
 <table>
     <thead>

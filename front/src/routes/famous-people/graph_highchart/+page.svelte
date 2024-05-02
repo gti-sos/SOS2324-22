@@ -51,7 +51,7 @@
             const people = groupedData[key];
             const totalAgeOfDeath = people.reduce((sum, person) => sum + person.age_of_death, 0);
             const averageAgeOfDeath = totalAgeOfDeath / people.length;
-            return Math.round(averageAgeOfDeath * 100) / 100; // Redondear a 2 decimales
+            return Math.round(averageAgeOfDeath * 100) / 100; 
         });
 
             fillChart(categories, seriesData);
