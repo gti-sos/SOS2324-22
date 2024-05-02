@@ -87,8 +87,6 @@
         });
     }
 
-
-
     async function fillAreaChart(data) {
     try {
         
