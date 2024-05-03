@@ -9,7 +9,7 @@
         API = "http://localhost:10000" + API;
     }
 
-    let people = [];
+    let millionaires = [];
     let errorMsg = "";
     let Msg = "";
 
@@ -22,7 +22,7 @@
     };
     let searchResults = [];
 
-    const newPerson = { 
+    const newMillionaire = { 
         name: 'Elon Musk', 
         net_worth: 240, 
         bday_year: 1971, 
@@ -30,10 +30,12 @@
         nationality: 'South Africa'  
     };
 
+    // Inicialización de la página
     onMount(() => {
         getMillonarios();
     });
 
+    // Obtener lista de millonarios
     async function getMillonarios() {
         try {
             let response = await fetch(`${API}?limit=${limit}&offset=${offset}`, {
@@ -41,9 +43,9 @@
             });
 
             let data = await response.json();
-            people = data;
+            millionaires = data;
 
-            if (response.status !== 200 || people.length === 0) {
+            if (response.status !== 200 || millionaires.length === 0) {
                 errorMsg = response.status === 400 ? "Formato incorrecto" : "Error cargando millonarios";
             }
             setTimeout(() => {
@@ -54,6 +56,7 @@
         }
     }
 
+    // Eliminar un millonario
     async function deleteMillonarios(n) {
         try {
             let response = await fetch(API + "/" + n, {
@@ -62,7 +65,7 @@
 
             if (response.status === 200) {
                 Msg = "Millonario borrado con éxito";
-                people = people.filter(p => p.name !== n);
+                millionaires = millionaires.filter(p => p.name !== n);
             } else {
                 errorMsg = "Ese millonario no existe";
             }
@@ -75,6 +78,7 @@
         }
     }
 
+    // Eliminar todos los millonarios
     async function deleteAllMillonarios() {
         try {
             let response = await fetch(API, {
@@ -83,7 +87,7 @@
 
             if (response.status === 200) {
                 Msg = "Millonarios borrados con éxito";
-                people = [];
+                millionaires = [];
             } else {
                 errorMsg = "Ya están todos los millonarios borrados";
             }
@@ -96,25 +100,18 @@
         }
     }
 
-    async function createMillonarios() {
+    // Cargar datos iniciales
+    async function loadInitialData() {
         try {
-            let response = await fetch(API, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newPerson)
+            let response = await fetch(API+ '/loadInitialData', {
+                method: "GET"
             });
-            let status = response.status;
 
-            if (status === 201) {
+            if (response.status === 201) {
+                Msg = "Millonarios cargados con éxito";
                 getMillonarios();
-                Msg = "Millonario creado con éxito";
-            } else if (status === 409) {
-                getMillonarios();
-                errorMsg = "El millonario ya existe";
             } else {
-                errorMsg = "Error creando el millonario";
+                errorMsg = "Error cargando datos iniciales";
             }
             setTimeout(() => {
                 Msg = "";
@@ -125,6 +122,46 @@
         }
     }
 
+    // Crear nuevo millonario
+    async function createMillonarios() {
+        try {
+            let response = await fetch(API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newMillionaire)
+            });
+            let status = response.status;
+
+            if (status === 201) {
+                getMillonarios();
+                Msg = "Millonario creado con éxito";
+                setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+            } else if (status === 409) {
+                getMillonarios();
+                errorMsg = "El millonario ya existe";
+                setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+            } else {
+                errorMsg = "Error creando el millonario";
+                setTimeout(() => {
+                errorMsg = "";
+            }, 3000);
+            }
+            setTimeout(() => {
+                Msg = "";
+                errorMsg = "";
+            }, 3000);
+        } catch (e) {
+            errorMsg = e;
+        }
+    }
+
+    // Buscar millonarios según los parámetros especificados
     async function searchMillonarios() {
         try {
             let queryString = Object.keys(searchParams)
@@ -176,13 +213,14 @@
     }
 </script>
 
+<!-- Estructura de la página -->
 <Row>
     <!-- Columna de la lista de millonarios -->
     <Col sm="3">
         <div class="create-section">
             <h2>Lista de Millonarios</h2>
             <ul>
-                {#each people as m}
+                {#each millionaires as m}
                     <li class="py-1 millionaireItem">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
@@ -199,15 +237,13 @@
                     </li>
                 {/each}
             </ul>
-            <div class="pagination" style="margin-bottom: 20px;">
+            <div class="pagination">
                 <!-- Botones de paginación -->
-                <Button style="margin-right: 10px;" color="danger" outline on:click={deleteAllMillonarios} class="btn-sm">Borrar todos los millonarios</Button>
-                <Button style="margin-right: 10px;" on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
-                <Button on:click={nextPage} disabled={people.length < limit} class="btn-sm">Siguiente</Button>
+
+                <Button style="margin-left: 30px;"  on:click={previousPage} disabled={offset === 0} class="btn-sm">Anterior</Button>
+                <Button style="margin-left: 10px;"on:click={nextPage} disabled={millionaires.length < limit} class="btn-sm">Siguiente</Button>
             </div>
-            <!-- Botón para ir a la página de gráficos -->
-            <Button color="primary" outline style="margin-top: 10px;" on:click={() => window.location.href = 'http://sos2324-22.appspot.com/top-richest/graphs'}>Gráficos</Button>
-            <MessageContainer {Msg} {errorMsg}/>
+            
         </div>
     </Col>
 
@@ -217,30 +253,32 @@
             <h2>Buscar Millonarios</h2>
             <form on:submit|preventDefault={searchMillonarios}>
                 <div class="form-group">
-                    <label>Nombre:</label>
+                    Nombre:
                     <input class="form-control" type="text" placeholder="Nombre del millonario" bind:value={searchParams.name} />
                 </div>
                 <div class="form-group">
-                    <label>Patrimonio neto:</label>
+                    Patrimonio neto:
                     <input class="form-control" type="number" placeholder="1" bind:value={searchParams.net_worth} />
                 </div>
                 <div class="form-group">
-                    <label>Año de nacimiento:</label>
+                    Año de nacimiento:
                     <input class="form-control" type="number" placeholder="2024" bind:value={searchParams.bday_year} />
                 </div>
                 <div class="form-group">
-                    <label>Edad:</label>
+                    Edad:
                     <input class="form-control" type="number" placeholder="0" bind:value={searchParams.age} />
                 </div>
                 <div class="form-group">
-                    <label>Nacionalidad:</label>
+                    Nacionalidad:
                     <input class="form-control" type="text" placeholder="Nacionalidad" bind:value={searchParams.nationality} />
                 </div>
                 <Button color="primary" outline style="margin-top: 10px;">Buscar</Button>
             </form>
+            
         </div>
+        <MessageContainer {Msg} {errorMsg}/>
     </Col>
-
+    
     <!-- Resultados de búsqueda -->
     {#if searchResults.length > 0}
     <Col sm="3">
@@ -266,31 +304,49 @@
         <div class="create-section">
             <h2>Añadir nuevo Millonario</h2>
             <form on:submit|preventDefault={createMillonarios}>
+                <!-- Campos para añadir nuevo millonario -->
                 <div class="form-group">
-                    <label>Nombre:</label>
-                    <input class="form-control" type="text" placeholder="Nombre del millonario" bind:value={newPerson.name} />
+                    Nombre:
+                    <input class="form-control" type="text" placeholder="Nombre del millonario" bind:value={newMillionaire.name} />
                 </div>
                 <div class="form-group">
-                    <label>Patrimonio Neto:</label>
-                    <input class="form-control" type="number" placeholder="0" bind:value={newPerson.net_worth} />
+                    Patrimonio Neto:
+                    <input class="form-control" type="number" placeholder="0" bind:value={newMillionaire.net_worth} />
                 </div>
                 <div class="form-group">
-                    <label>Año de nacimiento:</label>
-                    <input class="form-control" type="number" placeholder="2024" bind:value={newPerson.bday_year} />
+                    Año de nacimiento:
+                    <input class="form-control" type="number" placeholder="2024" bind:value={newMillionaire.bday_year} />
                 </div>
                 <div class="form-group">
-                    <label>Edad:</label>
-                    <input class="form-control" type="number" placeholder="0" bind:value={newPerson.age} />
+                    Edad:
+                    <input class="form-control" type="number" placeholder="0" bind:value={newMillionaire.age} />
                 </div>
                 <div class="form-group">
-                    <label>Nacionalidad:</label>
-                    <input class="form-control" type="text" placeholder="Nacionalidad" bind:value={newPerson.nationality} />
+                    Nacionalidad:
+                    <input class="form-control" type="text" placeholder="Nacionalidad" bind:value={newMillionaire.nationality} />
                 </div>
                 <Button color="primary" outline style="margin-top: 10px;">Crear</Button>
             </form>
         </div>
     </Col>
+
+
+
+    <Col sm="3">
+        <div class="create-section">
+            <h2>Acciones Adicionales</h2>
+            <div class="action-buttons">
+                <Button color="danger" outline size="sm" on:click={deleteAllMillonarios} class="btn-sm mb-2">Borrar todos</Button>
+                <Button color="primary" outline size="sm" on:click={loadInitialData} class="btn-sm mb-2">Cargar datos</Button>
+                
+            </div>
+            <Button color="info" outline size="sm" href="/top-richest/graphs" class="btn-sm">Gráficos</Button>
+        </div>
+    </Col>
 </Row>
+
+
+
 
 <style>
 /* Estilos para títulos */
@@ -303,13 +359,15 @@ h2 {
 /* Estilos para formularios */
 .form-group {
     margin-bottom: 15px;
-    
 }
+
 .create-section {
     margin-bottom: 15px;
     margin-left: 50px;
     margin-right: 15px;
-    
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .form-control {
@@ -326,6 +384,26 @@ h2 {
     margin-left: 2em;
 }
 
+/* Estilos para paginación */
+.pagination {
+    margin-top: 20px;
+}
 
+/* Estilos para elementos de lista */
+.millionaireItem {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
 
+.millionaireItem a {
+    text-decoration: none;
+    color: #333;
+}
+
+.millionaireItem a:hover {
+    color: #007bff;
+}
 </style>
