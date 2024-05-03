@@ -1,28 +1,25 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </svelte:head>
 
 <script>
-    import {onMount} from "svelte";
-    import {dev} from "$app/environment";
+    import { onMount } from "svelte";
+    import { dev } from "$app/environment";
 
-    let API1 = "/api/v2/famous-people"
-    let API2 = "/api/v2/forbes-billonaires";
+    let API1 = "/api/v2/famous-people";
+    let API2 = "/api/v2/forbes-billionaires-list";
     let API3 = "/api/v2/top-richest";
-    if(dev){
+    let API4 = "/api/v2/forbes-billonaires";
+
+    if (dev) {
         API1 = "http://localhost:10000" + API1;
         API2 = "http://localhost:10000" + API2;
         API3 = "http://localhost:10000" + API3;
+        API4 = "http://localhost:10000" + API4;
     }
-    
-    async function getData(){
-        try{
 
-            let data=[]
+    async function fetchDataAndExtractValues() {
+        try {
             const res1 = await fetch(API1);
             const data1 = await res1.json();
 
@@ -31,125 +28,119 @@
 
             const res3 = await fetch(API3);
             const data3 = await res3.json();
-            console.log(data1,data2,data3)
 
+            const res4 = await fetch(API4);
+            const data4 = await res4.json();
 
-            fillChart(data1,data2,data3); 
-        } catch (error){
-            console.log( `Error fetching data: ${error}`);
-        } 
+            const valuesFromData1 = data1.map(item => item.country);
+            const valuesFromData2 = data2.map(item => item.country);
+            const valuesFromData3 = data3.map(item => item.nationality);
+            const valuesFromData4 = data4.map(item => item.country);
+
+            const allValues = [
+                ...valuesFromData1,
+                ...valuesFromData2,
+                ...valuesFromData3,
+                ...valuesFromData4,
+            ];
+
+            const normalizedValues = allValues.map(normalizeCountry);
+
+            return normalizedValues;
+        } catch (error) {
+            console.error("Error fetching and processing data:", error);
+            return [];
+        }
     }
 
+    function normalizeCountry(country) {
+        if (country === "United States of America" || country === "United States" || country === "United State") {
+            return "United States";
+        }
+        return country;
+    }
 
-   
-    
-    async function fillChart(data1, data2, data3){
-        let chartData = [];
+    async function createChart() {
+        try {
+            const allValues = await fetchDataAndExtractValues();
+            const countryCounts = countCountries(allValues);
+            const chartData = Object.entries(countryCounts).map(([country, count]) => ({ name: country, y: count }));
 
-        data1.forEach(person => {
-            const richestPerson = data3.find(item => item.bday_year === person.death_year);
-            const forbesBillionaire = data2.find(item => item.year === person.death_year);
-
-            console.log(person.name, richestPerson, forbesBillionaire); 
-
-            if (richestPerson && forbesBillionaire) {
-                console.log("hola")
-                chartData.push({
-                    name: forbesBillionaire,
-                    x: richestPerson.net_worth, 
-                    y: person.age_of_death,    
-                    country: person.country 
-                });
-            }
-        });
-
-        const chart = Highcharts.chart('container', {
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy'
-            },
-            title: {
-                text: 'Edad de muerte vs. Valor neto (con distribución por país)'
-            },
-            xAxis: {
+            Highcharts.chart("chart-container", {
+                chart: {
+                    type: "bar",
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 10
+                },
                 title: {
-                    text: 'Valor neto (en miles de millones de dólares)'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Edad de muerte'
-                }
-            },
-            tooltip: {
-                pointFormat: '<b>{point.name}</b><br>Valor neto: ${point.x}B<br>Edad de muerte: {point.y}<br>País: {point.country}'
-            },
-            plotOptions: {
-                scatter: {
-                    marker: {
-                        radius: 8,
-                        symbol: 'circle'
+                    text: "Número de empresas y millonarios por países",
+                    style: {
+                        color: "#333",
+                        fontWeight: "bold"
                     }
+                },
+                xAxis: {
+                    title: {
+                        text: "",
+                        style: {
+                            color: "#333",
+                            fontWeight: "bold"
+                        }
+                    },
+                    categories: chartData.map(data => data.name),
+                    labels: {
+                        style: {
+                            color: "#333"
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: "",
+                        style: {
+                            color: "#333",
+                            fontWeight: "bold"
+                        }
+                    },
+                    labels: {
+                        style: {
+                            color: "#333"
+                        }
+                    }
+                },
+                series: [{
+                    name: "Número de millonarios y empresas",
+                    data: chartData.map(data => data.y)
+                }],
+                credits: {
+                    enabled: false
                 }
-            },
-            series: [{
-                name: 'Personas famosas',
-                data: chartData
-            }]
-        });
+            });
+        } catch (error) {
+            console.error("Error creating chart:", error);
+        }
     }
 
+    function countCountries(data) {
+        const countryCounts = {};
+        data.forEach(country => {
+            countryCounts[country] = (countryCounts[country] || 0) + 1;
+        });
+        return countryCounts;
+    }
 
-
-    onMount(()=>{
-        getData();
-    })
-
-
+    onMount(createChart);
 </script>
 
-
-<div id="container" style="width:100%; height:400px;"></div>
-
+<div id="chart-container"></div>
 
 <style>
-
-    h2 {
-        font-size: 24px;
-        font-weight: normal;
-        margin-top: 15px;
-        margin-left: 2%;
-        color: #15297c;
-        list-style-type: circle;
-    }
-
-    ul {
-        margin: 0;
-        margin-left: 2%;
-        padding: 0;
-        list-style: none;
-    }
-
-    li {
-        margin: 10px 0;
-        list-style-type: circle;
-    }
-
-    a {
-        color: #1e90ff;
-        text-decoration: none;
-        font-weight: bold;
-        list-style-type: circle;
-    }
-
-    section {
-        padding: 20px;
-        max-width: 800px;
+    #chart-container {
+        width: 100%;
+        height: 600px;
         margin: 0 auto;
-        background-color: #ffffff;
         border-radius: 10px;
-        box-shadow: 0px 5px 8px 5px rgba(0, 0, 0, 0.1);
-        margin-bottom: 1%;
-        margin-top: 1.5%;
     }
 </style>
+
+         
