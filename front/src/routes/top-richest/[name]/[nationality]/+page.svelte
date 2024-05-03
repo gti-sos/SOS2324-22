@@ -6,9 +6,9 @@
 
     
 
-    let person = $page.params;
+    let millionaire = $page.params;
     const API_BASE ='https://sos2324-22.appspot.com' ||'http://localhost:10000'
-    const API = `${API_BASE}/api/v2/top-richest/${person.name}/${person.nationality}`;
+    const API = `${API_BASE}/api/v2/top-richest/${millionaire.name}/${millionaire.nationality}`;
     let errorMsg = "";
     let Msg = "";
     let millonarioData;
@@ -41,7 +41,7 @@
     })
     
     async function updateMillonario(){
-        const updatedPerson = {
+        const updatedmillionaire = {
                 name: millonarioData?.name,
                 net_worth: parseInt(millonarioData?.net_worth),
                 bday_year: parseInt(millonarioData?.bday_year),
@@ -55,7 +55,7 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(updatedPerson)
+                body: JSON.stringify(updatedmillionaire)
             });
         if (response.status == 200){
             Msg = "Millonario actualizado con éxito"
@@ -90,7 +90,7 @@
 
 
 
-<h2>Detalles de {person.name}</h2>
+<h2>Detalles de {millionaire.name}</h2>
 <hr>
 
 {#if millonarioData}
@@ -131,6 +131,9 @@
             <div class="d-flex justify-content-end mb-3">
                 
                 <Button color="primary" on:click="{updateMillonario}">Actualizar</Button>
+                <a href="/top-richest" class="button-margin-left">
+                <Button outline style="margin-left: 10px;"color="secondary" >Volver </Button>
+                </a>
                 
             </div>
            
