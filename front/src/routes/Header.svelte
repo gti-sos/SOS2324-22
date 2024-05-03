@@ -5,6 +5,7 @@
 	  <a href="/forbes-billionaires-list">forbes-billionaires-list</a>
     <a href="/top-richest">top-richest</a>
     <a href="/analytics">Analytics</a>
+    <a href="/integrations">Integrations</a>
     <a href="/about">Sobre</a>
 </nav>
 
