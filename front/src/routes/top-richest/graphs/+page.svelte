@@ -1,3 +1,4 @@
+
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -9,6 +10,7 @@
 </svelte:head>
 
 <script>
+    import { Button, Col, Row,Input } from '@sveltestrap/sveltestrap';
     let data = [];
     import { onMount } from "svelte";
     let dataAvailable = false;
@@ -155,12 +157,10 @@
 
 {#if dataAvailable==false}
     <div style="justify-content: center; text-align: center; margin-top: 20px">
-        <button 
-            class="cargarDatos"
-            style="background-color: #0366d6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
-            on:click={() => getInitial()}>
-            Cargar Los Datos
-        </button>
+        <a href="/top-richest" class="button-margin-left">
+
+            <Button outline style="margin-left: 10px;"color="secondary" >Volver </Button>
+        </a>
     </div>
     <p class="container">No hay datos disponibles</p>
 {/if}
