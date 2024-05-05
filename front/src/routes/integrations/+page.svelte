@@ -34,6 +34,7 @@
         color: #fff;
         border: none;
         padding: 10px 20px;
+        margin-bottom: 10px;
         font-size: 14px;
         border-radius: 5px;
         text-decoration: none;
@@ -50,8 +51,12 @@
     <div class="container">
         <section>
             <h3>Juan</h3>
-            <a href="/dogs" style="text-decoration: none;">
+            <a href="/integraciones-juarosrap/dogs" style="text-decoration: none;">
                 <button>Uso API de perros</button>
+            </a>
+
+            <a href="/integraciones-juarosrap/cars" style="text-decoration: none;">
+                <button>Uso API de coches</button>
             </a>
         </section>
 

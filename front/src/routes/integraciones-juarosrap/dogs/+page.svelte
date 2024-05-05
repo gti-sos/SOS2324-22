@@ -1,12 +1,6 @@
 <script>
-    import { onMount } from "svelte";
-
     let search = "";
     let dogs = [];
-
-    /*onMount(async () => {
-        await getDogs();
-    });*/
 
     async function getDogs() {
         try {
