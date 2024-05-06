@@ -58,6 +58,10 @@
             <a href="/integraciones-juarosrap/cars" style="text-decoration: none;">
                 <button>Uso API de coches</button>
             </a>
+
+            <a href="/integraciones-juarosrap/tornados" style="text-decoration: none;">
+                <button>Integración API de tornados</button>
+            </a>
         </section>
 
         <section>
