@@ -42,6 +42,8 @@ LoadBackendTR2(app, dbtop100richest2);
 
 app.use(handler);
 
+
+
 //app.use("/",express.static("./public"));
 
 

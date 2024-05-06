@@ -1,4 +1,7 @@
-const API_BASE = "/api/v2";
+  const API_BASE = "/api/v2";
+
+  import request from 'request';
+
 
 let initial_list = [
   { name: 'George Washington',
@@ -356,22 +359,28 @@ dbFamousPeople.find( { name: personName }, (err,searchedPerson) => {
   });
 
     app.delete(API_BASE+"/famous-people/:name/:country", (req,res) => {
-      let name=req.params.name;
-      let country=req.params.country;
-  
-      dbFamousPeople.remove( {"name":name, "country":country},{ multi: true },(err,numRemoved)=>{
-      if(err){
-          res.sendStatus(500,"Internal Error");
-      }else{
-          if(numRemoved>=1){
-              res.sendStatus(200,"Removed");
-          }else{
-              res.sendStatus(404,"Not found");
-          }
-      }
-      });
-  });
+        let name=req.params.name;
+        let country=req.params.country;
+    
+        dbFamousPeople.remove( {"name":name, "country":country},{ multi: true },(err,numRemoved)=>{
+            if(err){
+                res.sendStatus(500,"Internal Error");
+            }else{
+                if(numRemoved>=1){
+                    res.sendStatus(200,"Removed");
+                }else{
+                    res.sendStatus(404,"Not found");
+                }
+            }
+        });
+    });
 
+
+    app.use('/proxy', function(req,res){
+        let url= 'https://sos2324-22.ew.r.appspot.com/api/v2/famous-people';
+        console.log('piped: ' + req.url);
+        req.pipe(request(url)).pipe(res);
+    });
     
     
 };
