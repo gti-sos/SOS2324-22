@@ -341,6 +341,7 @@
                 
             </div>
             <Button color="info" outline size="sm" href="/top-richest/graphs" class="btn-sm">Gráficos</Button>
+            <Button color="info" outline size="sm" href="/top-richest/Graphs_Plotly" class="btn-sm">Gráficos Plotly</Button>
         </div>
     </Col>
 </Row>
