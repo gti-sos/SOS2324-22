@@ -66,8 +66,16 @@
 
         <section>
             <h3>Dani</h3>
-            <a href="/dogs" style="text-decoration: none;">
+            <a href="/integraciones-dantainie/F1" style="text-decoration: none;">
                 <button>Uso API de fomrula 1</button>
+            </a>
+
+            <a href="/integraciones-dantainie/MMA" style="text-decoration: none;">
+                <button>Uso API de Cartelera MMA</button>
+            </a>
+
+            <a href="/integraciones-dantainie/golf-leaderboard" style="text-decoration: none;">
+                <button>Integración de dos APIS</button>
             </a>
         </section>
     </div>
