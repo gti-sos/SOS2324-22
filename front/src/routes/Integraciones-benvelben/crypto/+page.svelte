@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import Highcharts from 'highcharts';
+  
 
   let coins = [];
 
