@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import Highcharts from 'highcharts';
+  
 
   let artists = [
     { name: 'Ed Sheeran', id: '6eUKZXaKkcviH0Ku9w2n3V' },
