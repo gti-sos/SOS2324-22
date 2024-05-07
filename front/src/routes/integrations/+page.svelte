@@ -81,15 +81,15 @@
 
          <section>
             <h3>Benjamín</h3>
-            <a href="/integraciones-benvelben/crypto" style="text-decoration: none;">
+            <a href="/Integraciones-benvelben/crypto" style="text-decoration: none;">
                 <button>Uso API de criptomonedas</button>
             </a>
 
-            <a href="/integraciones-benvelben/music" style="text-decoration: none;">
+            <a href="/Integraciones-benvelben/music" style="text-decoration: none;">
                 <button>Uso API de Spotify </button>
             </a>
 
-            <a href="/integraciones-benvelben/netW" style="text-decoration: none;">
+            <a href="/Integraciones-benvelben/netW" style="text-decoration: none;">
                 <button>Uso API de conversion de moneda </button>
             </a>
 
