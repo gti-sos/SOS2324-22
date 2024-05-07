@@ -78,5 +78,18 @@
                 <button>Integración de dos APIS</button>
             </a>
         </section>
+
+         <section>
+            <h3>Benjamín</h3>
+            <a href="/integraciones-benvelben/crypto" style="text-decoration: none;">
+                <button>Uso API de criptomonedas</button>
+            </a>
+
+            <a href="/integraciones-benvelben/music" style="text-decoration: none;">
+                <button>Uso API de Spotify </button>
+            </a>
+
+        </section>    
+
     </div>
 </main>
