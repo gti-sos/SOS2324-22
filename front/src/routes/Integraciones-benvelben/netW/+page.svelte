@@ -14,7 +14,7 @@
 
     let ms = [];
   
-    let API = "/proxy";
+    let API = "/proxyTR";
 
     if (dev) {
         API = "http://localhost:10000" + API;
