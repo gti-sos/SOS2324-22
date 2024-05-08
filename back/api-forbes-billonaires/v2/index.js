@@ -8,7 +8,7 @@ let lista = [
       profit: 41.9837,
       asset: 3473.238,
       market_value: 229.805,
-      year: 2017    
+      year: 2020    
     },
     { rank: 2,
       name: 'China Constuctition Bank',
@@ -17,7 +17,7 @@ let lista = [
       profit: 34.9814,
       asset: 3016.578,
       market_value: 200.458,
-      year: 2017    
+      year: 2020    
     },
     { rank: 3,
       name: 'Berkshire Hathaway',
@@ -26,7 +26,7 @@ let lista = [
       profit: 24.074,
       asset: 620.854,
       market_value: 409.908,
-      year: 2017    
+      year: 2019    
     },
     { rank: 4,
       name: 'JPMorgan Chase',
@@ -35,7 +35,7 @@ let lista = [
       profit: 24.231,
       asset: 2512.986,
       market_value: 306.616,
-      year: 2017    
+      year: 2022    
     },
     { rank: 5,
       name: 'Wells Fargo',
@@ -44,7 +44,7 @@ let lista = [
       profit: 21.938,
       asset: 1943.443,
       market_value: 274.385,
-      year: 2017    
+      year: 2022    
     },
     { rank: 6,
       name: 'Agricultural Bank of China',
@@ -53,7 +53,7 @@ let lista = [
       profit: 27.7975,
       asset: 2816.039,
       market_value: 149.229,
-      year: 2017    
+      year: 2023    
     },
     { rank: 7,
       name: 'Bank of America',
@@ -62,7 +62,7 @@ let lista = [
       profit: 16.563,
       asset: 2196.847,
       market_value: 231.876,
-      year: 2017    
+      year: 2022    
     },
     { rank: 8,
       name: 'Bank of China',
@@ -80,7 +80,7 @@ let lista = [
       profit: 45.217,
       asset: 331.141,
       market_value: 752.039,
-      year: 2017    
+      year: 2020    
     },
     { rank: 10,
       name: 'Toyota Motor',
@@ -89,7 +89,7 @@ let lista = [
       profit: 17.1115,
       asset: 412.496,
       market_value: 171.85,
-      year: 2017    
+      year: 2019    
     },
     { rank: 11,
       name: 'Nike',
@@ -116,7 +116,7 @@ let lista = [
       profit: 17.1115,
       asset: 412.496,
       market_value: 171.85,
-      year: 2017    
+      year: 2023    
     }];
 
   

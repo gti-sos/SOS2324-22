@@ -80,7 +80,7 @@ async function grafica() {
     return;
   }
 
-  const years = Object.keys(forbes).sort(); // Para obtener años ordenados
+  const years = Object.keys(forbes).sort(); 
   const empresas = years.map((year) => forbes[year] || 0);
   const competiciones = years.map((year) => golf[year] || 0);
 
@@ -116,7 +116,7 @@ async function grafica() {
 }
 
 onMount(async () => {
-  await grafica(); // Espera a que la gráfica se configure correctamente.
+  await grafica(); 
 });
 </script>
 
