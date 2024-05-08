@@ -6,18 +6,18 @@
     let people = [];
     let deathOrBirthByYear = {};
     let tornadoCountByYear = {};
-    /*let API = "/api/v2/famous-people"
+    let API = "/proxy"
 
     if (dev){
         API = "http://localhost:10000"+API;
     }
-*/
+
     onMount(async () => {
         await getPeople();
     });
 
     async function getPeople(){
-        const res = await fetch("http://localhost:10000/proxy",{
+        const res = await fetch(API,{
             method: "GET",
         });
         try {
