@@ -1,4 +1,5 @@
 const API_BASE = "/api/v2";
+import request from "request";
 
 let lista = [
     { rank: 1,
@@ -427,6 +428,12 @@ function LoadBackendFB2(app,db) {
         }
       }
     });
+  });
+
+  app.use('/proxy1', function(req,res){
+    let url= 'https://sos2324-22.ew.r.appspot.com/api/v2/forbes-billonaires';
+    console.log('piped: ' + req.url);
+    req.pipe(request(url)).pipe(res);
   });
 
 }
