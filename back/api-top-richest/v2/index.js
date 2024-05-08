@@ -282,6 +282,11 @@ dbtop100richest2.find( { name: personName }, (err,searchedPerson) => {
       });
   });
 
+ app.use('/proxy', function(req,res){
+        let url= 'https://sos2324-22.ew.r.appspot.com/api/v2/top-richest';
+        console.log('piped: ' + req.url);
+        req.pipe(request(url)).pipe(res);
+    });
     
     
 };
