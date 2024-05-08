@@ -1,4 +1,5 @@
 const API_BASE = "/api/v2";
+ import request from 'request';
 
 let list = [
     { name: 'Elon Musk', net_worth: 240, bday_year: 1971, age: 51, nationality: 'South Africa' },
