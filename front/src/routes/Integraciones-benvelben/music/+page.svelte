@@ -1,3 +1,9 @@
+<svelte:head>
+    <script src="https://code.highcharts.com/modules/scatter.js"></script>
+</svelte:head>
+
+
+
 <script>
   import { onMount } from 'svelte';
   
