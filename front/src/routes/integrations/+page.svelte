@@ -62,6 +62,10 @@
             <a href="/integraciones-juarosrap/tornados" style="text-decoration: none;">
                 <button>Integración API de tornados</button>
             </a>
+
+            <a href="/integraciones-juarosrap/terremotos" style="text-decoration: none;">
+                <button>Integración API de terremotos</button>
+            </a>
         </section>
 
         <section>
