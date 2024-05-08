@@ -83,6 +83,7 @@
     }
 
     function renderChart() {
+        console.log(ms);
         const chartData = ms.map(millionaire => {
             return {
                 name: millionaire.name,
