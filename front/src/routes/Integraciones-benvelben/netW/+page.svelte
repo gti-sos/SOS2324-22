@@ -8,7 +8,7 @@
 
     let ms = [];
   
-    let API = "/api/v2/top-richest";
+    let API = "/proxy";
 
     if (dev) {
         API = "http://localhost:10000" + API;
