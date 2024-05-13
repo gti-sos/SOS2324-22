@@ -46,8 +46,8 @@
             </section>
     
             <section>
-                <h3>Dani</h3>
-                
+                <h3>Daniel Taillefer Nieto</h3>
+                <a href="https://youtu.be/uqKAg8Nbj-c">Vídeo entregable D03</a>
             </section>
     
              <section>
