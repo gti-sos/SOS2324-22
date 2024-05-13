@@ -50,7 +50,7 @@
                 type: 'area'
             },
             title: {
-                text: `Precios de Airbnb por día en ${getMonthName(selectedMonth)} de 2024`
+                text: `Precios de Airbnb por día en ${getMonthName(selectedMonth)} de 2024 en Atlantic Panorama Ocean front. Garden & salt pool`
             },
             xAxis: {
                 type: 'datetime',
@@ -89,12 +89,7 @@
 </script>
 
 <main>
-    <h1>Selecciona un año y un mes:</h1>
-    <select bind:value={selectedYear} on:change={fetchData}>
-        {#each Array.from({ length: new Date().getFullYear() - 2010 + 1 }, (_, i) => new Date().getFullYear() - i) as year}
-            <option value={year}>{year}</option>
-        {/each}
-    </select>
+    <h1>Selecciona un mes:</h1>
     <select bind:value={selectedMonth} on:change={fetchData}>
         {#each Array.from({ length: 12 }, (_, i) => i + 1) as month}
             <option value={month}>{getMonthName(month)}</option>
