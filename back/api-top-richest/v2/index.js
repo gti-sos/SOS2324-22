@@ -1,4 +1,5 @@
 const API_BASE = "/api/v2";
+ import request from 'request';
 
 let list = [
     { name: 'Elon Musk', net_worth: 240, bday_year: 1971, age: 51, nationality: 'South Africa' },
@@ -16,51 +17,44 @@ let list = [
 
 
   function validarDatos(req, res, next) {
-    const json = req.body;
-  
-    const esquema = {
-        'name': 'string', 
-        'net_worth': 'number', 
-        'bday_year': 'number', 
-        'age': 'number', 
-        'nationality': 'string', 
-    };
+  const json = req.body;
 
-    const receivedKeys = Object.keys(json);
-    const expectedKeys = Object.keys(esquema);
-    const missingKeys = expectedKeys.filter(key => !receivedKeys.includes(key));
-    
-    
-    const extraKeys = receivedKeys.filter(key => !expectedKeys.includes(key));
-    if (extraKeys.length > 0) {
-        console.error(`There are more keys than expected: ${extraKeys.join(', ')}`);
-        return res.sendStatus(400, "Bad request");
-    }
+  const esquema = {
+      'name': 'string', 
+      'net_worth': 'number', 
+      'bday_year': 'number', 
+      'age': 'number', 
+      'nationality': 'string'
+  };
 
-    
-    if (missingKeys.length > 0) {
-        console.error(`There are missing keys: ${missingKeys.join(', ')}` );
-        return res.sendStatus(400, "Bad request");
-    }
+  const receivedKeys = Object.keys(json);
+  const expectedKeys = Object.keys(esquema);
 
-    
-    const erroresTipo = [];
+  const missingKeys = expectedKeys.filter(key => !receivedKeys.includes(key));
+  if (missingKeys.length > 0) {
+      console.error(`There are missing keys: ${missingKeys.join(', ')}`);
+      return res.sendStatus(400, "Bad request");
+  }
 
-    expectedKeys.forEach(key => {
-        const tipoEsperado = esquema[key];
-        const valor = json[key];
-        if (typeof valor !== tipoEsperado) {
-            erroresTipo.push(`El valor de '${key}' debe ser de tipo '${tipoEsperado}'`);
-        }
-    });
+  const erroresTipo = [];
 
-    if (erroresTipo.length > 0) {
-        console.error(`Errores de tipo: ${erroresTipo.join(', ')}`);
-        return res.sendStatus(400, "Bad request");
-    }
-    next();
+  expectedKeys.forEach(key => {
+      const tipoEsperado = esquema[key];
+      const valor = json[key];
+      if (valor === null || valor === undefined || valor === '') {
+          erroresTipo.push(`El valor de '${key}' está vacío`);
+      } else if (typeof valor !== tipoEsperado) {
+          erroresTipo.push(`El valor de '${key}' debe ser de tipo '${tipoEsperado}'`);
+      }
+  });
+
+  if (erroresTipo.length > 0) {
+      console.error(`Errores de tipo: ${erroresTipo.join(', ')}`);
+      return res.sendStatus(400, "Bad request");
+  }
+
+  next();
 }
-
 
 
 
@@ -282,6 +276,11 @@ dbtop100richest2.find( { name: personName }, (err,searchedPerson) => {
       });
   });
 
+ app.use('/proxyTR', function(req,res){
+        let url= 'https://sos2324-22.ew.r.appspot.com/api/v2/top-richest';
+        console.log('piped: ' + req.url);
+        req.pipe(request(url)).pipe(res);
+    });
     
     
 };

@@ -1,5 +1,11 @@
 <svelte:head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/pie.js"></script>
 </svelte:head>
 
 <script>
@@ -8,7 +14,7 @@
 
     let ms = [];
   
-    let API = "/api/v2/top-richest";
+    let API = "/proxyTR";
 
     if (dev) {
         API = "http://localhost:10000" + API;
@@ -77,6 +83,7 @@
     }
 
     function renderChart() {
+        console.log(ms);
         const chartData = ms.map(millionaire => {
             return {
                 name: millionaire.name,
