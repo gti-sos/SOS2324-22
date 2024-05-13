@@ -81,6 +81,10 @@
             <a href="/integraciones-dantainie/golf-leaderboard" style="text-decoration: none;">
                 <button>Integración de dos APIS</button>
             </a>
+
+            <a href="/integraciones-dantainie/api-integracion2" style="text-decoration: none;">
+                <button>Integración de dos APIS</button>
+            </a>
         </section>
 
          <section>
