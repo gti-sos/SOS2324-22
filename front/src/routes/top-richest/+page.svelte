@@ -14,11 +14,11 @@
     let Msg = "";
 
     let searchParams = {
-        name: "",
+        name: null,
         net_worth: null,
         bday_year: null,
         age: null,
-        nationality: "",
+        nationality: null,
     };
     let searchResults = [];
 
