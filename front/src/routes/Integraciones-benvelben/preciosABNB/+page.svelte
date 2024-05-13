@@ -15,7 +15,6 @@
     
     });
 
-    let selectedYear = new Date().getFullYear();
     let selectedMonth = new Date().getMonth() + 1;
     let chartData = [];
 
