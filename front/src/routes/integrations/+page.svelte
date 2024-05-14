@@ -98,7 +98,11 @@
             </a>
 
             <a href="/Integraciones-benvelben/netW" style="text-decoration: none;">
-                <button>Uso API de conversion de moneda </button>
+                <button>Uso API de conversion de moneda a EUR</button>
+            </a>
+
+             <a href="/Integraciones-benvelben/netWC" style="text-decoration: none;">
+                <button>Uso API de conversion de moneda a BTC</button>
             </a>
 
              <a href="/Integraciones-benvelben/preciosABNB" style="text-decoration: none;">
