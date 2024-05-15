@@ -2,13 +2,12 @@
     import { dev } from "$app/environment";
     let mode = "production";
 
-    if(dev){
-        mode = "development"
+    if (dev) {
+        mode = "development";
     }
 </script>
 
 <style>
-     
     main {
         display: flex;
         justify-content: center;
@@ -34,33 +33,28 @@
         font-size: 20px;
         margin-bottom: 10px;
     }
-   
-     }
 </style>
 
 <h2>Ahora mismo estás en {mode}</h2>
 <main>
-    
     <div class="container">
         <section>
             <h3>Juan</h3>
             <a href="https://youtu.be/rgB9fPPpKtM">Vídeo entregable D03</a>
-            </section>
+        </section>
     
-            <section>
-                <h3>Daniel Taillefer Nieto</h3>
-                <a href="https://youtu.be/uqKAg8Nbj-c">Vídeo entregable D03</a>
-            </section>
+        <section>
+            <h3>Daniel Taillefer Nieto</h3>
+            <a href="https://youtu.be/uqKAg8Nbj-c">Vídeo entregable D03</a>
+        </section>
     
-             <section>
-                <h3>Benjamín (El volumen esta bajo, escuchar a volumen alto o activar los subtítulos)</h3>
-                <a href="https://youtu.be/3fSuga2j_BM?si=2Rbul-0AMoYLn7cj">Vídeo entregable D03</a>
-            </section> 
+        <section>
+            <h3>Benjamín (El volumen esta bajo, escuchar a volumen alto o activar los subtítulos)</h3>
+            <a href="https://youtu.be/3fSuga2j_BM?si=2Rbul-0AMoYLn7cj">Vídeo entregable D03</a>
+        </section> 
             
-            <section>
-                <h3>Rubén</h3>
-
-            </section>    
-    
-        </div>
-    </main>
+        <section>
+            <h3>Rubén</h3>
+        </section>    
+    </div>
+</main>
