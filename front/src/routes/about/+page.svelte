@@ -34,11 +34,7 @@
         font-size: 20px;
         margin-bottom: 10px;
     }
-     h2 {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            margin-bottom: 10px;
-            margin-top: 10px;
+   
      }
 </style>
 
@@ -57,8 +53,7 @@
             </section>
     
              <section>
-                <h3>Benjamín</h3>
-                 <h2>(El volumen esta bajo, escuchar a volumen alto o activar los subtítulos)</h2>
+                <h3>Benjamín (El volumen esta bajo, escuchar a volumen alto o activar los subtítulos)</h3>
                 <a href="https://youtu.be/3fSuga2j_BM?si=2Rbul-0AMoYLn7cj">Vídeo entregable D03</a>
             </section> 
             
