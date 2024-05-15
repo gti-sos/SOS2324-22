@@ -34,7 +34,7 @@
         font-size: 20px;
         margin-bottom: 10px;
     }
-     h3 {
+     h2 {
             font-family: Arial, sans-serif;
             font-size: 12px;
             margin-bottom: 10px;
