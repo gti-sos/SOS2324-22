@@ -40,10 +40,10 @@
     <div class="container">
         <section>
             <h3>Juan</h3>
-            <a href="https://youtu.be/rgB9fPPpKtM">Vídeo entregable D03</a>
+            <a href="https://youtu.be/VtnP5eKRUBQ">Vídeo entregable D03</a>
         </section>
     
-        <section>
+        <section>   
             <h3>Daniel Taillefer Nieto</h3>
             <a href="https://youtu.be/uqKAg8Nbj-c">Vídeo entregable D03</a>
         </section>
