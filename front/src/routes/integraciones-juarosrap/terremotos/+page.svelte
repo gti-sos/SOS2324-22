@@ -86,40 +86,119 @@
     }
 
     async function createChart() {
+        const allYears = new Set([
+            ...Object.keys(earthquakeCounts),
+            ...Object.keys(deathOrBirthByYear)
+        ]);
+
+        const sortedYears = Array.from(allYears).sort();
+
         const chartOptions = {
             chart: {
-                type: 'bar',
+                type: 'line',
                 height: 400,
+                toolbar: {
+                    show: true
+                }
             },
             series: [
                 {
-                name: 'Terremotos',
-                data: Object.values(earthquakeCounts),
+                    name: 'Terremotos',
+                    type: 'column',
+                    data: sortedYears.map(year => earthquakeCounts[year] || 0),
                 },
                 {
-                name: 'Nacimientos',
-                data: Object.keys(deathOrBirthByYear).map(year => deathOrBirthByYear[year].born),
+                    name: 'Nacimientos',
+                    type: 'line',
+                    data: sortedYears.map(year => (deathOrBirthByYear[year]?.born || 0)),
                 },
                 {
-                name: 'Muertes',
-                data: Object.keys(deathOrBirthByYear).map(year => deathOrBirthByYear[year].died),
+                    name: 'Muertes',
+                    type: 'line',
+                    data: sortedYears.map(year => (deathOrBirthByYear[year]?.died || 0)),
                 }
             ],
             xaxis: {
-                categories: Object.keys(earthquakeCounts),
+                categories: sortedYears,
                 title: {
                     text: 'Año',
                 },
             },
-            yaxis: {
-                title: {
-                    text: 'Cantidad',
+            yaxis: [
+                {
+                    seriesName: 'Terremotos',
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#008FFB'
+                    },
+                    labels: {
+                        style: {
+                            colors: '#008FFB',
+                        }
+                    },
+                    title: {
+                        text: 'Terremotos',
+                        style: {
+                            color: '#008FFB',
+                        }
+                    }
                 },
-            },
+                {
+                    seriesName: 'Nacimientos',
+                    opposite: true,
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#00E396'
+                    },
+                    labels: {
+                        style: {
+                            colors: '#00E396',
+                        }
+                    },
+                    title: {
+                        text: 'Nacimientos',
+                        style: {
+                            color: '#00E396',
+                        }
+                    }
+                },
+                {
+                    seriesName: 'Muertes',
+                    opposite: true,
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#FEB019'
+                    },
+                    labels: {
+                        style: {
+                            colors: '#FEB019',
+                        }
+                    },
+                    title: {
+                        text: 'Muertes',
+                        style: {
+                            color: '#FEB019',
+                        }
+                    }
+                }
+            ],
+            tooltip: {
+                shared: true,
+                intersect: false
+            }
         };
 
-    new ApexCharts(document.querySelector("#chart"), chartOptions).render();
-  }
+        new ApexCharts(document.querySelector("#chart"), chartOptions).render();
+    }
 
 
 </script>
