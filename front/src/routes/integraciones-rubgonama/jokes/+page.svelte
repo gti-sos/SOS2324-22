@@ -13,7 +13,7 @@
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'eeb89884acmsh4bb090375dec307p114093jsnc0e96844eedf',  // Tu clave de API
+                'X-RapidAPI-Key': 'eeb89884acmsh4bb090375dec307p114093jsnc0e96844eedf',
                 'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com'
             }
         };
