@@ -51,7 +51,7 @@ let lista = [
         name: 'Bill Gates',
         net_worth: 104,
         age: 67,
-        country: 'UUnited States',
+        country: 'United States',
         source: 'Microsoft',
         industry: 'Technology',
     },
