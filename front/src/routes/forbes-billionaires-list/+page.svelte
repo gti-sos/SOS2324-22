@@ -323,5 +323,8 @@
 
 <Button color="danger" on:click="{deleteAllBillionaires}">Borrar todo</Button>
 
+<Button color="primary" href="/forbes-billionaires-list/graphs">Graficas highcharts</Button>
+<Button color="primary" href="/forbes-billionaires-list/graph_billboard">Grafica billboard</Button>
+
 <MessageContainer {Msg} {errorMsg}/>
   

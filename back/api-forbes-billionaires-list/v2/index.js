@@ -51,7 +51,7 @@ let lista = [
         name: 'Bill Gates',
         net_worth: 104,
         age: 67,
-        country: 'United States',
+        country: 'UUnited States',
         source: 'Microsoft',
         industry: 'Technology',
     },
@@ -174,6 +174,7 @@ function LoadBackendFBL2(app, dbForBillionaires) {
         }
 
         dbForBillionaires.find(filter)
+            .sort({ rank: 1 })
             .skip(offset)
             .limit(limit)
             .exec((err, list) => {
@@ -296,6 +297,12 @@ function LoadBackendFBL2(app, dbForBillionaires) {
                 });
             });
         });
+    });
+
+    app.use('/proxy2', function (req, res) {
+        let url = 'https://sos2324-22.ew.r.appspot.com/api/v2/forbes-billionaires-list';
+        console.log('piped: ' + req.url);
+        req.pipe(request(url)).pipe(res);
     });
     
 }
