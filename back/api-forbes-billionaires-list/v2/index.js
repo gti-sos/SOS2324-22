@@ -1,5 +1,7 @@
 const API_BASE = '/api/v2';
 
+import request from 'request';
+
 let lista = [
     {
         rank: 1,
