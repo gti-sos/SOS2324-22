@@ -47,14 +47,16 @@
             <h3>Daniel Taillefer Nieto</h3>
             <a href="https://youtu.be/uqKAg8Nbj-c">Vídeo entregable D03</a>
         </section>
-    
-        <section>
+
+		<section>
+			<h3>Rubén</h3>
+			<a href="https://youtu.be/LumJZRwbbH0">Vídeo entregable D03</a>
+		</section>
+
+		<section>
             <h3>Benjamín (El volumen esta bajo, escuchar a volumen alto o activar los subtítulos)</h3>
             <a href="https://youtu.be/3fSuga2j_BM?si=2Rbul-0AMoYLn7cj">Vídeo entregable D03</a>
         </section> 
-            
-        <section>
-            <h3>Rubén</h3>
-        </section>    
+               
     </div>
 </main>
