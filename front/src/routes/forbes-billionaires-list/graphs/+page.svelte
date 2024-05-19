@@ -8,7 +8,6 @@
 <script>
     import { onMount } from "svelte";
     import { dev } from "$app/environment";
-    import donut from 'highcharts/modules/variable-pie';
 
     let API = "/api/v2/forbes-billionaires-list?limit=100000";
     if (dev) {
