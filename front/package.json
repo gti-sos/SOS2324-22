@@ -13,10 +13,13 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"svelte": "^4.2.12",
-		"vite": "^5.0.3"
+		"vite": "^5.2.11"
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltestrap/sveltestrap": "^6.2.7"
+		"@sveltestrap/sveltestrap": "^6.2.7",
+		"billboard.js": "^3.11.3",
+		"d3": "^7.9.0",
+		"highcharts": "^11.4.1"
 	}
 }
