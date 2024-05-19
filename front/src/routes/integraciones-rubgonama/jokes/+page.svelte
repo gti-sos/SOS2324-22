@@ -65,7 +65,7 @@
 </style>
 
 <main>
-    <h2>Lista de Chistes</h2>
+    <h2>Lista de chistes</h2>
     {#if jokes.length === 0}
         <p>Cargando chistes...</p>
     {:else}

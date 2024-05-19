@@ -4,26 +4,26 @@
 	let catImages = [];
 
 	onMount(async () => {
-	await getCatImages();
+	    await getCatImages();
 	});
 
 	async function getCatImages() {
-	const apiKey = 'live_u68oAa7glmxOgRHi5RR9bErzfu6zE0rFZlrrXIs90mRvhTaefgiB1zAw5vXmt2zm';
-	const url = `https://api.thecatapi.com/v1/images/search?limit=5`;
-	const options = {
-	method: 'GET',
-	headers: {
-	'x-api-key': apiKey
-	}
-	};
-	try {
-	const response = await fetch(url, options);
-	catImages = await response.json();
-	console.log(catImages);
-	} catch (e) {
-	console.error("Error fetching data:", e);
-	catImages = [];
-	}
+	    const apiKey = 'live_u68oAa7glmxOgRHi5RR9bErzfu6zE0rFZlrrXIs90mRvhTaefgiB1zAw5vXmt2zm';
+	    const url = `https://api.thecatapi.com/v1/images/search?limit=5`;
+	    const options = {
+	        method: 'GET',
+	            headers: {
+	                'x-api-key': apiKey
+	            }
+	        };
+	        try {
+	            const response = await fetch(url, options);
+	            catImages = await response.json();
+	            console.log(catImages);
+	        } catch (e) {
+	        console.error("Error fetching data:", e);
+	        catImages = [];
+	    }
 	}
 </script>
 
@@ -50,7 +50,7 @@
 </style>
 
 <main>
-    <h2>Imágenes de Gatos</h2>
+    <h2>Imágenes de gatos</h2>
     {#if catImages.length === 0}
         <p>Cargando imágenes de gatos...</p>
     {:else}

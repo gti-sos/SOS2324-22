@@ -18,92 +18,92 @@
 	let billionairesData = [];
 	let gdpData = {};
 	let countryCodes = {
-	"United States": "USA",
-	"France": "FRA",
-	"Mexico": "MEX",
-	"India": "IND",
+		"United States": "USA",
+		"France": "FRA",
+		"Mexico": "MEX",
+		"India": "IND",
 	};
 
 	onMount(async () => {
-	await fetchBillionairesData();
-	await fetchGDPData();
-	createChart();
+		await fetchBillionairesData();
+		await fetchGDPData();
+		createChart();
 	});
 
 	async function fetchBillionairesData() {
-	try {
-	const res = await fetch(billionairesAPI);
-	billionairesData = await res.json();
-	} catch (error) {
-	console.error(`Error fetching billionaires data: ${error}`);
-	}
+		try {
+			const res = await fetch(billionairesAPI);
+			billionairesData = await res.json();
+		} catch (error) {
+			console.error(`Error fetching billionaires data: ${error}`);
+		}
 	}
 
 	async function fetchGDPData() {
-	try {
-	for (const country in countryCodes) {
-	const res = await fetch(worldBankAPI.replace("{countryCode}", countryCodes[country]));
-	const data = await res.json();
-	if (data[1]) {
-	gdpData[country] = data[1][0].value;
-	}
-	}
-	} catch (error) {
-	console.error(`Error fetching GDP data: ${error}`);
-	}
+		try {
+			for (const country in countryCodes) {
+				const res = await fetch(worldBankAPI.replace("{countryCode}", countryCodes[country]));
+				const data = await res.json();
+				if (data[1]) {
+					gdpData[country] = data[1][0].value;
+				}
+			}
+		} catch (error) {
+			console.error(`Error fetching GDP data: ${error}`);
+		}
 	}
 
 	function createChart() {
-	if (!billionairesData.length || !Object.keys(gdpData).length) {
-	console.log("No hay datos disponibles para crear la gráfica.");
-	return;
-	}
+		if (!billionairesData.length || !Object.keys(gdpData).length) {
+			console.log("No hay datos disponibles para crear la gráfica.");
+			return;
+		}
 
-	let countries = ["x"];
-	let netWorthData = ["Net Worth (in billions)"];
-	let gdpDataArray = ["GDP"];
+		let countries = ["x"];
+		let netWorthData = ["Net Worth (in billions)"];
+		let gdpDataArray = ["GDP"];
 
-	for (const country in countryCodes) {
-	const countryBillionaires = billionairesData.filter(billionaire => billionaire.country === country);
-	const totalNetWorth = countryBillionaires.reduce((sum, billionaire) => sum + (billionaire.net_worth * 1000000000), 0);
-	if (gdpData[country]) {
-	countries.push(country);
-	netWorthData.push(totalNetWorth);
-	gdpDataArray.push(gdpData[country]);
-	}
-	}
+		for (const country in countryCodes) {
+			const countryBillionaires = billionairesData.filter(billionaire => billionaire.country === country);
+			const totalNetWorth = countryBillionaires.reduce((sum, billionaire) => sum + (billionaire.net_worth * 1000000000), 0);
+			if (gdpData[country]) {
+				countries.push(country);
+				netWorthData.push(totalNetWorth);
+				gdpDataArray.push(gdpData[country]);
+			}
+		}
 
-	bb.generate({
-	data: {
-	x: "x",
-	columns: [
-	countries,
-	netWorthData,
-	gdpDataArray
-	],
-	types: {
-	"Net Worth (in billions)": "area-spline",
-	"GDP": "area-spline"
-	},
-	axes: {
-	"Net Worth": "y",
-	"GDP": "y2"
-	}
-	},
-	axis: {
-	x: {
-	type: "category"
-	},
-	y2: {
-	show: true,
-	label: {
-	text: "GDP",
-	position: "outer-middle"
-	}
-	}
-	},
-	bindto: "#graph_1"
-	});
+		bb.generate({
+			data: {
+				x: "x",
+				columns: [
+				countries,
+				netWorthData,
+				gdpDataArray
+				],
+				types: {
+					"Net Worth (in billions)": "area-spline",
+					"GDP": "area-spline"
+				},
+				axes: {
+					"Net Worth": "y",
+					"GDP": "y2"
+				}
+			},
+			axis: {
+				x: {
+					type: "category"
+				},
+				y2: {
+					show: true,
+					label: {
+						text: "GDP",
+						position: "outer-middle"
+					}
+				}
+			},
+			bindto: "#graph_1"
+		});
 	}
 </script>
 

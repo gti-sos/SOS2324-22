@@ -29,12 +29,11 @@
             const res = await fetch(billionairesAPI);
             billionairesData = await res.json();
 
-            // Acumular el net_worth por país
             billionairesData.forEach(billionaire => {
                 let country = billionaire.country;
                 const netWorth = billionaire.net_worth * 1000000000;
                 if (country === "United States") {
-                    country = "United States of America"; // Ajustar al formato de RestCountries
+                    country = "United States of America";
                 }
                 if (netWorthByCountry[country]) {
                     netWorthByCountry[country] += netWorth;

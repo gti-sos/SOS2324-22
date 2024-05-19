@@ -99,7 +99,7 @@
 				<button>Integración de API de datos de población respecto a patrimonio neto</button>
 			</a>
 			<a href="/integraciones-rubgonama/pib" style="text-decoration: none;">
-				<button>Integración de API de datos de pib a patrimonio neto</button>
+				<button>Integración de API de datos de pib respecto a patrimonio neto</button>
 			</a>
 		</section>
 

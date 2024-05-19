@@ -42,7 +42,6 @@
 			return;
 		}
 
-		// Preparar los datos para el gráfico spline
 		const categories = data.map(forbes => forbes.name);
 		const values = data.map(forbes => forbes.net_worth);
 
