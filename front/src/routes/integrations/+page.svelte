@@ -87,6 +87,22 @@
             </a>
         </section>
 
+		<section>
+			<h3>Rubén</h3>
+			<a href="/integraciones-rubgonama/jokes" style="text-decoration: none;">
+				<button>Uso API de chistes</button>
+			</a>
+			<a href="/integraciones-rubgonama/cats" style="text-decoration: none;">
+				<button>Uso API de gatos</button>
+			</a>
+			<a href="/integraciones-rubgonama/population" style="text-decoration: none;">
+				<button>Integración de API de datos de población respecto a patrimonio neto</button>
+			</a>
+			<a href="/integraciones-rubgonama/pib" style="text-decoration: none;">
+				<button>Integración de API de datos de pib respecto a patrimonio neto</button>
+			</a>
+		</section>
+
          <section>
             <h3>Benjamín</h3>
             <a href="/Integraciones-benvelben/crypto" style="text-decoration: none;">
@@ -98,7 +114,11 @@
             </a>
 
             <a href="/Integraciones-benvelben/netW" style="text-decoration: none;">
-                <button>Uso API de conversion de moneda </button>
+                <button>Uso API de conversion de moneda a EUR</button>
+            </a>
+
+             <a href="/Integraciones-benvelben/netWC" style="text-decoration: none;">
+                <button>Uso API de conversion de moneda a BTC</button>
             </a>
 
              <a href="/Integraciones-benvelben/preciosABNB" style="text-decoration: none;">
