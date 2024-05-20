@@ -82,7 +82,7 @@
 		
 		try{
 			const response = await fetch(`${API}?${params}`,{
-				methos: "GET"
+				method: "GET"
 			});
 			const data = await response.json();
 			
