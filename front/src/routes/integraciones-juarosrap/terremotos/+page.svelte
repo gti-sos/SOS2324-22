@@ -88,7 +88,7 @@
     async function createChart() {
         const chartOptions = {
             chart: {
-                type: 'bar',
+                type: 'column',
                 height: 400,
             },
             series: [
