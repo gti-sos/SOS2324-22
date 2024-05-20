@@ -229,6 +229,7 @@ function LoadBackendFB2(app,db) {
       });
   });
 
+  
   app.get(API_BASE + '/forbes-billonaires', (req, res) => {
     const queryParams = req.query;
     const limit = parseInt(queryParams.limit) || 10;
