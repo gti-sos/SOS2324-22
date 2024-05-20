@@ -95,11 +95,7 @@
 
         const chartOptions = {
             chart: {
-<<<<<<< HEAD
-                type: 'column',
-=======
                 type: 'line',
->>>>>>> 337fd85a8e786fe22de9c0b5a074d10d38e5286e
                 height: 400,
                 toolbar: {
                     show: true
